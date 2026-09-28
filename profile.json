@@ -158,7 +158,7 @@
       "paper_url": "",
       "code_url": "",
       "project_url": "",
-      "thumbnail": "",
+      "thumbnail": "assets/images/fastset-overview.jpg",
       "source": "https://www.proceedings.com/content/086/086473webtoc.pdf#page=4",
       "source_label": {
         "en": "Proceedings contents",
@@ -184,7 +184,16 @@
         "translation": "Complete Chinese translation of the cited indexed English abstract; not publisher supplied.",
         "extraction": "Complete abstract field; only $\\mathbf{5. 1}-\\mathbf{5. 9} \\times$ normalized to accessible plain text 5.1–5.9 ×; all other text preserved.",
         "source_sha256": "62221391cbdd552be06eb2cd1b84292e0fcf66c99d3893d4dc2a6b7283aaa97d"
-      }
+      },
+      "thumbnail_width": 788,
+      "thumbnail_height": 528,
+      "thumbnail_alt": "FastSET environment switch: a user moves from an indoor office to an urban macrocell, triggering a neural receiver adaptation request. The embedded caption describes accuracy degradation across changing environments. / FastSET 环境切换：用户从室内办公室移动到城市宏小区，触发神经接收机适应请求；原图内嵌图注说明环境变化导致的准确率下降。",
+      "thumbnail_caption": {
+        "en": "Neural receiver adaptation when moving between environments.",
+        "zh": "跨环境移动时的神经接收机适应。"
+      },
+      "figure_source": "User supplied; authorized by the site owner",
+      "figure_number": 1
     },
     {
       "id": "prism",
@@ -331,7 +340,7 @@
       "paper_url": "",
       "code_url": "",
       "project_url": "",
-      "thumbnail": "",
+      "thumbnail": "assets/images/deepaoa-overview.jpg",
       "volume": "73",
       "number": "12",
       "pages": "19216--19228",
@@ -356,7 +365,15 @@
         "translation": "Complete Chinese translation of the cited indexed English abstract; not publisher supplied.",
         "extraction": "All 239 abstract_inverted_index positions 0–238 reconstructed in order; no gaps or duplicate positions; all indexed words and punctuation preserved.",
         "source_sha256": "f5e09d027a35c6ebaa998ffd4be0c153f99e307ab07947b689569d2267e4650c"
-      }
+      },
+      "thumbnail_width": 776,
+      "thumbnail_height": 348,
+      "thumbnail_alt": "DeepAoA+ experimental setup with labeled lidar and onboard unit, antenna array, synchronized USRP receivers, timing reference, computer, and transmitter and receiver vehicles. / DeepAoA+ 实验装置：标注了激光雷达与车载单元、天线阵列、同步 USRP 接收设备、时间基准、计算机，以及发射车和接收车。",
+      "thumbnail_caption": {
+        "en": "DeepAoA+ experimental equipment and transmitter and receiver vehicles.",
+        "zh": "DeepAoA+ 实验设备与发射、接收车辆。"
+      },
+      "figure_source": "User supplied; authorized by the site owner"
     }
   ],
   "ieee_author_profile": "https://ieeexplore.ieee.org/author/996384661373839",

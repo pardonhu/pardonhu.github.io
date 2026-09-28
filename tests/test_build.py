@@ -55,16 +55,22 @@ class BuildTests(unittest.TestCase):
             self.assertNotIn(term, page)
         self.assertNotIn('example.org', page)
 
-    def test_actual_images_and_text_only_cards(self):
+    def test_four_actual_images(self):
         page = self.render(self.profile)[0].decode()
         self.assertIn('data-portrait src="'+self.profile['portrait']+'"', page)
         self.assertIn(self.profile['portrait_alt'], page)
+        self.assertEqual(page.count('<figure class="pub-figure">'), 4)
         for pub in self.profile['publications']:
             card = build.render_publication(pub, self.profile['name'])
+            self.assertTrue(pub.get('thumbnail'))
             if pub.get('thumbnail'):
                 self.assertTrue((ROOT / pub['thumbnail']).is_file())
-                self.assertEqual(pub['figure_number'], 2)
-                self.assertTrue(pub['figure_source'].endswith('#S2.F2'))
+                if pub['id'] in ('prism', 'saga'):
+                    self.assertEqual(pub['figure_number'], 2)
+                    self.assertTrue(pub['figure_source'].endswith('#S2.F2'))
+                else:
+                    self.assertEqual(pub['figure_source'], 'User supplied; authorized by the site owner')
+                self.assertIn(f'width="{pub["thumbnail_width"]}" height="{pub["thumbnail_height"]}"', card)
                 self.assertIn('href="'+pub['thumbnail']+'"', card)
                 self.assertNotIn('href="'+pub['figure_source']+'"', card)
                 for lang in ('en', 'zh'):
@@ -76,6 +82,26 @@ class BuildTests(unittest.TestCase):
                 self.assertNotIn('<img', card)
                 self.assertNotIn('pub-cover', card)
         self.assertNotIn('prism-concept', page)
+
+    def test_assigned_image_integrity(self):
+        import hashlib
+        from PIL import Image
+        expected = {
+            'fastset': ((788, 528), 'f73bdcf81eb97366a3fefdf0bd0676b65f81ed4388a8bd963780eb5f233f36f8'),
+            'deepaoa': ((776, 348), 'b5f4ef432a82b78a45b94da73d4ac4c32df277e71c6998bab42d8e543c8fd681'),
+        }
+        for key, (size, digest) in expected.items():
+            path = ROOT / f'assets/images/{key}-overview.jpg'
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+            with Image.open(path) as image:
+                self.assertEqual(image.size, size)
+                self.assertEqual(image.mode, 'RGB')
+                self.assertFalse(image.getexif())
+                # Only the minimal JFIF APP0 header is retained; no metadata APP segments or comments.
+                self.assertTrue(all(marker == 'APP0' for marker, _ in image.applist))
+                self.assertFalse(set(image.info) & {'exif', 'xmp', 'iptc', 'comment', 'photoshop'})
+        css = (ROOT / 'assets/style.css').read_text()
+        self.assertIn('width:100%;height:auto;object-fit:contain', css)
 
     def test_bio_and_education(self):
         p = self.profile
