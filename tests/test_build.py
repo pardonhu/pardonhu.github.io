@@ -91,27 +91,83 @@ class BuildTests(unittest.TestCase):
         self.assertEqual(p['education'][2]['period']['en'], '2017')
         self.assertIn('"knowsAbout": ["AI-enabled networking", "Wireless sensing"]', page)
 
-    def test_complete_abstract_rendering_and_missing_state(self):
+    def test_four_complete_actual_abstracts(self):
+        self.assertEqual(len(self.profile["publications"]), 4)
+        page = self.render(self.profile)[0].decode()
+        self.assertEqual(page.count('<details class="abstract">'), 4)
+        self.assertNotIn('class="abstract-missing"', page)
         for pub in self.profile['publications']:
             card = build.render_publication(pub, self.profile['name'])
             self.assertNotIn('description', pub)
             evidence = pub['abstract_evidence']
             self.assertEqual(evidence['title'], pub['title'])
             self.assertEqual(evidence['authors'], pub['authors'])
-            if pub['abstract'] is None:
-                self.assertEqual(evidence['status'], 'missing')
-                self.assertIn('Full abstract awaiting verification.', card)
-                self.assertNotIn('<details class="abstract">', card)
-            else:
-                self.assertEqual(evidence['status'], 'verified')
-                for lang in ('en', 'zh'):
-                    self.assertIn(build.esc(pub['abstract'][lang]), card)
-                self.assertIn('<details class="abstract"><summary>', card)
+            self.assertIsInstance(pub['abstract'], dict)
+            self.assertEqual(evidence['status'], 'verified')
+            for lang in ('en', 'zh'):
+                self.assertTrue(pub['abstract'][lang].strip())
+                self.assertIn(build.esc(pub['abstract'][lang]), card)
+            self.assertIn('<details class="abstract"><summary>', card)
         pub = copy.deepcopy(self.profile['publications'][1])
         pub['abstract'] = {'en':'First paragraph.\n\nLast <paragraph>.','zh':'第一段。\n\n最后一段。'}
         card = build.render_abstract(pub)
         self.assertIn('First paragraph.\n\nLast &lt;paragraph&gt;.', card)
         self.assertIn('第一段。\n\n最后一段。', card)
+
+
+    def test_deepaoa_independent_source_positions(self):
+        # Supplied raw evidence is intentionally local; never compare profile to itself.
+        raw = json.loads((ROOT / '.local-audit/deepaoa-openalex.json').read_text())
+        pub = next(p for p in self.profile['publications'] if p['id'] == 'deepaoa')
+        self.assertEqual(raw['title'], pub['title'])
+        self.assertEqual(raw['doi'].removeprefix('https://doi.org/').casefold(), pub['doi'].casefold())
+        self.assertEqual([a['author']['display_name'] for a in raw['authorships']], pub['authors'])
+        pairs = [(position, word) for word, positions in raw['abstract_inverted_index'].items()
+                 for position in positions]
+        self.assertTrue(all(type(i) is int and i >= 0 for i, _ in pairs))
+        positions = [i for i, _ in pairs]
+        self.assertEqual(len(positions), 239)
+        self.assertEqual(len(set(positions)), len(positions), 'Duplicate source positions')
+        self.assertEqual(sorted(positions), list(range(239)), 'Source position gaps')
+        extracted = ' '.join(word for _, word in sorted(pairs))
+        self.assertEqual(pub['abstract']['en'], extracted)
+        displayed = pub['abstract']['en'].split(' ')
+        for word, indexes in raw['abstract_inverted_index'].items():
+            for index in indexes:
+                self.assertEqual(displayed[index], word, f'Source position {index}')
+        self.assertEqual(pub['abstract_evidence']['source'], 'https://api.openalex.org/works/https://doi.org/10.1109/TVT.2024.3445722')
+        self.assertIn('third-party indexed abstract', pub['abstract_evidence']['version'])
+
+    def test_fastset_independent_full_source_field(self):
+        raw = json.loads((ROOT / '.local-audit/fastset-semanticscholar.json').read_text())
+        pub = next(p for p in self.profile['publications'] if p['id'] == 'fastset')
+        self.assertEqual(raw['title'], pub['title'])
+        self.assertEqual(raw['externalIds']['DOI'], pub['doi'])
+        # Check order independently, allowing only the documented second-name spelling.
+        self.assertEqual([a['name'].replace('-', '').casefold() for a in raw['authors']],
+                         [a.casefold() for a in pub['authors']])
+        self.assertEqual(pub['authors'], ['Facheng Hu', 'Yunzhe Li', 'Hongzi Zhu', 'Xudong Wang'])
+        markup = r'$\mathbf{5. 1}-\mathbf{5. 9} \times$'
+        self.assertEqual(raw['abstract'].count(markup), 1)
+        before, after = raw['abstract'].split(markup)
+        self.assertEqual(pub['abstract']['en'], before + '5.1–5.9 ×' + after)
+        self.assertEqual(pub['abstract']['en'].replace('5.1–5.9 ×', markup), raw['abstract'])
+        self.assertEqual(pub['abstract_evidence']['source'],
+                         'https://api.semanticscholar.org/graph/v1/paper/DOI:10.1109/SECON68281.2026.11579146?fields=title,authors,externalIds,abstract')
+        self.assertIn('third-party indexed abstract', pub['abstract_evidence']['version'])
+
+    def test_indexed_abstract_evidence_hashes_and_translation_claims(self):
+        import hashlib
+        for key, filename in [('fastset', 'fastset-semanticscholar.json'), ('deepaoa', 'deepaoa-openalex.json')]:
+            pub = next(p for p in self.profile['publications'] if p['id'] == key)
+            digest = hashlib.sha256((ROOT / '.local-audit' / filename).read_bytes()).hexdigest()
+            self.assertEqual(pub['abstract_evidence']['source_sha256'], digest)
+            self.assertIn('Complete Chinese translation', pub['abstract_evidence']['translation'])
+        pubs = {p['id']:p for p in self.profile['publications']}
+        for term in ('3GPP', 'TDL', 'OFDM', '5.1–5.9 倍', '3%', '基线', '冻结', '射线追踪'):
+            self.assertIn(term, pubs['fastset']['abstract']['zh'])
+        for term in ('四台同步', 'USRP', 'V2V', 'CSI', 'EM', '预训练', '错误分类', '最佳', '较低的延迟'):
+            self.assertIn(term, pubs['deepaoa']['abstract']['zh'])
 
     def test_abstract_evidence_and_translation_required(self):
         pub = copy.deepcopy(self.profile['publications'][1])

@@ -146,7 +146,7 @@ python3 build.py
 python3 -m unittest discover -s tests -v
 ```
 
-回归测试覆盖构建确定性、生成文件同步、已核验来源字段、空及非空读书笔记、双语内容、HTML 转义以及非法 URL、日期、缺项和摘要长度。测试仅依赖 Python 标准库。
+回归测试覆盖构建确定性、生成文件同步、已核验来源字段、空及非空读书笔记、双语内容、HTML 转义以及非法 URL、日期、缺项和摘要长度。测试仅依赖 Python 标准库。新增摘要来源对照测试还需本地已核验原始证据 `.local-audit/deepaoa-openalex.json` 与 `.local-audit/fastset-semanticscholar.json`，缺失时测试失败，不跳过核验。
 本轮图片更新已通过启用 Chrome sandbox 的本地原生浏览器验收，包括肖像完整显示、两张论文图保持原比例以及点击打开全尺寸原图，同时复验：桌面 1440×1000、手机 390×844 的双语切换、所有年份筛选、导航、引用展开/关闭及剪贴板复制、图片与资源加载、无横向溢出、无 JavaScript 错误，以及禁用 JavaScript 后的内容可读性。已查看英文桌面与中文手机截图；截图在复制提示消失后采集。后续更新应重复这些检查，并在 Pages 部署完成后执行线上验收。
 
 本地预览可在项目根目录执行 `python3 -m http.server 8000 --bind 127.0.0.1` 后打开本机地址。仅本机使用，避免暴露审计文件。
@@ -159,9 +159,9 @@ python3 -m unittest discover -s tests -v
 
 论文图保留完整画面与原始解码像素，仅移除附加元数据；点击图片打开本地全尺寸文件，图下仅显示语义说明，作者稿来源与图号保存在 `SOURCES.md`，授权不等同于声明 arXiv 通用许可为 CC。FastSET 与 DeepAoA+ 尚缺原始 PDF 或图文件、图号及图注，收到所有者资料后再补。仅发布肖像与两张批准的论文图，不发布全文。构建和主 unittest 仍仅使用标准库；Pillow 仅用于本地图片处理及忽略目录内的离线审计脚本。
 
-## 9. pages928-bio-abstracts 交接（未发布）
+## 9. pages928-bio-abstracts 交接
 
-本次更新完整双语简介、教育与搜索元数据，移除不受支持的博士入学年份。Prism 与 Saga 使用本地 arXiv v1 的完整实际摘要及完整中文译文。FastSET 与 DeepAoA+ 暂缺核验摘要，明确显示待核验，不保留旧概述冒充摘要。这两篇的摘要来源暂不可用。
+本次更新完整双语简介、教育与搜索元数据，移除不受支持的博士入学年份。Prism 与 Saga 使用本地 arXiv v1 的完整实际摘要及完整中文译文。FastSET 与 DeepAoA+ 分别使用已核验 Semantic Scholar 完整摘要字段及 OpenAlex 无缺口、无重复位置的完整倒排索引摘要，并附完整中文译文。四篇实际摘要均已具备；第三方索引版本、API 端点和唯一的数值排版归一化见 `SOURCES.md`。
 
 摘要使用原生 `details` / `summary`，支持键盘展开和语言切换，全文存在 HTML 中，不截断。论文作者、共同贡献、出版年份和 BibTeX 不变；肖像与原图资源不变。
 
