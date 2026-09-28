@@ -26,7 +26,7 @@
   "google_scholar": "",
   "orcid": "",
   "cv_url": "",
-  "portrait": "",
+  "portrait": "assets/images/portrait.jpg",
   "website_url": "https://pardonhu.github.io/",
   "default_language": "en",
   "updated": "2026-09-28",
@@ -112,11 +112,7 @@
         "en": "Sequential retraining for faster online adaptation of neural receivers under changing wireless conditions.",
         "zh": "通过顺序重训练，加速神经接收机在无线环境变化下的在线适应。"
       },
-      "cover_label": {
-        "en": "Fast online adaptation",
-        "zh": "快速在线适应"
-      },
-      "doi": "",
+      "doi": "10.1109/SECON68281.2026.11579146",
       "arxiv": "",
       "paper_url": "",
       "code_url": "",
@@ -126,7 +122,9 @@
       "source_label": {
         "en": "Proceedings contents",
         "zh": "论文集目录"
-      }
+      },
+      "pages": "150--158",
+      "publication_record": "https://ieeexplore.ieee.org/document/11579146/"
     },
     {
       "id": "prism",
@@ -155,24 +153,24 @@
         "en": "Prism uses prediction inconsistency (NID) to assess non-i.i.d. IMU data, learns task-aware domains and their models with EM, and selects the nearest-domain model in embedding space on a device.",
         "zh": "Prism 用预测不一致性指标 NID 评估 IMU 数据的非独立同分布程度，通过 EM 学习任务相关域及其模型，并在设备端依据嵌入空间中的最近域选择模型。"
       },
-      "cover_label": {
-        "en": "Domain-aware perception",
-        "zh": "任务相关域挖掘"
-      },
       "doi": "10.1109/INFOCOM55648.2025.11044768",
       "arxiv": "2501.01598",
       "paper_url": "",
       "code_url": "",
       "project_url": "",
-      "thumbnail": "assets/images/prism-concept.svg",
+      "thumbnail": "assets/images/prism-overview.png",
       "source": "https://arxiv.org/abs/2501.01598",
       "pages": "1--10",
       "publication_record": "https://ieeexplore.ieee.org/document/11044768/",
-      "thumbnail_alt": "Prism concept: NID detects non-i.i.d. IMU data; EM learns task-aware domains; a device selects the nearest domain model. / Prism 概念：NID 检测非独立同分布 IMU 数据，EM 学习任务相关域，设备选择最近域模型。",
+      "thumbnail_alt": "Prism system architecture: IMU datasets are tested for non-i.i.d. properties, then partitioned into task-aware domains for model training and online inference. / Prism 系统架构：检测 IMU 数据的非独立同分布特性，划分任务相关域并训练模型，用于在线推理。",
       "thumbnail_caption": {
-        "en": "Original conceptual illustration, not a reproduced paper figure.",
-        "zh": "原创概念示意图，非论文原图。"
-      }
+        "en": "Figure 2. System architecture of Prism (author manuscript).",
+        "zh": "图 2：Prism 系统架构（作者稿原图）。"
+      },
+      "thumbnail_width": 722,
+      "thumbnail_height": 547,
+      "figure_number": 2,
+      "figure_source": "https://arxiv.org/html/2501.01598v1#S2.F2"
     },
     {
       "id": "saga",
@@ -200,17 +198,22 @@
         "en": "Multi-granularity self-supervised learning for IMU-based perception with limited labeled data.",
         "zh": "从大量无标签 IMU 数据学习多粒度语义，降低用户感知任务的标注需求。"
       },
-      "cover_label": {
-        "en": "Multi-granularity learning",
-        "zh": "多粒度语义学习"
-      },
       "doi": "10.1109/ICDCS63083.2025.00090",
       "arxiv": "2504.11726",
       "paper_url": "",
       "code_url": "",
       "project_url": "",
-      "thumbnail": "",
-      "source": "https://lion.sjtu.edu.cn/publication/publicationDetail?id=137"
+      "thumbnail": "assets/images/saga-overview.png",
+      "source": "https://lion.sjtu.edu.cn/publication/publicationDetail?id=137",
+      "thumbnail_width": 1411,
+      "thumbnail_height": 374,
+      "figure_number": 2,
+      "figure_source": "https://arxiv.org/html/2504.11726v1#S2.F2",
+      "thumbnail_alt": "Overview of Saga: multi-level masking, models training, and low cost weight searching. / Saga 总览：多层级掩码、模型训练与低成本权重搜索。",
+      "thumbnail_caption": {
+        "en": "Figure 2. Overview of Saga (author manuscript).",
+        "zh": "图 2：Saga 方法总览（作者稿原图）。"
+      }
     },
     {
       "id": "deepaoa",
@@ -234,10 +237,6 @@
         "en": "Domain-adaptive learning for online relative direction estimation between vehicles using wireless channel measurements.",
         "zh": "利用无线信道测量与域自适应学习，实现在线车辆相对方向估计。"
       },
-      "cover_label": {
-        "en": "Wireless direction finding",
-        "zh": "无线相对方向估计"
-      },
       "doi": "10.1109/TVT.2024.3445722",
       "arxiv": "",
       "paper_url": "",
@@ -254,5 +253,6 @@
   "reading_notes": {
     "account_name": "杂记遣怀",
     "articles": []
-  }
+  },
+  "portrait_alt": "Facheng Hu outdoors, raising one arm. / 胡发成的户外肖像，抬起一只手臂。"
 }

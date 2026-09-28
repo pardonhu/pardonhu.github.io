@@ -132,13 +132,16 @@ def render_publication(p: dict, name: str) -> str:
         if a in p.get('equal_contributors',[]): text += '<sup>*</sup>'
         author_html.append(text)
     if p.get('thumbnail'):
-        cover = '<figure class="pub-figure"><div class="pub-cover has-image"><img loading="lazy" src="'+url(p['thumbnail'])+'" alt="'+esc(p.get('thumbnail_alt', p['short']+' paper illustration'))+'"></div><figcaption>'+localized(p.get('thumbnail_caption', ''))+'</figcaption></figure>'
+        image = ('<img loading="lazy" src="'+url(p['thumbnail'])+'" alt="'
+                 +esc(p['thumbnail_alt'])+'" width="'+esc(p['thumbnail_width'])
+                 +'" height="'+esc(p['thumbnail_height'])+'">')
+        source = anchor(p['figure_source'], bi('Author manuscript · Figure '+str(p['figure_number']),
+                        '作者稿 · 图 '+str(p['figure_number'])), 'figure-source')
+        cover = ('<figure class="pub-figure">'+anchor(p['thumbnail'], image, 'figure-image')
+                 +'<figcaption>'+localized(p['thumbnail_caption'])+' '+source
+                 +'</figcaption></figure>')
     else:
-        cover = f'''<div class="pub-cover cover-{esc(p['id'])}" aria-hidden="true">
-          <span class="cover-venue">{esc(p['venue_short'])} · {esc(p['year'])}</span>
-          <span class="cover-wordmark">{esc(p['short'])}</span>
-          <span class="cover-label">{localized(p.get('cover_label',''))}</span>
-        </div>'''
+        cover = ''
     buttons = []
     if p.get("publication_record"): buttons.append(anchor(p["publication_record"], bi("IEEE publication record", "IEEE 发表记录")+icon("arrow"), "pub-link"))
     if p.get('doi'): buttons.append(anchor('https://doi.org/'+p['doi'],bi('Publisher','出版页面')+icon('arrow'),'pub-link'))
@@ -158,9 +161,8 @@ def render_publication(p: dict, name: str) -> str:
     if p.get('pages'): venue += ', pp. '+esc(p['pages'].replace('--','–'))
     venue += ', '+esc(p['year'])+'.'
     codeid = 'bib-'+p['id']
-    return f'''<article class="publication-card card" data-year="{esc(p['year'])}" id="paper-{esc(p['id'])}">
-      {cover}
-      <div class="pub-content">
+    return f'''<article class="publication-card card{' has-figure' if cover else ' text-only'}" data-year="{esc(p['year'])}" id="paper-{esc(p['id'])}">
+      {cover}<div class="pub-content">
         <div class="pub-meta">{esc(p['venue_short'])} {esc(p['year'])}</div>
         <h3 class="pub-title">{anchor(paper_link,esc(p['title']))}</h3>
         <p class="pub-authors">{', '.join(author_html)}</p>
@@ -204,7 +206,7 @@ def build() -> None:
     if p.get('portrait'):
         path=ROOT/p['portrait']
         if not path.is_file(): raise ValueError(f'Portrait file is missing: {p["portrait"]}')
-        portrait=f'<div class="portrait has-photo" data-initials="{esc(p["initials"])}"><img data-portrait src="{url(p["portrait"])}" alt="{esc(p["name"])}" width="150" height="150"></div>'
+        portrait=f'<div class="portrait has-photo" data-initials="{esc(p["initials"])}"><img data-portrait src="{url(p["portrait"])}" alt="{esc(p.get("portrait_alt", p["name"]))}" width="150" height="150"></div>'
     else:
         portrait=f'<div class="portrait" aria-label="{esc(p["name"])} initials"><span class="monogram">{esc(p["initials"])}</span></div>'
     contact_links=[anchor(email_link,icon('mail')+esc(p['email']),'contact-link',external=False),

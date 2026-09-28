@@ -1,11 +1,10 @@
-Place your own portrait or permitted paper thumbnails here.
-After adding a photo, set "portrait": "assets/images/profile.jpg" in profile.json
-and run python build.py. No real person photo is included in this version.
-
-prism-concept.svg is original SVG artwork created for this website update.
-It illustrates NID assessment, EM task-aware domain learning, and device-side
-nearest-domain model selection. It is not traced or reproduced from a paper,
-not a publisher logo, and not a measured chart. No paper image or portrait
-is bundled. The original SVG expression is maintained with this site's source;
-paper text and figures remain copyrighted by their respective rights holders.
-See SOURCES.md for method evidence and access limitations.
+Owner-authorized images for this personal homepage:
+portrait.jpg: natural 400 x 400 photographic crop, RGB JPEG; no retouching
+or background replacement, no EXIF/GPS/XMP/IPTC/comments. Original unchanged.
+prism-overview.png: complete author-manuscript Figure 2, 722 x 547.
+saga-overview.png: complete author-manuscript Figure 2, 1411 x 374.
+PNG decoded pixels and dimensions match downloaded sources; metadata removed.
+See SOURCES.md for source URLs, figure numbers and owner permission.
+No full papers are bundled. No generic CC license is asserted.
+FastSET and DeepAoA+ remain text-only pending original figures and captions.
+Build and main tests use only the Python standard library.

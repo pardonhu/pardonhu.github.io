@@ -21,9 +21,11 @@ class BuildTests(unittest.TestCase):
             'date': '2026-09-28', 'summary': {'en': 'Test <script> & summary.', 'zh': '测试摘要。'}}]}
 
     def render(self, profile):
-        with tempfile.TemporaryDirectory() as tmp:
+        (ROOT / ".local-audit").mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=ROOT / ".local-audit") as tmp:
             dest = Path(tmp)
             shutil.copytree(ROOT / 'templates', dest / 'templates')
+            shutil.copytree(ROOT / 'assets/images', dest / 'assets/images')
             (dest / 'profile.json').write_text(json.dumps(profile))
             with patch.object(build, 'ROOT', dest):
                 build.build()
@@ -46,9 +48,40 @@ class BuildTests(unittest.TestCase):
             for lang in ('en', 'zh'):
                 self.assertTrue(pub['description'][lang])
         page = self.render(p)[0].decode()
-        for term in ('Reading Notes', '读书笔记', 'Original conceptual illustration', '非论文原图', 'NID', 'EM'):
+        for term in ('Reading Notes', '读书笔记', 'Author manuscript · Figure 2', '作者稿 · 图 2', 'NID', 'EM'):
             self.assertIn(term, page)
         self.assertNotIn('example.org', page)
+
+    def test_actual_images_and_text_only_cards(self):
+        page = self.render(self.profile)[0].decode()
+        self.assertIn('data-portrait src="'+self.profile['portrait']+'"', page)
+        self.assertIn(self.profile['portrait_alt'], page)
+        for pub in self.profile['publications']:
+            card = build.render_publication(pub, self.profile['name'])
+            if pub.get('thumbnail'):
+                self.assertTrue((ROOT / pub['thumbnail']).is_file())
+                self.assertEqual(pub['figure_number'], 2)
+                self.assertTrue(pub['figure_source'].endswith('#S2.F2'))
+                self.assertIn('href="'+pub['thumbnail']+'"', card)
+                self.assertIn('href="'+pub['figure_source']+'"', card)
+                for lang in ('en', 'zh'):
+                    self.assertIn(pub['thumbnail_caption'][lang], card)
+                self.assertIn(pub['thumbnail_alt'], card)
+            else:
+                self.assertIn('text-only', card)
+                self.assertNotIn('<figure', card)
+                self.assertNotIn('<img', card)
+                self.assertNotIn('pub-cover', card)
+        self.assertNotIn('prism-concept', page)
+
+    def test_fastset_citation(self):
+        pub = next(p for p in self.profile['publications'] if p['id'] == 'fastset')
+        self.assertEqual(pub['doi'], '10.1109/SECON68281.2026.11579146')
+        self.assertEqual(pub['pages'], '150--158')
+        self.assertEqual(pub['publication_record'], 'https://ieeexplore.ieee.org/document/11579146/')
+        citation = build.bibtex(pub)
+        self.assertIn('pages = {150--158}', citation)
+        self.assertIn('doi = {'+pub['doi']+'}', citation)
 
     def test_empty_notes_render(self):
         profile = copy.deepcopy(self.profile)
