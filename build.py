@@ -216,6 +216,31 @@ def optional_section(items: list, section_id: str, en: str, zh: str) -> str:
         rendered.append('<div class="optional-item"><strong>'+localized(item['title'])+'</strong><br><small>'+localized(item.get('detail',''))+' · '+localized(item.get('period',''))+'</small></div>')
     return f'<section class="optional-section card" id="{section_id}"><h2>{bi(en,zh)}</h2>'+''.join(rendered)+'</section>'
 
+def render_background(profile: dict) -> str:
+    entries = []
+    for kind, items in (('education', profile['education']), ('experience', profile.get('experience', []))):
+        for index, item in enumerate(items):
+            if kind == 'education':
+                details = ''.join('<div class="education-'+cls+'">'+localized(item[key])+'</div>'
+                                  for key, cls in [('institution','name'),('school','school'),('degree','degree')]
+                                  if item.get(key))
+                if item.get('advisor'):
+                    details += '<div class="education-degree">'+bi('Advisor: ', '导师：')+localized(item['advisor'])+'</div>'
+            else:
+                details = '<div class="education-name">'+localized(item['title'])+'</div>'
+                if item.get('detail'):
+                    details += '<div class="education-degree">'+localized(item['detail'])+'</div>'
+            period = item.get('period', '')
+            # Order by the supplied year only; undated/current study comes last.
+            # This does not infer an enrollment date for the current PhD.
+            year = re.search(r'\b[12]\d{3}\b', localize(period, 'en'))
+            order = int(year[0]) if year else sys.maxsize
+            rendered = ('<div class="education-item background-item" data-'+kind+'-index="'+str(index)+'">'
+                        + '<div class="education-icon" aria-hidden="true">'+icon('school' if kind == 'education' else 'person')
+                        + '</div><div>'+details+'<div class="education-period">'+localized(period)+'</div></div></div>')
+            entries.append((order, rendered))
+    return ''.join(rendered for _, rendered in sorted(entries, key=lambda entry: entry[0]))
+
 def build() -> None:
     p = json.loads((ROOT/'profile.json').read_text(encoding='utf-8'))
     required=('name','name_zh','role','institution','school','advisor','email','publications','education')
@@ -255,14 +280,7 @@ def build() -> None:
         contact_links.append('<span class="contact-separator" aria-hidden="true"></span>'+anchor(p['advisor']['url'],icon('person')+bi("Advisor","导师主页"),'contact-link'))
     side_links.extend([anchor(p['institution_url'],bi('University','学校主页'),'','school'),anchor(p['advisor']['url'],bi('Advisor','导师主页'),'','person')])
     news=''.join(f'<li class="news-item"><span class="news-date">{esc(n["date"])}</span><div>{anchor(n["url"],localized(n["text"])) if n.get("url") else localized(n["text"])}</div></li>' for n in p.get('news',[]))
-    education=''
-    for e in p['education']:
-        details = ''.join('<div class="education-'+cls+'">'+localized(e[key])+'</div>'
-                          for key, cls in [('institution','name'),('school','school'),('degree','degree')]
-                          if e.get(key))
-        if e.get('advisor'):
-            details += '<div class="education-degree">'+bi('Advisor: ', '导师：')+localized(e['advisor'])+'</div>'
-        education += '<div class="education-item"><div class="education-icon" aria-hidden="true">'+icon('school')+'</div><div>'+details+'<div class="education-period">'+localized(e['period'])+'</div></div></div>'
+    background=render_background(p)
     pubs=sorted(p['publications'],key=lambda x:-int(x['year']))
     years=sorted({int(x['year']) for x in pubs},reverse=True)
     filters='<button type="button" class="filter" data-filter="all" aria-pressed="true">'+bi('All','全部')+'</button>'+''.join(f'<button type="button" class="filter" data-filter="{y}" aria-pressed="false">{y}</button>' for y in years)
@@ -292,21 +310,21 @@ def build() -> None:
         lang='zh-CN' if p.get('default_language')=='zh' else 'en', name=esc(p['name']), initials=esc(p['initials']), name_zh=esc(p['name_zh']),
         meta_description=esc(description),canonical=canonical,structured=json.dumps(structured,ensure_ascii=False).replace('<','\\u003c'),
         nav_reading=bi('Reading & Essays','读书与随笔'),reading_notes=render_reading_notes(p['reading_notes']),
-        nav_about=bi('About','简介'),nav_pubs=bi('Publications','论文'),nav_education=bi('Education','教育'),nav_contact=bi('Contact','联系'),
+        nav_about=bi('About','简介'),nav_pubs=bi('Publications','论文'),nav_background=bi('Background','个人履历'),nav_contact=bi('Contact','联系'),
         sidebar_heading=bi('On this page','页面导航'),connect=bi('Connect','学术联系'),side_links=''.join(side_links),
         role=localized(p['role']),institution=institution,school=school,advisor=advisor,advised_by=bi('Advised by','导师'),portrait=portrait,
         bio=localized(p['bio']),extra_bio=extra,interests=interests,contact_links=''.join(contact_links),
-        news_label=bi('News','动态'),news=news,education_label=bi('Education','教育经历'),education=education,
-        publications_label=bi('Selected Publications','代表性论文'),contribution_note=bi('* Equal contribution.','* 表示共同贡献。'),filters=filters,
+        news_label=bi('News','动态'),news=news,background_label=bi('Background','个人履历'),background=background,
+        publications_label=bi('Publications','论文'),contribution_note=bi('* Equal contribution.','* 表示共同贡献。'),filters=filters,
         publication_cards=''.join(render_publication(x,p['name']) for x in pubs),
-        optional_sections=optional_section(p.get('experience',[]),'experience','Experience','工作经历')+optional_section(p.get('awards',[]),'awards','Honors & Awards','荣誉与奖励'),
+        optional_sections=optional_section(p.get('awards',[]),'awards','Honors & Awards','荣誉与奖励'),
         contact_caption=bi('The best way to reach me is by email.','欢迎通过电子邮件联系。'),contact_button=anchor(email_link,icon('mail')+esc(p['email']),'contact-button',external=False),
         copyright=esc(updated[:4] if updated else '2026'),updated=bi('Updated '+updated_en,updated_zh+'更新'),
         footer_credit=bi('Layout inspired by','布局参考')+' '+anchor('https://haifengjia.github.io/','Haifeng Jia'),
     )
     (ROOT/'index.html').write_text(rendered,encoding='utf-8')
     (ROOT/'publications.bib').write_text('\n\n'.join(bibtex(x) for x in pubs)+'\n',encoding='utf-8')
-    print(f'Built {ROOT / "index.html"} ({len(pubs)} selected publications).')
+    print(f'Built {ROOT / "index.html"} ({len(pubs)} publications).')
     print('Open index.html in your browser to preview. No web server is required.')
 
 if __name__=='__main__':

@@ -24,7 +24,7 @@
       <nav class="header-nav" aria-label="Main navigation">
         <a href="#about" aria-current="location">$nav_about</a>
         <a href="#publications">$nav_pubs</a>
-        <a href="#education" class="nav-education">$nav_education</a>
+        <a href="#background" class="nav-background">$nav_background</a>
         <a href="#reading-notes">$nav_reading</a>
         <button class="language-switch js-only" type="button" id="language-switch" aria-label="切换为中文">中文</button>
       </nav>
@@ -36,7 +36,7 @@
       <nav class="side-nav" aria-label="Section navigation">
         <a href="#about"><span class="nav-number" aria-hidden="true">01</span>$nav_about</a>
         <a href="#news"><span class="nav-number" aria-hidden="true">02</span>$news_label</a>
-        <a href="#education"><span class="nav-number" aria-hidden="true">03</span>$nav_education</a>
+        <a href="#background"><span class="nav-number" aria-hidden="true">03</span>$nav_background</a>
         <a href="#publications"><span class="nav-number" aria-hidden="true">04</span>$nav_pubs</a>
         <a href="#reading-notes"><span class="nav-number" aria-hidden="true">05</span>$nav_reading</a>
         <a href="#contact"><span class="nav-number" aria-hidden="true">06</span>$nav_contact</a>
@@ -67,9 +67,9 @@
           <div class="section-heading"><h2 id="news-heading">$news_label</h2><span class="section-index" aria-hidden="true">01</span></div>
           <ul class="news-list">$news</ul>
         </section>
-        <section class="section-card card" id="education" aria-labelledby="education-heading">
-          <div class="section-heading"><h2 id="education-heading">$education_label</h2><span class="section-index" aria-hidden="true">02</span></div>
-          $education
+        <section class="section-card card" id="background" aria-labelledby="background-heading">
+          <div class="section-heading"><h2 id="background-heading">$background_label</h2><span class="section-index" aria-hidden="true">02</span></div>
+          $background
         </section>
       </div>
       <section class="publications" id="publications" aria-labelledby="publications-heading">
@@ -80,7 +80,7 @@
         <p class="sr-only" id="filter-status" role="status" aria-live="polite"></p>
         <div class="publication-list">$publication_cards</div>
       </section>
-      $optional_sections
+$optional_sections
       $reading_notes
       <section class="contact-card card" id="contact" aria-labelledby="contact-heading">
         <div><h2 id="contact-heading">$nav_contact</h2><p class="contact-caption">$contact_caption</p></div>

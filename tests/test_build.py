@@ -140,8 +140,8 @@ class BuildTests(unittest.TestCase):
                      'period': {'en':'2017–2019','zh':'2017–2019 年'}}]
         self.assertEqual(self.profile['experience'], expected)
         page = self.render(self.profile)[0].decode()
-        section = page.split('id="experience"', 1)[1].split('</section>', 1)[0]
-        for term in ('Experience', '工作经历', 'GAC Motor', '广汽乘用车', '2017–2019',
+        section = page.split('data-experience-index="0"', 1)[1].split('data-education-index=', 1)[0]
+        for term in ('GAC Motor', '广汽乘用车', '2017–2019',
                      'Worked on automotive electronics and electrical systems', '从事汽车电子电气相关工作'):
             self.assertIn(term, section)
         for term in ('engineer', 'Engineer', 'Guangzhou', '广州', 'Shanghai', '上海', 'Research'):
@@ -161,16 +161,33 @@ class BuildTests(unittest.TestCase):
 
     def test_baseline_preservation(self):
         import subprocess
-        baseline = '35037043115283c4ff84fe6e9fe5c93e08e94f4f'
+        baseline = '7e9c51cb04ed2285953fc3103c8f06c8fc055928'
         def old(path):
             return subprocess.check_output(['git','show',baseline+':'+path], cwd=ROOT)
         before = json.loads(old('profile.json'))
-        allowed = {'bio','education','experience','orcid','reading_notes'}
-        self.assertEqual({k:v for k,v in before.items() if k not in allowed},
-                         {k:v for k,v in self.profile.items() if k not in allowed})
-        self.assertEqual(before['reading_notes']['articles'], self.profile['reading_notes']['articles'][:2])
-        for path in ['publications.bib', before['portrait']] + [p['thumbnail'] for p in before['publications']]:
+        self.assertEqual(before['education'][1]['degree']['en'], 'master’s degree')
+        before['education'][1]['degree']['en'] = 'Master’s degree'
+        self.assertEqual(before, self.profile)
+        assets = subprocess.check_output(['git','ls-tree','-r','--name-only',baseline,'assets'], cwd=ROOT).decode().splitlines()
+        for path in ['publications.bib'] + [p for p in assets if p != 'assets/style.css']:
             self.assertEqual(old(path), (ROOT/path).read_bytes(), path)
+
+    def test_background_order_and_labels(self):
+        page = self.render(self.profile)[0].decode()
+        section = page.split('id="background"', 1)[1].split('</section>', 1)[0]
+        markers = ['data-education-index="2"', 'data-experience-index="0"',
+                   'data-education-index="1"', 'data-education-index="0"']
+        self.assertEqual(section.count('class="education-item background-item"'), 4)
+        positions = [section.index(marker) for marker in markers]
+        self.assertEqual(positions, sorted(positions))
+        self.assertIn('Master’s degree', section)
+        self.assertNotIn('master’s degree', section)
+        self.assertIn(build.bi('Background', '个人履历'), section)
+        self.assertEqual(page.count('href="#background"'), 2)
+        self.assertEqual(page.count(build.bi('Background', '个人履历')), 3)
+        for stale in ('id="education"', 'id="experience"', 'href="#education"', 'href="#experience"', 'Selected Publications', '代表性论文'):
+            self.assertNotIn(stale, page)
+        self.assertIn('<h2 id="publications-heading">'+build.bi('Publications', '论文')+'</h2>', page)
 
     def test_author_optional_but_validated_when_present(self):
         notes = copy.deepcopy(self.notes)

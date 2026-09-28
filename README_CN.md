@@ -9,7 +9,7 @@
 - 联系邮箱：`facheng_hu@sjtu.edu.cn`。
 - GitHub：`pardonhu`；个人站点地址：`https://pardonhu.github.io/`。
 - 个人资料由所有者于 2026-09-28 确认：2017 年在上海交通大学（Shanghai Jiao Tong University）获得工学学士（Bachelor of Engineering）；2024 年在上海交通大学获得硕士学位，导师为朱弘恣教授（Prof. Hongzi Zhu）；2017–2019 年在广汽乘用车（GAC Motor）从事汽车电子电气相关工作（automotive electronics and electrical systems）。保留 IEEE 研究生会员、上海交通大学 Global College 博士在读、导师皮宜博教授（Prof. Yibo Pi）及人工智能赋能的网络和无线感知研究兴趣。ORCID 为 https://orcid.org/0000-0003-0448-8907 ，显示于公开社交链接及 JSON-LD sameAs。未提供的本科专业、院系、导师、起始年份以及工作职位、地点均不填写；博士入学年份也不推测。
-- 代表性论文：FastSET（SECON 2026）、Prism、Saga、DeepAoA+。FastSET 已置于首位，并加入 2026 年动态和年份筛选。已有论文链接与 BibTeX 保留。
+- 论文：FastSET（SECON 2026）、Prism、Saga、DeepAoA+。FastSET 已置于首位，并加入 2026 年动态和年份筛选。已有论文链接与 BibTeX 保留。
 - 研究兴趣：人工智能赋能的网络和无线感知；IEEE 研究生会员身份及完整双语简介由所有者明确提供。
 - 没有填写未经提供的奖项、访问经历、简历或学术账号。
 - 头像为所有者授权的自然摄影裁切；Prism 与 Saga 使用获授权的作者稿图 2，保留双语语义图注及本地全尺寸图片链接，图号与来源保存在 `SOURCES.md`。FastSET 和 DeepAoA+ 使用所有者授权的真实论文配图；四篇均有完整双语摘要。
@@ -83,7 +83,7 @@ python3 build.py
 
 ### 奖项 / 经历
 
-`awards` 和 `experience` 默认为空数组，不渲染空白栏目。每条记录的格式如下；仅用你的真实信息替换示例：
+教育与工作记录在“个人履历 / Background”中按本科→广汽→硕士→博士顺序合并展示，导航指向 `#background`。`education` 与 `experience` 保留各自数据结构；英文硕士学位显示为 `Master’s degree`。工作记录只填写已确认的单位、活动和年份，不要求职位或地点。`awards` 为空时不渲染栏目。每条记录的格式如下；仅用你的真实信息替换示例：
 
 ```json
 {
