@@ -4,6 +4,12 @@
   const root = document.documentElement;
   root.classList.add('js');
   const languageButton = document.getElementById('language-switch');
+  function updateFilterStatus() {
+    const count = document.querySelectorAll('.publication-card:not([hidden])').length;
+    const message = document.getElementById('filter-status');
+    if (message) message.textContent = root.lang.startsWith('zh') ? `显示 ${count} 篇论文` : `${count} publications shown`;
+    document.querySelector('.filters')?.setAttribute('aria-label', root.lang.startsWith('zh') ? '按年份筛选论文' : 'Filter publications by year');
+  }
   function setLanguage(lang) {
     const chinese = lang === 'zh';
     root.lang = chinese ? 'zh-CN' : 'en';
@@ -11,6 +17,7 @@
       languageButton.textContent = chinese ? 'EN' : '中文';
       languageButton.setAttribute('aria-label', chinese ? 'Switch to English' : '切换为中文');
     }
+    updateFilterStatus();
     document.title = chinese ? '胡发成 · 学术主页' : 'Facheng Hu · Academic Homepage';
     try { localStorage.setItem('fh-homepage-language', lang); } catch (_) { /* Optional storage. */ }
   }
@@ -72,13 +79,10 @@
     button.addEventListener('click', () => {
       const year = button.dataset.filter;
       filters.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-      let visible = 0;
       papers.forEach(paper => {
         paper.hidden = year !== 'all' && paper.dataset.year !== year;
-        if (!paper.hidden) visible++;
       });
-      const message = document.getElementById('filter-status');
-      if (message) message.textContent = root.lang.startsWith('zh') ? `显示 ${visible} 篇论文` : `${visible} publications shown`;
+      updateFilterStatus();
     });
   });
   // Update header navigation as the corresponding section enters the viewport.

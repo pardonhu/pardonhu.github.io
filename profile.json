@@ -152,8 +152,8 @@
         "Facheng Hu"
       ],
       "description": {
-        "en": "Task-aware domain discovery for robust, flexible user perception from heterogeneous IMU data.",
-        "zh": "面向异构 IMU 数据挖掘任务相关的潜在域，支持灵活的用户感知。"
+        "en": "Prism uses prediction inconsistency (NID) to assess non-i.i.d. IMU data, learns task-aware domains and their models with EM, and selects the nearest-domain model in embedding space on a device.",
+        "zh": "Prism 用预测不一致性指标 NID 评估 IMU 数据的非独立同分布程度，通过 EM 学习任务相关域及其模型，并在设备端依据嵌入空间中的最近域选择模型。"
       },
       "cover_label": {
         "en": "Domain-aware perception",
@@ -164,8 +164,15 @@
       "paper_url": "",
       "code_url": "",
       "project_url": "",
-      "thumbnail": "",
-      "source": "https://arxiv.org/abs/2501.01598"
+      "thumbnail": "assets/images/prism-concept.svg",
+      "source": "https://arxiv.org/abs/2501.01598",
+      "pages": "1--10",
+      "publication_record": "https://ieeexplore.ieee.org/document/11044768/",
+      "thumbnail_alt": "Prism concept: NID detects non-i.i.d. IMU data; EM learns task-aware domains; a device selects the nearest domain model. / Prism 概念：NID 检测非独立同分布 IMU 数据，EM 学习任务相关域，设备选择最近域模型。",
+      "thumbnail_caption": {
+        "en": "Original conceptual illustration, not a reproduced paper figure.",
+        "zh": "原创概念示意图，非论文原图。"
+      }
     },
     {
       "id": "saga",
@@ -242,5 +249,10 @@
       "pages": "19216--19228",
       "source": "https://lion.sjtu.edu.cn/publication/publicationDetail?id=128"
     }
-  ]
+  ],
+  "ieee_author_profile": "https://ieeexplore.ieee.org/author/996384661373839",
+  "reading_notes": {
+    "account_name": "杂记遣怀",
+    "articles": []
+  }
 }

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480" role="img" aria-labelledby="title desc">
+<title id="title">Prism — from IMU variation to task-aware inference</title>
+<desc id="desc">Original conceptual illustration. NID assesses non-i.i.d. data, EM learns task-aware domains, and a device routes an embedding to its nearest domain model. Shapes are schematic, not measured data.</desc>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#eef5fa"/><stop offset="1" stop-color="#e3edea"/></linearGradient><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 7 3.5 0 7" fill="none" stroke="#56798c"/></marker></defs>
+<rect width="480" height="480" rx="20" fill="url(#bg)"/>
+<g font-family="Arial, sans-serif" fill="#173f65"><text x="30" y="43" font-size="25" font-weight="700">Prism</text><text x="30" y="65" font-size="12" letter-spacing="2">TASK-AWARE IMU PERCEPTION</text></g>
+<g fill="#fff" stroke="#c5d8e2"><rect x="26" y="86" width="428" height="88" rx="14"/><rect x="26" y="198" width="428" height="134" rx="14"/><rect x="26" y="356" width="428" height="98" rx="14"/></g>
+<g font-family="Arial, sans-serif" fill="#173f65" font-size="15" font-weight="700"><text x="44" y="112">01 / Detect heterogeneity</text><text x="44" y="225">02 / Learn task-aware domains</text><text x="44" y="383">03 / Select on device</text></g>
+<g fill="none" stroke-width="3"><path d="m45 142 15-7 12 13 12-22 12 18 16-4 15 7" stroke="#357f94"/><path d="m144 141 12-16 12 25 12-9 12 7 12-23 16 17" stroke="#b18041"/></g>
+<text x="256" y="147" font-family="Arial, sans-serif" font-size="16" fill="#456678">NID · inconsistency</text>
+<g stroke="#56798c" fill="none" marker-end="url(#arrow)"><path d="M240 178v15"/><path d="M240 336v15"/><path d="M162 278h48"/><path d="M325 278h45"/><path d="M152 416h75"/></g>
+<g font-family="Arial, sans-serif" font-size="14" fill="#456678"><text x="46" y="274">Encode</text><text x="46" y="295">+ refine</text><text x="377" y="282">EM</text></g>
+<g fill="#e2f0f0" stroke="#357f94"><rect x="221" y="245" width="38" height="24" rx="8"/><rect x="274" y="269" width="38" height="24" rx="8"/><rect x="224" y="294" width="38" height="24" rx="8"/></g>
+<g fill="#357f94"><circle cx="233" cy="257" r="3"/><circle cx="247" cy="257" r="3"/><circle cx="286" cy="281" r="3"/><circle cx="300" cy="281" r="3"/><circle cx="236" cy="306" r="3"/><circle cx="250" cy="306" r="3"/></g>
+<rect x="46" y="399" width="30" height="41" rx="5" fill="#173f65"/><rect x="51" y="405" width="20" height="25" rx="2" fill="#e5f1f4"/>
+<g font-family="Arial, sans-serif" fill="#456678" font-size="13"><text x="87" y="416">New IMU</text><text x="87" y="433">sample</text><text x="247" y="415">Nearest domain</text><text x="247" y="435">→ task model → prediction</text></g>
+</svg>

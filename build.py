@@ -6,7 +6,7 @@ The generated index.html works without a server and has readable content without
 Only include information you intend to publish: all repository files may be public.
 """
 from __future__ import annotations
-import base64
+from datetime import date
 import html
 import json
 import re
@@ -44,6 +44,55 @@ def url(value: str) -> str:
     if not parsed.scheme and (value.startswith('/') or '..' in Path(value).parts):
         raise ValueError(f'Use a relative path inside the website: {value}')
     return esc(value)
+
+def validate_reading_notes(notes: object) -> None:
+    if not isinstance(notes, dict) or not isinstance(notes.get('account_name'), str) or not notes['account_name'].strip():
+        raise ValueError('reading_notes requires account_name.')
+    if not isinstance(notes.get('articles'), list):
+        raise ValueError('reading_notes.articles must be a list.')
+    seen = set()
+    for entry in notes['articles']:
+        if not isinstance(entry, dict):
+            raise ValueError('Each reading note must be an object.')
+        for field in ('url', 'title', 'date'):
+            if not isinstance(entry.get(field), str) or not entry[field].strip():
+                raise ValueError('Reading note requires ' + field)
+        link = entry['url']
+        parsed = urlparse(link)
+        if (parsed.scheme != 'https' or not parsed.hostname or '.' not in parsed.hostname
+                or parsed.username or parsed.password or parsed.fragment or parsed.hostname.endswith('.')
+                or any(c.isspace() or ord(c) < 32 for c in link) or '\\' in link):
+            raise ValueError('Reading notes require original absolute HTTPS URLs without credentials or fragments.')
+        hostname = parsed.hostname.encode('idna').decode('ascii')
+        if len(hostname) > 253 or any(not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?', part) for part in hostname.split('.')):
+            raise ValueError('Invalid reading note hostname.')
+        try:
+            parsed.port
+        except ValueError as exc:
+            raise ValueError('Invalid reading note URL port.') from exc
+        if link in seen:
+            raise ValueError('Duplicate reading note URL.')
+        seen.add(link)
+        if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', entry['date']):
+            raise ValueError('Reading note date must be YYYY-MM-DD.')
+        date.fromisoformat(entry['date'])
+        summary = entry.get('summary')
+        for lang, limit in (('en', 320), ('zh', 160)):
+            if not isinstance(summary, dict) or not isinstance(summary.get(lang), str) or not summary[lang].strip() or len(summary[lang]) > limit:
+                raise ValueError(f'Reading note requires a short {lang} summary (max {limit} characters).')
+
+def render_reading_notes(notes: dict) -> str:
+    validate_reading_notes(notes)
+    account = bi('Public account: ', '公众号：') + esc(notes['account_name'])
+    entries = []
+    for entry in notes['articles']:
+        entries.append('<article class="reading-note"><h3>' + anchor(entry['url'], esc(entry['title']))
+                       + '</h3><time datetime="' + esc(entry['date']) + '">' + esc(entry['date'])
+                       + '</time><p>' + localized(entry['summary']) + '</p></article>')
+    body = ''.join(entries) if entries else '<p class="reading-empty">' + bi(
+        'No public article links have been verified yet. Original links will be curated here.',
+        '尚无已核验的公开文章链接；这里将整理文章原始链接。') + '</p>'
+    return '<section class="reading-notes section-card card" id="reading-notes" aria-labelledby="reading-heading"><h2 id="reading-heading">' + bi('Reading Notes', '读书笔记') + '</h2><p class="reading-account">' + account + '</p>' + body + '</section>'
 
 ICONS = {
     'mail':'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/>',
@@ -83,7 +132,7 @@ def render_publication(p: dict, name: str) -> str:
         if a in p.get('equal_contributors',[]): text += '<sup>*</sup>'
         author_html.append(text)
     if p.get('thumbnail'):
-        cover = '<div class="pub-cover has-image"><img loading="lazy" src="'+url(p['thumbnail'])+'" alt="'+esc(p['short']+' paper illustration')+'"></div>'
+        cover = '<figure class="pub-figure"><div class="pub-cover has-image"><img loading="lazy" src="'+url(p['thumbnail'])+'" alt="'+esc(p.get('thumbnail_alt', p['short']+' paper illustration'))+'"></div><figcaption>'+localized(p.get('thumbnail_caption', ''))+'</figcaption></figure>'
     else:
         cover = f'''<div class="pub-cover cover-{esc(p['id'])}" aria-hidden="true">
           <span class="cover-venue">{esc(p['venue_short'])} · {esc(p['year'])}</span>
@@ -91,6 +140,7 @@ def render_publication(p: dict, name: str) -> str:
           <span class="cover-label">{localized(p.get('cover_label',''))}</span>
         </div>'''
     buttons = []
+    if p.get("publication_record"): buttons.append(anchor(p["publication_record"], bi("IEEE publication record", "IEEE 发表记录")+icon("arrow"), "pub-link"))
     if p.get('doi'): buttons.append(anchor('https://doi.org/'+p['doi'],bi('Publisher','出版页面')+icon('arrow'),'pub-link'))
     if p.get('arxiv'):
         buttons.append(anchor('https://arxiv.org/abs/'+p['arxiv'],'arXiv'+icon('arrow'),'pub-link'))
@@ -162,6 +212,7 @@ def build() -> None:
     side_links=[anchor(email_link,bi('Email','电子邮件'),'','mail',False)]
     socials=[]
     if username: socials.append(('https://github.com/'+username,'GitHub','GitHub','code'))
+    if p.get('ieee_author_profile'):socials.append((p['ieee_author_profile'],'IEEE author profile','IEEE 作者主页','person'))
     if p.get('google_scholar'):socials.append((p['google_scholar'],'Google Scholar','Google 学术','school'))
     if p.get('orcid'):socials.append((p['orcid'],'ORCID','ORCID','link'))
     if p.get('cv_url'):socials.append((p['cv_url'],'Curriculum Vitae','个人简历','file'))
@@ -199,6 +250,7 @@ def build() -> None:
     rendered=Template((ROOT/'templates/page.html').read_text(encoding='utf-8')).substitute(
         lang='zh-CN' if p.get('default_language')=='zh' else 'en', name=esc(p['name']), initials=esc(p['initials']), name_zh=esc(p['name_zh']),
         meta_description=esc(description),canonical=canonical,structured=json.dumps(structured,ensure_ascii=False).replace('<','\\u003c'),
+        nav_reading=bi('Reading Notes','读书笔记'),reading_notes=render_reading_notes(p['reading_notes']),
         nav_about=bi('About','简介'),nav_pubs=bi('Publications','论文'),nav_education=bi('Education','教育'),nav_contact=bi('Contact','联系'),
         sidebar_heading=bi('On this page','页面导航'),connect=bi('Connect','学术联系'),side_links=''.join(side_links),
         role=localized(p['role']),institution=institution,school=school,advisor=advisor,advised_by=bi('Advised by','导师'),portrait=portrait,
