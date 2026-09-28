@@ -122,6 +122,20 @@ def bibtex(p: dict) -> str:
         if p.get(key): fields.append((key, p[key]))
     return '@'+p['type']+'{'+p['bibkey']+',\n'+',\n'.join(f'  {k} = {{{b(v)}}}' for k,v in fields)+'\n}'
 
+def render_abstract(p: dict) -> str:
+    abstract = p.get('abstract')
+    evidence = p.get('abstract_evidence', {})
+    if abstract is None:
+        if evidence.get('status') != 'missing':
+            raise ValueError('Missing abstract must be recorded explicitly: '+p['id'])
+        return '<p class="abstract-missing">'+bi('Full abstract awaiting verification.', '完整摘要待核验。')+'</p>'
+    if evidence.get('status') != 'verified' or not evidence.get('source') or not evidence.get('version'):
+        raise ValueError('Abstract requires source and version evidence: '+p['id'])
+    if any(not isinstance(abstract.get(lang), str) or not abstract[lang].strip() for lang in ('en', 'zh')):
+        raise ValueError('Abstract requires complete English and Chinese text: '+p['id'])
+    return ('<details class="abstract"><summary>'+bi('Abstract', '摘要')
+            +'</summary><p class="pub-description">'+localized(abstract)+'</p></details>')
+
 def render_publication(p: dict, name: str) -> str:
     paper_link = 'https://doi.org/'+p['doi'] if p.get('doi') else p.get('paper_url') or p.get('source')
     if not paper_link:
@@ -135,10 +149,8 @@ def render_publication(p: dict, name: str) -> str:
         image = ('<img loading="lazy" src="'+url(p['thumbnail'])+'" alt="'
                  +esc(p['thumbnail_alt'])+'" width="'+esc(p['thumbnail_width'])
                  +'" height="'+esc(p['thumbnail_height'])+'">')
-        source = anchor(p['figure_source'], bi('Author manuscript · Figure '+str(p['figure_number']),
-                        '作者稿 · 图 '+str(p['figure_number'])), 'figure-source')
         cover = ('<figure class="pub-figure">'+anchor(p['thumbnail'], image, 'figure-image')
-                 +'<figcaption>'+localized(p['thumbnail_caption'])+' '+source
+                 +'<figcaption>'+localized(p['thumbnail_caption'])
                  +'</figcaption></figure>')
     else:
         cover = ''
@@ -167,7 +179,7 @@ def render_publication(p: dict, name: str) -> str:
         <h3 class="pub-title">{anchor(paper_link,esc(p['title']))}</h3>
         <p class="pub-authors">{', '.join(author_html)}</p>
         <p class="pub-venue">{venue}</p>
-        <p class="pub-description">{localized(p.get('description',''))}</p>
+        {render_abstract(p)}
         <div class="pub-links">{''.join(buttons)}</div>
         <details class="citation">
           <summary class="cite-toggle">{bi('Cite / BibTeX','引用 / BibTeX')}</summary>
@@ -201,8 +213,6 @@ def build() -> None:
     institution=anchor(p['institution_url'],localized(p['institution']))
     school=anchor(p['school_url'],localized(p['school']))
     advisor=anchor(p['advisor']['url'],bi('Prof. '+p['advisor']['name'],p['advisor']['name_zh']+'老师'))
-    bio_en=f'I am a Ph.D. student at {anchor(p["school_url"],esc(localize(p["school"],"en")))}, {anchor(p["institution_url"],esc(localize(p["institution"],"en")))}, advised by {anchor(p["advisor"]["url"],esc("Prof. "+p["advisor"]["name"]))}.'
-    bio_zh=f'我是{anchor(p["institution_url"],esc(localize(p["institution"],"zh")))} {anchor(p["school_url"],esc(localize(p["school"],"zh")))} 的博士研究生，导师是{anchor(p["advisor"]["url"],esc(p["advisor"]["name_zh"]+"老师"))}。'
     if p.get('portrait'):
         path=ROOT/p['portrait']
         if not path.is_file(): raise ValueError(f'Portrait file is missing: {p["portrait"]}')
@@ -225,7 +235,14 @@ def build() -> None:
         contact_links.append('<span class="contact-separator" aria-hidden="true"></span>'+anchor(p['advisor']['url'],icon('person')+bi("Advisor","导师主页"),'contact-link'))
     side_links.extend([anchor(p['institution_url'],bi('University','学校主页'),'','school'),anchor(p['advisor']['url'],bi('Advisor','导师主页'),'','person')])
     news=''.join(f'<li class="news-item"><span class="news-date">{esc(n["date"])}</span><div>{anchor(n["url"],localized(n["text"])) if n.get("url") else localized(n["text"])}</div></li>' for n in p.get('news',[]))
-    education=''.join(f'''<div class="education-item"><div class="education-icon" aria-hidden="true">{icon('school')}</div><div><div class="education-name">{localized(e['institution'])}</div><div class="education-school">{localized(e.get('school',''))}</div><div class="education-degree">{localized(e['degree'])}</div><div class="education-period">{localized(e['period'])}</div></div></div>''' for e in p['education'])
+    education=''
+    for e in p['education']:
+        details = ''.join('<div class="education-'+cls+'">'+localized(e[key])+'</div>'
+                          for key, cls in [('institution','name'),('school','school'),('degree','degree')]
+                          if e.get(key))
+        if e.get('advisor'):
+            details += '<div class="education-degree">'+bi('Advisor: ', '导师：')+localized(e['advisor'])+'</div>'
+        education += '<div class="education-item"><div class="education-icon" aria-hidden="true">'+icon('school')+'</div><div>'+details+'<div class="education-period">'+localized(e['period'])+'</div></div></div>'
     pubs=sorted(p['publications'],key=lambda x:-int(x['year']))
     years=sorted({int(x['year']) for x in pubs},reverse=True)
     filters='<button type="button" class="filter" data-filter="all" aria-pressed="true">'+bi('All','全部')+'</button>'+''.join(f'<button type="button" class="filter" data-filter="{y}" aria-pressed="false">{y}</button>' for y in years)
@@ -240,8 +257,10 @@ def build() -> None:
         import datetime
         date=datetime.date.fromisoformat(updated)
         updated_en=date.strftime('%b %Y');updated_zh=f'{date.year} 年 {date.month} 月'
-    description=f'{p["name"]} ({p["name_zh"]}), Ph.D. student at Shanghai Jiao Tong University. Biography, selected publications, and contact information.'
+    description=localize(p['bio'], 'en')
     structured={"@context":"https://schema.org","@type":"Person","name":p['name'],"alternateName":p['name_zh'],"jobTitle":localize(p['role'],'en'),"affiliation":{"@type":"CollegeOrUniversity","name":localize(p['institution'],'en')},"email":email_link}
+    structured['description']=description
+    structured['knowsAbout']=[localize(x, 'en') for x in p['research_interests']]
     sameas=[x[0] for x in socials if x[1] != 'Curriculum Vitae']
     if sameas:structured['sameAs']=sameas
     website_url=p.get('website_url','').strip() or ('https://'+username.lower()+'.github.io/' if username else '')
@@ -256,7 +275,7 @@ def build() -> None:
         nav_about=bi('About','简介'),nav_pubs=bi('Publications','论文'),nav_education=bi('Education','教育'),nav_contact=bi('Contact','联系'),
         sidebar_heading=bi('On this page','页面导航'),connect=bi('Connect','学术联系'),side_links=''.join(side_links),
         role=localized(p['role']),institution=institution,school=school,advisor=advisor,advised_by=bi('Advised by','导师'),portrait=portrait,
-        bio=bi(bio_en,bio_zh,raw=True),extra_bio=extra,interests=interests,contact_links=''.join(contact_links),
+        bio=localized(p['bio']),extra_bio=extra,interests=interests,contact_links=''.join(contact_links),
         news_label=bi('News','动态'),news=news,education_label=bi('Education','教育经历'),education=education,
         publications_label=bi('Selected Publications','代表性论文'),contribution_note=bi('* Equal contribution.','* 表示共同贡献。'),filters=filters,
         publication_cards=''.join(render_publication(x,p['name']) for x in pubs),

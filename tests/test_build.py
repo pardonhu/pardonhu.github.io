@@ -46,10 +46,13 @@ class BuildTests(unittest.TestCase):
         for pub in p['publications']:
             self.assertTrue(pub['source'].startswith('https://'))
             for lang in ('en', 'zh'):
-                self.assertTrue(pub['description'][lang])
+                if pub['abstract'] is not None:
+                    self.assertTrue(pub['abstract'][lang])
         page = self.render(p)[0].decode()
-        for term in ('Reading Notes', '读书笔记', 'Author manuscript · Figure 2', '作者稿 · 图 2', 'NID', 'EM'):
+        for term in ('Reading Notes', '读书笔记', 'Abstract', '摘要', 'EM'):
             self.assertIn(term, page)
+        for term in ('Author manuscript', '作者稿', 'Figure 2', '图 2', 'Spring 2024', '2024 年春季'):
+            self.assertNotIn(term, page)
         self.assertNotIn('example.org', page)
 
     def test_actual_images_and_text_only_cards(self):
@@ -63,7 +66,7 @@ class BuildTests(unittest.TestCase):
                 self.assertEqual(pub['figure_number'], 2)
                 self.assertTrue(pub['figure_source'].endswith('#S2.F2'))
                 self.assertIn('href="'+pub['thumbnail']+'"', card)
-                self.assertIn('href="'+pub['figure_source']+'"', card)
+                self.assertNotIn('href="'+pub['figure_source']+'"', card)
                 for lang in ('en', 'zh'):
                     self.assertIn(pub['thumbnail_caption'][lang], card)
                 self.assertIn(pub['thumbnail_alt'], card)
@@ -73,6 +76,53 @@ class BuildTests(unittest.TestCase):
                 self.assertNotIn('<img', card)
                 self.assertNotIn('pub-cover', card)
         self.assertNotIn('prism-concept', page)
+
+    def test_bio_and_education(self):
+        p = self.profile
+        expected = 'Facheng Hu (Graduate Student Member, IEEE) received the B.S. degree in 2017 and the master’s degree from Shanghai Jiao Tong University, Shanghai, China, in 2024, under the supervision of Prof. Hongzi Zhu. He is currently pursuing the Ph.D. degree at Global College, Shanghai Jiao Tong University, under the supervision of Prof. Yibo Pi. His research interests include AI-enabled networking and wireless sensing.'
+        self.assertEqual(p['bio']['en'], expected)
+        page = self.render(p)[0].decode()
+        for lang in ('en', 'zh'):
+            self.assertIn(build.esc(p['bio'][lang]), page)
+        self.assertEqual(p['education'][0]['period'], {'en':'Present','zh':'在读'})
+        self.assertEqual(p['education'][1]['period']['en'], '2024')
+        self.assertEqual(p['education'][1]['advisor']['en'], 'Prof. Hongzi Zhu')
+        self.assertNotIn('institution', p['education'][2])
+        self.assertEqual(p['education'][2]['period']['en'], '2017')
+        self.assertIn('"knowsAbout": ["AI-enabled networking", "Wireless sensing"]', page)
+
+    def test_complete_abstract_rendering_and_missing_state(self):
+        for pub in self.profile['publications']:
+            card = build.render_publication(pub, self.profile['name'])
+            self.assertNotIn('description', pub)
+            evidence = pub['abstract_evidence']
+            self.assertEqual(evidence['title'], pub['title'])
+            self.assertEqual(evidence['authors'], pub['authors'])
+            if pub['abstract'] is None:
+                self.assertEqual(evidence['status'], 'missing')
+                self.assertIn('Full abstract awaiting verification.', card)
+                self.assertNotIn('<details class="abstract">', card)
+            else:
+                self.assertEqual(evidence['status'], 'verified')
+                for lang in ('en', 'zh'):
+                    self.assertIn(build.esc(pub['abstract'][lang]), card)
+                self.assertIn('<details class="abstract"><summary>', card)
+        pub = copy.deepcopy(self.profile['publications'][1])
+        pub['abstract'] = {'en':'First paragraph.\n\nLast <paragraph>.','zh':'第一段。\n\n最后一段。'}
+        card = build.render_abstract(pub)
+        self.assertIn('First paragraph.\n\nLast &lt;paragraph&gt;.', card)
+        self.assertIn('第一段。\n\n最后一段。', card)
+
+    def test_abstract_evidence_and_translation_required(self):
+        pub = copy.deepcopy(self.profile['publications'][1])
+        for field in ('source', 'version', 'status'):
+            broken = copy.deepcopy(pub)
+            del broken['abstract_evidence'][field]
+            with self.assertRaises(ValueError):build.render_abstract(broken)
+        for lang in ('en', 'zh'):
+            broken = copy.deepcopy(pub)
+            broken['abstract'][lang] = ''
+            with self.assertRaises(ValueError):build.render_abstract(broken)
 
     def test_fastset_citation(self):
         pub = next(p for p in self.profile['publications'] if p['id'] == 'fastset')

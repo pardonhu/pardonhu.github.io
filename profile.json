@@ -30,7 +30,16 @@
   "website_url": "https://pardonhu.github.io/",
   "default_language": "en",
   "updated": "2026-09-28",
-  "research_interests": [],
+  "research_interests": [
+    {
+      "en": "AI-enabled networking",
+      "zh": "人工智能赋能的网络"
+    },
+    {
+      "en": "Wireless sensing",
+      "zh": "无线感知"
+    }
+  ],
   "extra_bio": {
     "en": "",
     "zh": ""
@@ -80,12 +89,48 @@
         "zh": "Global College"
       },
       "degree": {
-        "en": "Ph.D. student in Information Engineering",
-        "zh": "信息工程博士研究生"
+        "en": "Ph.D. student",
+        "zh": "博士研究生"
+      },
+      "advisor": {
+        "en": "Prof. Yibo Pi",
+        "zh": "皮宜博教授"
       },
       "period": {
-        "en": "Spring 2024 – Present",
-        "zh": "2024 年春季 — 至今"
+        "en": "Present",
+        "zh": "在读"
+      }
+    },
+    {
+      "institution": {
+        "en": "Shanghai Jiao Tong University",
+        "zh": "上海交通大学"
+      },
+      "school": {
+        "en": "Shanghai, China",
+        "zh": "中国上海"
+      },
+      "degree": {
+        "en": "master’s degree",
+        "zh": "硕士学位"
+      },
+      "advisor": {
+        "en": "Prof. Hongzi Zhu",
+        "zh": "朱洪紫教授"
+      },
+      "period": {
+        "en": "2024",
+        "zh": "2024 年"
+      }
+    },
+    {
+      "degree": {
+        "en": "B.S. degree",
+        "zh": "理学学士学位"
+      },
+      "period": {
+        "en": "2017",
+        "zh": "2017 年"
       }
     }
   ],
@@ -108,10 +153,6 @@
         "Xudong Wang"
       ],
       "equal_contributors": [],
-      "description": {
-        "en": "Sequential retraining for faster online adaptation of neural receivers under changing wireless conditions.",
-        "zh": "通过顺序重训练，加速神经接收机在无线环境变化下的在线适应。"
-      },
       "doi": "10.1109/SECON68281.2026.11579146",
       "arxiv": "",
       "paper_url": "",
@@ -124,7 +165,21 @@
         "zh": "论文集目录"
       },
       "pages": "150--158",
-      "publication_record": "https://ieeexplore.ieee.org/document/11579146/"
+      "publication_record": "https://ieeexplore.ieee.org/document/11579146/",
+      "abstract": null,
+      "abstract_evidence": {
+        "status": "missing",
+        "source": "https://ieeexplore.ieee.org/document/11579146/",
+        "version": "Abstract version unavailable; publication metadata only.",
+        "title": "FastSET: Fast Sequential Retraining to Accelerate Real-Time Online Adaptation for Neural Receivers",
+        "authors": [
+          "Facheng Hu",
+          "Yunzhe Li",
+          "Hongzi Zhu",
+          "Xudong Wang"
+        ],
+        "reason": "Abstract source unavailable: Crossref metadata contains no abstract, IEEE returned an empty response, and the author lab source failed over HTTP and HTTPS."
+      }
     },
     {
       "id": "prism",
@@ -149,10 +204,6 @@
         "Yunzhe Li",
         "Facheng Hu"
       ],
-      "description": {
-        "en": "Prism uses prediction inconsistency (NID) to assess non-i.i.d. IMU data, learns task-aware domains and their models with EM, and selects the nearest-domain model in embedding space on a device.",
-        "zh": "Prism 用预测不一致性指标 NID 评估 IMU 数据的非独立同分布程度，通过 EM 学习任务相关域及其模型，并在设备端依据嵌入空间中的最近域选择模型。"
-      },
       "doi": "10.1109/INFOCOM55648.2025.11044768",
       "arxiv": "2501.01598",
       "paper_url": "",
@@ -164,13 +215,34 @@
       "publication_record": "https://ieeexplore.ieee.org/document/11044768/",
       "thumbnail_alt": "Prism system architecture: IMU datasets are tested for non-i.i.d. properties, then partitioned into task-aware domains for model training and online inference. / Prism 系统架构：检测 IMU 数据的非独立同分布特性，划分任务相关域并训练模型，用于在线推理。",
       "thumbnail_caption": {
-        "en": "Figure 2. System architecture of Prism (author manuscript).",
-        "zh": "图 2：Prism 系统架构（作者稿原图）。"
+        "en": "Prism system overview.",
+        "zh": "Prism 系统概览。"
       },
       "thumbnail_width": 722,
       "thumbnail_height": 547,
       "figure_number": 2,
-      "figure_source": "https://arxiv.org/html/2501.01598v1#S2.F2"
+      "figure_source": "https://arxiv.org/html/2501.01598v1#S2.F2",
+      "abstract": {
+        "en": "A wide range of user perception applications leverage inertial measurement unit (IMU) data for online prediction. However, restricted by the non-i.i.d. nature of IMU data collected from mobile devices, most systems work well only in a controlled setting (e.g., for a specific user in particular postures), limiting application scenarios. To achieve uncontrolled online prediction on mobile devices, referred to as the flexible user perception (FUP) problem, is attractive but hard. In this paper, we propose a novel scheme, called Prism, which can obtain high FUP accuracy on mobile devices. The core of Prism is to discover task-aware domains embedded in IMU dataset, and to train a domain-aware model on each identified domain. To this end, we design an expectation-maximization (EM) algorithm to estimate latent domains with respect to the specific downstream perception task. Finally, the best-fit model can be automatically selected for use by comparing the test sample and all identified domains in the feature space. We implement Prism on various mobile devices and conduct extensive experiments. Results demonstrate that Prism can achieve the best FUP performance with a low latency.",
+        "zh": "众多用户感知应用利用惯性测量单元（IMU）数据进行在线预测。然而，受移动设备所采集 IMU 数据的非独立同分布特性限制，大多数系统仅在受控条件下（例如特定用户采用特定姿态时）表现良好，这限制了应用场景。在移动设备上实现不受控条件下的在线预测，即灵活用户感知（FUP）问题，具有吸引力，但也很困难。本文提出了一种名为 Prism 的新方案，能够在移动设备上获得较高的 FUP 准确率。Prism 的核心是发现 IMU 数据集中蕴含的任务感知域，并在每个识别出的域上训练一个域感知模型。为此，我们设计了一种期望最大化（EM）算法，针对具体的下游感知任务估计潜在域。最后，通过在特征空间中比较测试样本与所有识别出的域，可以自动选择最合适的模型供使用。我们在多种移动设备上实现了 Prism，并进行了广泛实验。结果表明，Prism 能够以较低的延迟实现最佳 FUP 性能。"
+      },
+      "abstract_evidence": {
+        "status": "verified",
+        "source": "https://arxiv.org/html/2501.01598v1#abstract1",
+        "version": "arXiv:2501.01598v1",
+        "title": "Prism: Mining Task-aware Domains in Non-i.i.d. IMU Data for Flexible User Perception",
+        "authors": [
+          "Yunzhe Li",
+          "Facheng Hu",
+          "Hongzi Zhu",
+          "Quan Liu",
+          "Xiaoke Zhao",
+          "Jiangang Shen",
+          "Shan Chang",
+          "Minyi Guo"
+        ],
+        "translation": "Complete Chinese translation of the cited English abstract; not publisher supplied."
+      }
     },
     {
       "id": "saga",
@@ -194,10 +266,6 @@
         "Yunzhe Li",
         "Facheng Hu"
       ],
-      "description": {
-        "en": "Multi-granularity self-supervised learning for IMU-based perception with limited labeled data.",
-        "zh": "从大量无标签 IMU 数据学习多粒度语义，降低用户感知任务的标注需求。"
-      },
       "doi": "10.1109/ICDCS63083.2025.00090",
       "arxiv": "2504.11726",
       "paper_url": "",
@@ -211,8 +279,28 @@
       "figure_source": "https://arxiv.org/html/2504.11726v1#S2.F2",
       "thumbnail_alt": "Overview of Saga: multi-level masking, models training, and low cost weight searching. / Saga 总览：多层级掩码、模型训练与低成本权重搜索。",
       "thumbnail_caption": {
-        "en": "Figure 2. Overview of Saga (author manuscript).",
-        "zh": "图 2：Saga 方法总览（作者稿原图）。"
+        "en": "Saga system overview.",
+        "zh": "Saga 系统概览。"
+      },
+      "abstract": {
+        "en": "Inertial measurement units (IMUs), have been prevalently used in a wide range of mobile perception applications such as activity recognition and user authentication, where a large amount of labelled data are normally required to train a satisfactory model. However, it is difficult to label micro-activities in massive IMU data due to the hardness of understanding raw IMU data and the lack of ground truth. In this paper, we propose a novel fine-grained user perception approach, called Saga, which only needs a small amount of labelled IMU data to achieve stunning user perception accuracy. The core idea of Saga is to first pre-train a backbone feature extraction model, utilizing the rich semantic information of different levels embedded in the massive unlabelled IMU data. Meanwhile, for a specific downstream user perception application, Bayesian Optimization is employed to determine the optimal weights for pre-training tasks involving different semantic levels. We implement Saga on five typical mobile phones and evaluate Saga on three typical tasks on three IMU datasets. Results show that when only using about 100 training samples per class, Saga can achieve over 90% accuracy of the full-fledged model trained on over ten thousands training samples with no additional system overhead.",
+        "zh": "惯性测量单元（IMU）已广泛用于活动识别、用户身份认证等各类移动感知应用，这些应用通常需要大量有标签数据才能训练出令人满意的模型。然而，由于原始 IMU 数据难以理解且缺乏真实标注，很难为海量 IMU 数据中的微活动添加标签。本文提出了一种名为 Saga 的新型细粒度用户感知方法，只需少量有标签 IMU 数据即可实现出色的用户感知准确率。Saga 的核心思想是利用海量无标签 IMU 数据中蕴含的不同层级的丰富语义信息，首先预训练一个骨干特征提取模型。同时，针对具体的下游用户感知应用，采用贝叶斯优化来确定涉及不同语义层级的预训练任务的最优权重。我们在五款典型手机上实现了 Saga，并在三个 IMU 数据集上的三项典型任务中对其进行评估。结果表明，每类仅使用约 100 个训练样本时，Saga 就能够达到使用一万多个训练样本训练的完整模型准确率的 90% 以上，且不增加系统开销。"
+      },
+      "abstract_evidence": {
+        "status": "verified",
+        "source": "https://arxiv.org/html/2504.11726v1#abstract1",
+        "version": "arXiv:2504.11726v1",
+        "title": "Saga: Capturing Multi-granularity Semantics from Massive Unlabelled IMU Data",
+        "authors": [
+          "Yunzhe Li",
+          "Facheng Hu",
+          "Hongzi Zhu",
+          "Shifan Zhang",
+          "Liang Zhang",
+          "Shan Chang",
+          "Minyi Guo"
+        ],
+        "translation": "Complete Chinese translation of the cited English abstract; not publisher supplied."
       }
     },
     {
@@ -233,10 +321,6 @@
         "Minyi Guo"
       ],
       "equal_contributors": [],
-      "description": {
-        "en": "Domain-adaptive learning for online relative direction estimation between vehicles using wireless channel measurements.",
-        "zh": "利用无线信道测量与域自适应学习，实现在线车辆相对方向估计。"
-      },
       "doi": "10.1109/TVT.2024.3445722",
       "arxiv": "",
       "paper_url": "",
@@ -246,7 +330,23 @@
       "volume": "73",
       "number": "12",
       "pages": "19216--19228",
-      "source": "https://lion.sjtu.edu.cn/publication/publicationDetail?id=128"
+      "source": "https://lion.sjtu.edu.cn/publication/publicationDetail?id=128",
+      "abstract": null,
+      "abstract_evidence": {
+        "status": "missing",
+        "source": "https://ieeexplore.ieee.org/document/10638788/",
+        "version": "Abstract version unavailable; publication metadata only.",
+        "title": "DeepAoA+: Online Cross-Domain Vehicular Relative Direction Estimation via Deep Learning",
+        "authors": [
+          "Facheng Hu",
+          "Yunxiang Cai",
+          "Hongzi Zhu",
+          "Shan Chang",
+          "Xudong Wang",
+          "Minyi Guo"
+        ],
+        "reason": "Abstract source unavailable: Crossref metadata contains no abstract, IEEE returned an empty response, and the author lab source failed over HTTP and HTTPS."
+      }
     }
   ],
   "ieee_author_profile": "https://ieeexplore.ieee.org/author/996384661373839",
@@ -254,5 +354,9 @@
     "account_name": "杂记遣怀",
     "articles": []
   },
-  "portrait_alt": "Facheng Hu outdoors, raising one arm. / 胡发成的户外肖像，抬起一只手臂。"
+  "portrait_alt": "Facheng Hu outdoors, raising one arm. / 胡发成的户外肖像，抬起一只手臂。",
+  "bio": {
+    "en": "Facheng Hu (Graduate Student Member, IEEE) received the B.S. degree in 2017 and the master’s degree from Shanghai Jiao Tong University, Shanghai, China, in 2024, under the supervision of Prof. Hongzi Zhu. He is currently pursuing the Ph.D. degree at Global College, Shanghai Jiao Tong University, under the supervision of Prof. Yibo Pi. His research interests include AI-enabled networking and wireless sensing.",
+    "zh": "胡发成（IEEE 研究生会员）于 2017 年获得理学学士学位，并于 2024 年在中国上海的上海交通大学获得硕士学位，硕士导师为朱洪紫教授。目前在上海交通大学 Global College 攻读博士学位，导师为皮宜博教授。研究兴趣为人工智能赋能的网络和无线感知。"
+  }
 }

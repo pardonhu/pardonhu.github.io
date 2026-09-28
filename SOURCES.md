@@ -6,12 +6,12 @@
 
 GitHub 用户名 `pardonhu` 和邮箱 `facheng_hu@sjtu.edu.cn` 由主页所有者在本次更新中明确提供。站点地址为 `https://pardonhu.github.io/`；已部署基线为 `1d1e8bcf338a27f81382c734063c4cf77a5569cf`。
 
-中文姓名、英文姓名、当前博士身份、2024 年春季入学、Global College、导师皮宜博和带下划线的联系邮箱，根据主页所有者此前明确提供的资料填写。
+姓名、IEEE 研究生会员身份、2017 年理学学士学位、2024 年上海交通大学硕士学位（导师朱洪紫教授）、当前在上海交通大学 Global College 攻读博士（导师皮宜博教授），以及人工智能赋能的网络和无线感知研究兴趣，均依据所有者在 pages928-bio-abstracts 任务中的明确授权。未提供本科院校或博士入学年份，因此不填写。此次授权覆盖此前的博士入学年份表述。
 
 公开成员资料也列出 Facheng Hu 及学校邮箱：
 https://lion.sjtu.edu.cn/member/memberDetail?id=53
 
-没有将用户尚未确定的研究方向、资格考试信息、学号、私人通信或内部项目材料写入网页。默认写 `Ph.D. Student`，没有把 `Ph.D. Candidate` 资格作为已确认事实。
+没有将资格考试信息、学号、私人通信或内部项目材料写入网页。默认写 `Ph.D. Student`，没有把 `Ph.D. Candidate` 资格作为已确认事实。
 
 ## 论文
 
@@ -23,7 +23,7 @@ https://lion.sjtu.edu.cn/member/memberDetail?id=53
 - 卷名：2026 22nd Annual IEEE International Conference on Sensing, Communication, and Networking (SECON 2026)。
 - 基线核验记录已逐项查看目录页面；本次保留该记录。目录列出起始页 152；本次 IEEE 提交至 Crossref 的正式页码为 150–158，二者存在差异，本站采用正式记录，保留目录为历史证据。
 - 正式 DOI：https://doi.org/10.1109/SECON68281.2026.11579146 。IEEE 发表记录：https://ieeexplore.ieee.org/document/11579146/ 。核验接口：https://api.crossref.org/works/10.1109/SECON68281.2026.11579146 （HTTP 200）；确认题目、四位作者、150–158 页及 2026 年 6 月 3–5 日 Pisa 会议。未取得公开全文。
-- 一句话简介据标题与主页所有者提供的工作说明重新撰写，不含未经核验的速度或误码率数值。
+- 此前的一句话简介已移除；完整摘要状态见文末逐篇证据。
 
 ### Prism / IEEE INFOCOM 2025
 
@@ -48,7 +48,7 @@ https://lion.sjtu.edu.cn/member/memberDetail?id=53
 
 作者列表采用实验室正式条目中的六位作者，没有复制旧个人主页中不同的待发表作者列表。本版未推断其共同一作标记。
 
-各论文简介为重新撰写的一句话概述，不是论文完整摘要。论文的著作权属于相应权利人；本项目不打包转载原文 PDF。本轮仅纳入所有者明确批准的两张作者稿原图；缺图论文不使用装饰封面。
+此前的原创一句话概述已移除，改用经核验的完整英文摘要及完整中文译文；未取得摘要的论文明确标记待核验，逐篇状态见文末。论文的著作权属于相应权利人；本项目不打包转载原文 PDF。本轮仅纳入所有者明确批准的两张作者稿原图；缺图论文不使用装饰封面。
 
 ## 设计参考
 
@@ -85,6 +85,44 @@ https://lion.sjtu.edu.cn/member/memberDetail?id=53
 - `assets/images/prism-overview.png`：Prism 作者稿 Figure 2，System architecture of Prism。完整原图，722×547；IMU 数据先检测非独立同分布特性，再划分用于训练。来源：https://arxiv.org/html/2501.01598v1#S2.F2 ，图片：https://arxiv.org/html/2501.01598v1/prism.png 。替代此前概念 SVG。
 - `assets/images/saga-overview.png`：Saga 作者稿 Figure 2，Overview of Saga，包含 Multi-level Masking、Models Training、Low Cost Weight Searching。完整原图，实际解码尺寸为 1411×374。来源：https://arxiv.org/html/2504.11726v1#S2.F2 ，图片：https://arxiv.org/html/2504.11726v1/overview.png 。
 
-两张图的公开衍生文件与已下载原图的解码像素和尺寸完全一致，移除附加元数据。页面提供双语替代文本、原图图注、可点击的图号来源与本地全尺寸图片链接。
+两张图的公开衍生文件与已下载原图的解码像素和尺寸完全一致，移除附加元数据。页面保留双语替代文本、语义图注和本地全尺寸图片链接。按本次授权移除访客可见的作者稿、图 2 来源标签与按钮；原图图号和来源继续记录于本文件。
 
 FastSET 与 DeepAoA+ 尚未取得实际原图。DeepAoA+ 实验室链接连接关闭，IEEE 10638788 提取无正文，arXiv 检索无匹配；FastSET arXiv 结果不匹配作者，IEEE 11579146 返回 202 空正文。未绕过访问控制或使用内部材料，保留纯文字卡片。已请求所有者提供原始 PDF 或图文件及图号、图注，待收到后补充。
+
+## pages928-bio-abstracts 摘要证据（本地核验，未发布）
+
+先阅读现有本地来源文档，再提取实际摘要。英文仅折叠 HTML 排版空白，不改写、删节或拼接正文；中文为对应完整译文，不是出版方提供的官方译文。作者及出版历史保持不变。
+
+### FastSET
+
+- 题目：FastSET: Fast Sequential Retraining to Accelerate Real-Time Online Adaptation for Neural Receivers
+- 作者（原顺序）：Facheng Hu, Yunzhe Li, Hongzi Zhu, Xudong Wang
+- 摘要来源：https://ieeexplore.ieee.org/document/11579146/
+- 版本：Abstract version unavailable; publication metadata only.
+- 缺项：摘要来源不可用：Crossref 元数据不含摘要，IEEE 响应为空，作者实验室来源的 HTTP 与 HTTPS 访问均失败。完整摘要及版本来源尚缺；未将旧概述作为摘要。
+
+### Prism
+
+- 题目：Prism: Mining Task-aware Domains in Non-i.i.d. IMU Data for Flexible User Perception
+- 作者（原顺序）：Yunzhe Li, Facheng Hu, Hongzi Zhu, Quan Liu, Xiaoke Zhao, Jiangang Shen, Shan Chang, Minyi Guo
+- 摘要来源：https://arxiv.org/html/2501.01598v1#abstract1
+- 版本：arXiv:2501.01598v1
+- 证据：现有本地 `prism-author-manuscript.html` 的 `abstract1.1` 完整段落；全部英文及中文译文存于 `profile.json` 的 `abstract`，构建写入 HTML，原生展开控件无需 JavaScript 即可打开。
+
+### Saga
+
+- 题目：Saga: Capturing Multi-granularity Semantics from Massive Unlabelled IMU Data
+- 作者（原顺序）：Yunzhe Li, Facheng Hu, Hongzi Zhu, Shifan Zhang, Liang Zhang, Shan Chang, Minyi Guo
+- 摘要来源：https://arxiv.org/html/2504.11726v1#abstract1
+- 版本：arXiv:2504.11726v1
+- 证据：现有本地 `saga-author-manuscript.html` 的 `abstract1.1` 完整段落；全部英文及中文译文存于 `profile.json` 的 `abstract`，构建写入 HTML，原生展开控件无需 JavaScript 即可打开。
+
+### DeepAoA+
+
+- 题目：DeepAoA+: Online Cross-Domain Vehicular Relative Direction Estimation via Deep Learning
+- 作者（原顺序）：Facheng Hu, Yunxiang Cai, Hongzi Zhu, Shan Chang, Xudong Wang, Minyi Guo
+- 摘要来源：https://ieeexplore.ieee.org/document/10638788/
+- 版本：Abstract version unavailable; publication metadata only.
+- 缺项：摘要来源不可用：Crossref 元数据不含摘要，IEEE 响应为空，作者实验室来源的 HTTP 与 HTTPS 访问均失败。完整摘要及版本来源尚缺；未将旧概述作为摘要。
+
+Saga 的 HTML v1 题目使用上述短题目，摘要页的题目另带 `for User Perception`，本次不改动论文题目历史。英文中“over 90% accuracy of the full-fledged model”译为达到该完整模型准确率的 90% 以上，不误写成绝对准确率超过 90%。

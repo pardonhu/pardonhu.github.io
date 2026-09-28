@@ -8,11 +8,11 @@
 - 身份：上海交通大学 Global College 博士研究生；导师：皮宜博老师（Yibo Pi）。
 - 联系邮箱：`facheng_hu@sjtu.edu.cn`。
 - GitHub：`pardonhu`；个人站点地址：`https://pardonhu.github.io/`。
-- 教育经历：2024 年春季起的博士阶段；未臆造此前学历。
+- 教育经历：2017 年理学学士、2024 年上海交通大学硕士（导师朱洪紫教授），现为 Global College 博士研究生（导师皮宜博教授）；不填写未提供的本科院校和博士入学年份。
 - 代表性论文：FastSET（SECON 2026）、Prism、Saga、DeepAoA+。FastSET 已置于首位，并加入 2026 年动态和年份筛选。已有论文链接与 BibTeX 保留。
-- 没有预设新的科研方向；`research_interests` 默认留空。
+- 研究兴趣：人工智能赋能的网络和无线感知；IEEE 研究生会员身份及完整双语简介由所有者明确提供。
 - 没有填写未经提供的奖项、访问经历、简历或学术账号。
-- 头像为所有者授权的自然摄影裁切；Prism 与 Saga 使用获授权的作者稿图 2，附双语图注、来源及本地全尺寸图片链接。FastSET 和 DeepAoA+ 保持纯文字卡片。
+- 头像为所有者授权的自然摄影裁切；Prism 与 Saga 使用获授权的作者稿图 2，保留双语语义图注及本地全尺寸图片链接，图号与来源保存在 `SOURCES.md`。FastSET 和 DeepAoA+ 保持纯文字卡片。
 
 默认英文，右上角可切换中文。论文正式标题与作者姓名在两种语言下均保留英文。页面适配手机和电脑；可以按年份筛选论文、展开及复制引用。页面没有访客跟踪、统计脚本、外部字体、第三方 JavaScript 或登录功能。出版页面、学校和导师链接只在访客点击时打开。
 
@@ -25,7 +25,8 @@
 | Google Scholar | `google_scholar` | 填自己的完整主页链接；留空时不显示。 |
 | ORCID | `orcid` | 可选；填自己的完整链接。 |
 | 简历 PDF | `cv_url` | 放入网站目录后填写相对路径；也可以填写外部网址。留空时不显示。 |
-| 研究兴趣 | `research_interests` | 等正式确定后再填写；不会根据导师论文自动推测。 |
+| 完整简介 | `bio` → `en` / `zh` | 按所有者确认的双语全文维护；不推断本科院校或博士入学年份。 |
+| 研究兴趣 | `research_interests` | 已由所有者确认；不会根据导师论文自动推测。 |
 | 其他论文 | `publications` | 在核对最终题目、作者、发表状态和链接后添加。 |
 
 只填 GitHub 用户名并不会授予别人操作账号的权限。发布需要你自己登录 GitHub，或在可信的连接工具中另行授权；不要在聊天中发送密码、验证码或访问令牌。
@@ -103,7 +104,7 @@ python3 build.py
 - `doi` / `arxiv`：分别只填 DOI 或 arXiv 编号，脚本会生成链接。
 - `code_url` / `project_url` / `paper_url`：可选，留空不会产生失效按钮。
 - `thumbnail`：可选，放入有权使用的论文配图后设置相对路径；留空则显示纯文字卡片。原图同时填写 `thumbnail_width`、`thumbnail_height`、双语 `thumbnail_alt` / `thumbnail_caption`、`figure_number` 和带图号锚点的 `figure_source`。
-- `description`：中英文各写一句对工作内容的准确概括，不要添加未证实的提升数字或排名。
+- `abstract`：完整实际英文摘要及忠实完整中文译文（`en` / `zh`），不得填入原创概述。`abstract_evidence` 必须记录 `status`、`source`、`version`、题目和作者；未取得原文时设 `abstract: null`、`status: "missing"` 并说明原因，页面明确显示待核验。来源及版本差异同时记录在 `SOURCES.md`。
 
 ## 5. 文件说明
 
@@ -156,4 +157,12 @@ python3 -m unittest discover -s tests -v
 
 所有者明确授权自己的肖像及 Prism、Saga 的作者稿图 2 用于本人主页。肖像经过 EXIF 方向归一化后自然裁切为 400×400，再保存为无私人元数据的 RGB JPEG；没有生成式修改、修饰或背景替换。原始文件保持不变，私人路径与哈希证据仅存于忽略的本地审计目录。
 
-论文图保留完整画面与原始解码像素，仅移除附加元数据；点击图片打开本地全尺寸文件，图下注明作者稿来源与图号。来源见 `SOURCES.md`，授权不等同于声明 arXiv 通用许可为 CC。FastSET 与 DeepAoA+ 尚缺原始 PDF 或图文件、图号及图注，收到所有者资料后再补。仅发布肖像与两张批准的论文图，不发布全文。构建和主 unittest 仍仅使用标准库；Pillow 仅用于本地图片处理及忽略目录内的离线审计脚本。
+论文图保留完整画面与原始解码像素，仅移除附加元数据；点击图片打开本地全尺寸文件，图下仅显示语义说明，作者稿来源与图号保存在 `SOURCES.md`，授权不等同于声明 arXiv 通用许可为 CC。FastSET 与 DeepAoA+ 尚缺原始 PDF 或图文件、图号及图注，收到所有者资料后再补。仅发布肖像与两张批准的论文图，不发布全文。构建和主 unittest 仍仅使用标准库；Pillow 仅用于本地图片处理及忽略目录内的离线审计脚本。
+
+## 9. pages928-bio-abstracts 交接（未发布）
+
+本次更新完整双语简介、教育与搜索元数据，移除不受支持的博士入学年份。Prism 与 Saga 使用本地 arXiv v1 的完整实际摘要及完整中文译文。FastSET 与 DeepAoA+ 暂缺核验摘要，明确显示待核验，不保留旧概述冒充摘要。这两篇的摘要来源暂不可用。
+
+摘要使用原生 `details` / `summary`，支持键盘展开和语言切换，全文存在 HTML 中，不截断。论文作者、共同贡献、出版年份和 BibTeX 不变；肖像与原图资源不变。
+
+运行 `python3 build.py` 和 `python3 -m unittest discover -s tests -v`。本次原生浏览器脚本仅存于忽略目录 `.local-audit/pages928-bio-abstracts-verify_browser.py`，可在本机预览服务或 https://pardonhu.github.io 上执行只读验证，Chromium sandbox 必须保持开启；本次任务不提交、推送或部署。

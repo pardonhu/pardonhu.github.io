@@ -66,4 +66,7 @@ h1{font-size:36px;line-height:1.18;letter-spacing:-1.25px;margin:0 0 16px;font-w
 .publication-card.text-only{grid-template-columns:minmax(0,1fr)}
 .figure-image{display:block;background:white;border:1px solid var(--line);border-radius:4px}
 .pub-figure .figure-image img{display:block;width:100%;height:auto;object-fit:contain}
-.figure-source{display:block;margin-top:4px;text-decoration:underline}
+.abstract{margin:0 0 13px;font-size:12px;color:#5c6978}
+.abstract summary{cursor:pointer;color:var(--blue);width:fit-content;padding:4px 0}
+.abstract .pub-description{margin:8px 0 0;overflow-wrap:anywhere;white-space:pre-line}
+.abstract-missing{font-size:12px;color:var(--muted);margin:0 0 13px}
