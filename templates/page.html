@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="$lang">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="$meta_description">
+  <meta name="author" content="$name">
+  <meta name="theme-color" content="#173f65">
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="$name · Academic Homepage">
+  <meta property="og:description" content="$meta_description">
+  $canonical
+  <title>$name · Academic Homepage</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <script type="application/ld+json">$structured</script>
+  <script src="assets/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content / 跳转正文</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#about" aria-label="$name home"><span class="brand-mark" aria-hidden="true">$initials</span>$name</a>
+      <nav class="header-nav" aria-label="Main navigation">
+        <a href="#about" aria-current="location">$nav_about</a>
+        <a href="#publications">$nav_pubs</a>
+        <a href="#education" class="nav-education">$nav_education</a>
+        <button class="language-switch js-only" type="button" id="language-switch" aria-label="切换为中文">中文</button>
+      </nav>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Page navigation and contact links">
+      <p class="eyebrow">$sidebar_heading</p>
+      <nav class="side-nav" aria-label="Section navigation">
+        <a href="#about"><span class="nav-number" aria-hidden="true">01</span>$nav_about</a>
+        <a href="#news"><span class="nav-number" aria-hidden="true">02</span>$news_label</a>
+        <a href="#education"><span class="nav-number" aria-hidden="true">03</span>$nav_education</a>
+        <a href="#publications"><span class="nav-number" aria-hidden="true">04</span>$nav_pubs</a>
+        <a href="#contact"><span class="nav-number" aria-hidden="true">05</span>$nav_contact</a>
+      </nav>
+      <p class="eyebrow">$connect</p>
+      <div class="side-links">$side_links</div>
+      <p class="side-note">$updated</p>
+    </aside>
+    <main class="main" id="main">
+      <section class="profile card" id="about" aria-labelledby="name-heading">
+        <div class="profile-top">
+          <div>
+            <p class="role-line">$role</p>
+            <h1 id="name-heading">$name<span class="chinese-name" lang="zh-CN">$name_zh</span></h1>
+            <p class="affiliation">$institution</p>
+            <p class="school">$school</p>
+            <p class="advisor">$advised_by $advisor</p>
+          </div>
+          $portrait
+        </div>
+        <p class="bio">$bio</p>
+        $extra_bio
+        $interests
+        <div class="profile-links">$contact_links</div>
+      </section>
+      <div class="overview-grid">
+        <section class="section-card card" id="news" aria-labelledby="news-heading">
+          <div class="section-heading"><h2 id="news-heading">$news_label</h2><span class="section-index" aria-hidden="true">01</span></div>
+          <ul class="news-list">$news</ul>
+        </section>
+        <section class="section-card card" id="education" aria-labelledby="education-heading">
+          <div class="section-heading"><h2 id="education-heading">$education_label</h2><span class="section-index" aria-hidden="true">02</span></div>
+          $education
+        </section>
+      </div>
+      <section class="publications" id="publications" aria-labelledby="publications-heading">
+        <div class="publications-header">
+          <div><h2 id="publications-heading">$publications_label</h2><p class="section-subtitle">$contribution_note</p></div>
+          <div class="filters js-only" role="group" aria-label="Filter publications by year">$filters</div>
+        </div>
+        <p class="sr-only" id="filter-status" role="status" aria-live="polite"></p>
+        <div class="publication-list">$publication_cards</div>
+      </section>
+      $optional_sections
+      <section class="contact-card card" id="contact" aria-labelledby="contact-heading">
+        <div><h2 id="contact-heading">$nav_contact</h2><p class="contact-caption">$contact_caption</p></div>
+        $contact_button
+      </section>
+      <footer class="footer"><span>© $copyright $name · $updated</span><span>$footer_credit</span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

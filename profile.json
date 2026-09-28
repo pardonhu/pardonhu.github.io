@@ -1,0 +1,246 @@
+{
+  "name": "Facheng Hu",
+  "name_zh": "胡发成",
+  "initials": "FH",
+  "role": {
+    "en": "Ph.D. Student",
+    "zh": "博士研究生"
+  },
+  "institution": {
+    "en": "Shanghai Jiao Tong University",
+    "zh": "上海交通大学"
+  },
+  "institution_url": "https://www.sjtu.edu.cn/",
+  "school": {
+    "en": "Global College",
+    "zh": "Global College"
+  },
+  "school_url": "https://gc.sjtu.edu.cn/",
+  "advisor": {
+    "name": "Yibo Pi",
+    "name_zh": "皮宜博",
+    "url": "https://yibopi.github.io/"
+  },
+  "email": "facheng_hu@sjtu.edu.cn",
+  "github_username": "pardonhu",
+  "google_scholar": "",
+  "orcid": "",
+  "cv_url": "",
+  "portrait": "",
+  "website_url": "https://pardonhu.github.io/",
+  "default_language": "en",
+  "updated": "2026-09-28",
+  "research_interests": [],
+  "extra_bio": {
+    "en": "",
+    "zh": ""
+  },
+  "news": [
+    {
+      "date": "2026",
+      "text": {
+        "en": "FastSET appeared at IEEE SECON 2026.",
+        "zh": "FastSET 发表于 IEEE SECON 2026。"
+      },
+      "url": "https://www.proceedings.com/content/086/086473webtoc.pdf#page=4"
+    },
+    {
+      "date": "2025",
+      "text": {
+        "en": "Prism appeared at IEEE INFOCOM 2025.",
+        "zh": "Prism 发表于 IEEE INFOCOM 2025。"
+      },
+      "url": "https://doi.org/10.1109/INFOCOM55648.2025.11044768"
+    },
+    {
+      "date": "2025",
+      "text": {
+        "en": "Saga appeared at IEEE ICDCS 2025.",
+        "zh": "Saga 发表于 IEEE ICDCS 2025。"
+      },
+      "url": "https://doi.org/10.1109/ICDCS63083.2025.00090"
+    },
+    {
+      "date": "2024",
+      "text": {
+        "en": "DeepAoA+ was published in IEEE Transactions on Vehicular Technology.",
+        "zh": "DeepAoA+ 发表于 IEEE Transactions on Vehicular Technology。"
+      },
+      "url": "https://doi.org/10.1109/TVT.2024.3445722"
+    }
+  ],
+  "education": [
+    {
+      "institution": {
+        "en": "Shanghai Jiao Tong University",
+        "zh": "上海交通大学"
+      },
+      "school": {
+        "en": "Global College",
+        "zh": "Global College"
+      },
+      "degree": {
+        "en": "Ph.D. student in Information Engineering",
+        "zh": "信息工程博士研究生"
+      },
+      "period": {
+        "en": "Spring 2024 – Present",
+        "zh": "2024 年春季 — 至今"
+      }
+    }
+  ],
+  "experience": [],
+  "awards": [],
+  "publications": [
+    {
+      "id": "fastset",
+      "short": "FastSET",
+      "year": 2026,
+      "venue_short": "SECON",
+      "venue": "2026 22nd Annual IEEE International Conference on Sensing, Communication, and Networking (SECON)",
+      "type": "inproceedings",
+      "bibkey": "hu2026fastset",
+      "title": "FastSET: Fast Sequential Retraining to Accelerate Real-Time Online Adaptation for Neural Receivers",
+      "authors": [
+        "Facheng Hu",
+        "Yunzhe Li",
+        "Hongzi Zhu",
+        "Xudong Wang"
+      ],
+      "equal_contributors": [],
+      "description": {
+        "en": "Sequential retraining for faster online adaptation of neural receivers under changing wireless conditions.",
+        "zh": "通过顺序重训练，加速神经接收机在无线环境变化下的在线适应。"
+      },
+      "cover_label": {
+        "en": "Fast online adaptation",
+        "zh": "快速在线适应"
+      },
+      "doi": "",
+      "arxiv": "",
+      "paper_url": "",
+      "code_url": "",
+      "project_url": "",
+      "thumbnail": "",
+      "source": "https://www.proceedings.com/content/086/086473webtoc.pdf#page=4",
+      "source_label": {
+        "en": "Proceedings contents",
+        "zh": "论文集目录"
+      }
+    },
+    {
+      "id": "prism",
+      "short": "Prism",
+      "year": 2025,
+      "venue_short": "INFOCOM",
+      "venue": "IEEE Conference on Computer Communications (INFOCOM)",
+      "type": "inproceedings",
+      "bibkey": "li2025prism",
+      "title": "Prism: Mining Task-aware Domains in Non-i.i.d. IMU Data for Flexible User Perception",
+      "authors": [
+        "Yunzhe Li",
+        "Facheng Hu",
+        "Hongzi Zhu",
+        "Quan Liu",
+        "Xiaoke Zhao",
+        "Jiangang Shen",
+        "Shan Chang",
+        "Minyi Guo"
+      ],
+      "equal_contributors": [
+        "Yunzhe Li",
+        "Facheng Hu"
+      ],
+      "description": {
+        "en": "Task-aware domain discovery for robust, flexible user perception from heterogeneous IMU data.",
+        "zh": "面向异构 IMU 数据挖掘任务相关的潜在域，支持灵活的用户感知。"
+      },
+      "cover_label": {
+        "en": "Domain-aware perception",
+        "zh": "任务相关域挖掘"
+      },
+      "doi": "10.1109/INFOCOM55648.2025.11044768",
+      "arxiv": "2501.01598",
+      "paper_url": "",
+      "code_url": "",
+      "project_url": "",
+      "thumbnail": "",
+      "source": "https://arxiv.org/abs/2501.01598"
+    },
+    {
+      "id": "saga",
+      "short": "Saga",
+      "year": 2025,
+      "venue_short": "ICDCS",
+      "venue": "IEEE International Conference on Distributed Computing Systems (ICDCS)",
+      "type": "inproceedings",
+      "bibkey": "li2025saga",
+      "title": "Saga: Capturing Multi-granularity Semantics from Massive Unlabelled IMU Data",
+      "authors": [
+        "Yunzhe Li",
+        "Facheng Hu",
+        "Hongzi Zhu",
+        "Shifan Zhang",
+        "Liang Zhang",
+        "Shan Chang",
+        "Minyi Guo"
+      ],
+      "equal_contributors": [
+        "Yunzhe Li",
+        "Facheng Hu"
+      ],
+      "description": {
+        "en": "Multi-granularity self-supervised learning for IMU-based perception with limited labeled data.",
+        "zh": "从大量无标签 IMU 数据学习多粒度语义，降低用户感知任务的标注需求。"
+      },
+      "cover_label": {
+        "en": "Multi-granularity learning",
+        "zh": "多粒度语义学习"
+      },
+      "doi": "10.1109/ICDCS63083.2025.00090",
+      "arxiv": "2504.11726",
+      "paper_url": "",
+      "code_url": "",
+      "project_url": "",
+      "thumbnail": "",
+      "source": "https://lion.sjtu.edu.cn/publication/publicationDetail?id=137"
+    },
+    {
+      "id": "deepaoa",
+      "short": "DeepAoA+",
+      "year": 2024,
+      "venue_short": "TVT",
+      "venue": "IEEE Transactions on Vehicular Technology",
+      "type": "article",
+      "bibkey": "hu2024deepaoa",
+      "title": "DeepAoA+: Online Cross-Domain Vehicular Relative Direction Estimation via Deep Learning",
+      "authors": [
+        "Facheng Hu",
+        "Yunxiang Cai",
+        "Hongzi Zhu",
+        "Shan Chang",
+        "Xudong Wang",
+        "Minyi Guo"
+      ],
+      "equal_contributors": [],
+      "description": {
+        "en": "Domain-adaptive learning for online relative direction estimation between vehicles using wireless channel measurements.",
+        "zh": "利用无线信道测量与域自适应学习，实现在线车辆相对方向估计。"
+      },
+      "cover_label": {
+        "en": "Wireless direction finding",
+        "zh": "无线相对方向估计"
+      },
+      "doi": "10.1109/TVT.2024.3445722",
+      "arxiv": "",
+      "paper_url": "",
+      "code_url": "",
+      "project_url": "",
+      "thumbnail": "",
+      "volume": "73",
+      "number": "12",
+      "pages": "19216--19228",
+      "source": "https://lion.sjtu.edu.cn/publication/publicationDetail?id=128"
+    }
+  ]
+}
