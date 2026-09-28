@@ -18,6 +18,7 @@ class BuildTests(unittest.TestCase):
         self.profile = json.loads((ROOT / 'profile.json').read_text())
         self.notes = {'account_name': 'Test account', 'articles': [{
             'url': 'https://example.org/original', 'title': 'Test <title>',
+            'author': 'Test <author>', 'category': {'en': 'Music & essays', 'zh': '音乐与随笔'},
             'date': '2026-09-28', 'summary': {'en': 'Test <script> & summary.', 'zh': '测试摘要。'}}]}
 
     def render(self, profile):
@@ -49,7 +50,7 @@ class BuildTests(unittest.TestCase):
                 if pub['abstract'] is not None:
                     self.assertTrue(pub['abstract'][lang])
         page = self.render(p)[0].decode()
-        for term in ('Reading Notes', '读书笔记', 'Abstract', '摘要', 'EM'):
+        for term in ('Reading &amp; Essays', '读书与随笔', 'Abstract', '摘要', 'EM'):
             self.assertIn(term, page)
         for term in ('Author manuscript', '作者稿', 'Figure 2', '图 2', 'Spring 2024', '2024 年春季'):
             self.assertNotIn(term, page)
@@ -239,13 +240,48 @@ class BuildTests(unittest.TestCase):
                 n = copy.deepcopy(self.notes);n['articles'][0]['url'] = value
                 with self.assertRaises(ValueError):build.validate_reading_notes(n)
 
+    def test_optional_dates_categories_and_duplicates(self):
+        n = copy.deepcopy(self.notes)
+        del n['articles'][0]['date']
+        build.validate_reading_notes(n)
+        page = build.render_reading_notes(n)
+        self.assertNotIn('<time', page)
+        self.assertIn('Test &lt;author&gt;', page)
+        self.assertIn('Music &amp; essays', page)
+        self.assertIn('lang="zh-CN"', page)
+        self.assertIn('Read in Chinese', page)
+        self.assertIn('阅读原文', page)
+        self.assertIn('rel="noopener noreferrer"', page)
+        n['articles'].append(copy.deepcopy(n['articles'][0]))
+        with self.assertRaises(ValueError): build.validate_reading_notes(n)
+        for field in ('author', 'category'):
+            for value in ('', None, {}, {'en': 'Only English'}, {'en': 'x', 'zh': ' '}):
+                n = copy.deepcopy(self.notes); n['articles'][0][field] = value
+                with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                    build.validate_reading_notes(n)
+
+    def test_verified_reading_originals(self):
+        articles = self.profile['reading_notes']['articles']
+        expected = [
+            ('https://mp.weixin.qq.com/s/xrk3NmYKp0TA-j-8uzsUAA', '猎户星座', '发成'),
+            ('https://mp.weixin.qq.com/s/wZiHg6oNw5ok62wXAi2_vA', '深宫修罗场——北魏子贵母死制度的黑色幽默', '何从')]
+        for link, title, author in expected:
+            article = next(a for a in articles if a['url'] == link)
+            self.assertEqual((article['title'], article['author']), (title, author))
+            self.assertNotIn('date', article)  # No verified publication date yet.
+        self.assertEqual(self.profile['reading_notes']['account_name'], '杂记遣怀')
+        page = build.render_reading_notes(self.profile['reading_notes'])
+        self.assertIn('complete archive has not yet been established', page)
+        self.assertNotIn('<img', page)
+        self.assertNotIn('<iframe', page)
+
     def test_bad_dates(self):
-        for value in ('2025-02-29', '2026-13-01', '20260928', '2026-9-28', ''):
+        for value in ('2025-02-29', '2026-13-01', '20260928', '2026-9-28', '', None, 20260928):
             n = copy.deepcopy(self.notes);n['articles'][0]['date'] = value
             with self.subTest(value=value), self.assertRaises(ValueError):build.validate_reading_notes(n)
 
     def test_missing_and_overlong_fields(self):
-        for field in ('url','title','date','summary'):
+        for field in ('url','title','author','category','summary'):
             n = copy.deepcopy(self.notes);del n['articles'][0][field]
             with self.subTest(field=field), self.assertRaises(ValueError):build.validate_reading_notes(n)
         for lang, value in (('en',''),('zh',''),('en','a'*321),('zh','字'*161),('en',None)):

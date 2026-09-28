@@ -70,3 +70,12 @@ h1{font-size:36px;line-height:1.18;letter-spacing:-1.25px;margin:0 0 16px;font-w
 .abstract summary{cursor:pointer;color:var(--blue);width:fit-content;padding:4px 0}
 .abstract .pub-description{margin:8px 0 0;overflow-wrap:anywhere;white-space:pre-line}
 .abstract-missing{font-size:12px;color:var(--muted);margin:0 0 13px}
+
+/* Original-link reading collection. */
+.reading-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:20px}
+.reading-note{margin:0;padding:20px;border:1px solid var(--line);border-radius:8px;background:#fbfcfe;display:flex;flex-direction:column;align-items:flex-start}
+.reading-note h3{line-height:1.65;margin-top:12px}.reading-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.reading-category{font-size:11px;color:var(--blue);background:var(--soft);border-radius:4px;padding:3px 8px}
+.reading-scope{font-size:12px;color:var(--muted);margin:0}.reading-note .reading-author{font-size:12px;margin:8px 0 0}
+.reading-summary{line-height:1.8;margin:12px 0 18px}.reading-original{margin-top:auto;font-size:12px;padding:6px 10px}
+@media(max-width:600px){.reading-grid{grid-template-columns:1fr}.reading-note{padding:17px}}

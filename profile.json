@@ -379,7 +379,34 @@
   "ieee_author_profile": "https://ieeexplore.ieee.org/author/996384661373839",
   "reading_notes": {
     "account_name": "杂记遣怀",
-    "articles": []
+    "articles": [
+      {
+        "url": "https://mp.weixin.qq.com/s/xrk3NmYKp0TA-j-8uzsUAA",
+        "title": "猎户星座",
+        "author": "发成",
+        "category": {
+          "en": "Music & remembrance",
+          "zh": "音乐与怀想"
+        },
+        "summary": {
+          "en": "Reflections on a Pu Shu song and winter skies, tracing remembrance, the passage of time, and homecoming.",
+          "zh": "从朴树的歌曲与冬日星空出发，写回忆、时间流逝与归乡。"
+        }
+      },
+      {
+        "url": "https://mp.weixin.qq.com/s/wZiHg6oNw5ok62wXAi2_vA",
+        "title": "深宫修罗场——北魏子贵母死制度的黑色幽默",
+        "author": "何从",
+        "category": {
+          "en": "Historical reading",
+          "zh": "历史阅读"
+        },
+        "summary": {
+          "en": "A historical reading report on Northern Wei’s practice of killing the mothers of heirs: its origins, consolidation, and end, and the power struggles and human costs behind it.",
+          "zh": "围绕北魏“子贵母死”制度的历史读书报告，梳理其起源、巩固与终结，思考权力斗争及其对个体的伤害。"
+        }
+      }
+    ]
   },
   "portrait_alt": "Facheng Hu outdoors, raising one arm. / 胡发成的户外肖像，抬起一只手臂。",
   "bio": {
