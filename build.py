@@ -54,9 +54,11 @@ def validate_reading_notes(notes: object) -> None:
     for entry in notes['articles']:
         if not isinstance(entry, dict):
             raise ValueError('Each reading note must be an object.')
-        for field in ('url', 'title', 'author'):
+        for field in ('url', 'title'):
             if not isinstance(entry.get(field), str) or not entry[field].strip():
                 raise ValueError('Reading note requires ' + field)
+        if 'author' in entry and (not isinstance(entry['author'], str) or not entry['author'].strip()):
+            raise ValueError('Reading note author must be nonempty when supplied.')
         link = entry['url']
         parsed = urlparse(link)
         if (parsed.scheme != 'https' or not parsed.hostname or '.' not in parsed.hostname
@@ -92,16 +94,25 @@ def render_reading_notes(notes: dict) -> str:
     entries = []
     for entry in notes['articles']:
         when = ('<time datetime="' + esc(entry['date']) + '">' + esc(entry['date']) + '</time>') if 'date' in entry else ''
+        byline = ('<p class="reading-author">' + bi('By ', '作者：')
+                  + '<span lang="zh-CN">' + esc(entry['author']) + '</span></p>') if 'author' in entry else ''
         entries.append('<article class="reading-note"><div class="reading-meta"><span class="reading-category">'
                        + localized(entry['category']) + '</span>' + when + '</div><h3 lang="zh-CN">'
-                       + esc(entry['title']) + '</h3><p class="reading-author">' + bi('By ', '作者：')
-                       + '<span lang="zh-CN">' + esc(entry['author']) + '</span></p><p class="reading-summary">'
+                       + esc(entry['title']) + '</h3>' + byline + '<p class="reading-summary">'
                        + localized(entry['summary']) + '</p>'
                        + anchor(entry['url'], bi('Read in Chinese', '阅读原文') + icon('arrow'), 'pub-link reading-original') + '</article>')
     body = '<div class="reading-grid">' + ''.join(entries) + '</div>' if entries else '<p class="reading-empty">' + bi(
         'No public article links have been verified yet. Original links will be curated here.',
         '尚无已核验的公开文章链接；这里将整理文章原始链接。') + '</p>'
-    return '<section class="reading-notes section-card card" id="reading-notes" aria-labelledby="reading-heading"><h2 id="reading-heading">' + bi('Reading & Essays', '读书与随笔') + '</h2><p class="reading-account">' + account + '</p><p class="reading-scope">' + bi('Verified articles from this account; a complete archive has not yet been established.', '已核验的公众号文章；尚未确认完整文章目录。') + '</p>' + body + '</section>'
+    qr = ''
+    if notes.get('qr_image'):
+        if notes['qr_image'] != 'assets/images/wechat-qr.png' or not (ROOT / notes['qr_image']).is_file():
+            raise ValueError('Reading QR requires the approved local wechat-qr.png asset.')
+        qr = '<figure class="reading-qr">' + anchor(notes['qr_image'],
+            '<img src="' + url(notes['qr_image']) + '" alt="杂记遣怀微信公众号二维码" width="430" height="430">',
+            'reading-qr-link') + '<figcaption>' + bi('Scan in WeChat to visit 杂记遣怀. Click for the full-size QR code.',
+            '微信扫码访问“杂记遣怀”公众号；点击查看完整尺寸二维码。') + '</figcaption></figure>'
+    return '<section class="reading-notes section-card card" id="reading-notes" aria-labelledby="reading-heading"><h2 id="reading-heading">' + bi('Reading & Essays', '读书与随笔') + '</h2><p class="reading-account">' + account + '</p><p class="reading-scope">' + bi('A verified / owner-confirmed selection from this account, not its entire archive.', '经核验或由所有者确认的选文，并非公众号完整目录。') + '</p>' + qr + body + '</section>'
 
 ICONS = {
     'mail':'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/>',
@@ -288,7 +299,7 @@ def build() -> None:
         news_label=bi('News','动态'),news=news,education_label=bi('Education','教育经历'),education=education,
         publications_label=bi('Selected Publications','代表性论文'),contribution_note=bi('* Equal contribution.','* 表示共同贡献。'),filters=filters,
         publication_cards=''.join(render_publication(x,p['name']) for x in pubs),
-        optional_sections=optional_section(p.get('experience',[]),'experience','Experience','研究经历')+optional_section(p.get('awards',[]),'awards','Honors & Awards','荣誉与奖励'),
+        optional_sections=optional_section(p.get('experience',[]),'experience','Experience','工作经历')+optional_section(p.get('awards',[]),'awards','Honors & Awards','荣誉与奖励'),
         contact_caption=bi('The best way to reach me is by email.','欢迎通过电子邮件联系。'),contact_button=anchor(email_link,icon('mail')+esc(p['email']),'contact-button',external=False),
         copyright=esc(updated[:4] if updated else '2026'),updated=bi('Updated '+updated_en,updated_zh+'更新'),
         footer_credit=bi('Layout inspired by','布局参考')+' '+anchor('https://haifengjia.github.io/','Haifeng Jia'),

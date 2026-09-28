@@ -106,17 +106,121 @@ class BuildTests(unittest.TestCase):
 
     def test_bio_and_education(self):
         p = self.profile
-        expected = 'Facheng Hu (Graduate Student Member, IEEE) received the B.S. degree in 2017 and the master’s degree from Shanghai Jiao Tong University, Shanghai, China, in 2024, under the supervision of Prof. Hongzi Zhu. He is currently pursuing the Ph.D. degree at Global College, Shanghai Jiao Tong University, under the supervision of Prof. Yibo Pi. His research interests include AI-enabled networking and wireless sensing.'
-        self.assertEqual(p['bio']['en'], expected)
+        self.assertEqual(p['education'][0]['period'], {'en':'Present','zh':'在读'})
+        self.assertEqual(p['education'][0]['school'], {'en':'Global College','zh':'Global College'})
+        self.assertEqual(p['education'][0]['advisor'], {'en':'Prof. Yibo Pi','zh':'皮宜博教授'})
+        self.assertEqual(p['education'][1]['period'], {'en':'2024','zh':'2024 年'})
+        self.assertEqual(p['education'][1]['advisor'], {'en':'Prof. Hongzi Zhu','zh':'朱弘恣教授'})
+        self.assertEqual(p['education'][2], {
+            'institution': {'en':'Shanghai Jiao Tong University','zh':'上海交通大学'},
+            'degree': {'en':'Bachelor of Engineering','zh':'工学学士'},
+            'period': {'en':'2017','zh':'2017 年'}})
+        self.assertEqual(p['education'][1]['institution'], p['education'][2]['institution'])
         page = self.render(p)[0].decode()
         for lang in ('en', 'zh'):
             self.assertIn(build.esc(p['bio'][lang]), page)
-        self.assertEqual(p['education'][0]['period'], {'en':'Present','zh':'在读'})
-        self.assertEqual(p['education'][1]['period']['en'], '2024')
-        self.assertEqual(p['education'][1]['advisor']['en'], 'Prof. Hongzi Zhu')
-        self.assertNotIn('institution', p['education'][2])
-        self.assertEqual(p['education'][2]['period']['en'], '2017')
+        for term in ('Graduate Student Member, IEEE', 'Bachelor of Engineering degree in 2017',
+                     'master’s degree in 2024 from Shanghai Jiao Tong University', 'Prof. Hongzi Zhu',
+                     '2017–2019', 'GAC Motor', 'automotive electronics and electrical systems',
+                     'Global College', 'Prof. Yibo Pi', 'AI-enabled networking', 'wireless sensing'):
+            self.assertIn(term, p['bio']['en'])
+        for term in ('IEEE 研究生会员', '2017 年在上海交通大学获得工学学士学位',
+                     '2024 年在上海交通大学获得硕士学位', '朱弘恣教授', '2017–2019 年在广汽乘用车',
+                     '汽车电子电气相关工作', '皮宜博教授', '人工智能赋能的网络和无线感知'):
+            self.assertIn(term, p['bio']['zh'])
+        for stale in ('B.S.', '理学学士', '朱洪紫', '研究经历'):
+            for content in (page, json.dumps(p, ensure_ascii=False),
+                            (ROOT/'README_CN.md').read_text(), (ROOT/'SOURCES.md').read_text()):
+                self.assertNotIn(stale, content)
         self.assertIn('"knowsAbout": ["AI-enabled networking", "Wireless sensing"]', page)
+
+    def test_industry_experience_without_invented_fields(self):
+        expected = [{'title': {'en':'GAC Motor','zh':'广汽乘用车'},
+                     'detail': {'en':'Worked on automotive electronics and electrical systems','zh':'从事汽车电子电气相关工作'},
+                     'period': {'en':'2017–2019','zh':'2017–2019 年'}}]
+        self.assertEqual(self.profile['experience'], expected)
+        page = self.render(self.profile)[0].decode()
+        section = page.split('id="experience"', 1)[1].split('</section>', 1)[0]
+        for term in ('Experience', '工作经历', 'GAC Motor', '广汽乘用车', '2017–2019',
+                     'Worked on automotive electronics and electrical systems', '从事汽车电子电气相关工作'):
+            self.assertIn(term, section)
+        for term in ('engineer', 'Engineer', 'Guangzhou', '广州', 'Shanghai', '上海', 'Research'):
+            self.assertNotIn(term, section)
+
+    def test_metadata_and_orcid(self):
+        import re
+        page = self.render(self.profile)[0].decode()
+        orcid = 'https://orcid.org/0000-0003-0448-8907'
+        self.assertEqual(self.profile['orcid'], orcid)
+        self.assertEqual(page.count('href="'+orcid+'" target="_blank" rel="noopener noreferrer"'), 2)
+        structured = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', page, re.S)[1])
+        self.assertIn(orcid, structured['sameAs'])
+        self.assertEqual(structured['description'], self.profile['bio']['en'])
+        for prefix in ('name="description"', 'property="og:description"'):
+            self.assertIn(prefix+' content="'+build.esc(self.profile['bio']['en'])+'"', page)
+
+    def test_baseline_preservation(self):
+        import subprocess
+        baseline = '35037043115283c4ff84fe6e9fe5c93e08e94f4f'
+        def old(path):
+            return subprocess.check_output(['git','show',baseline+':'+path], cwd=ROOT)
+        before = json.loads(old('profile.json'))
+        allowed = {'bio','education','experience','orcid','reading_notes'}
+        self.assertEqual({k:v for k,v in before.items() if k not in allowed},
+                         {k:v for k,v in self.profile.items() if k not in allowed})
+        self.assertEqual(before['reading_notes']['articles'], self.profile['reading_notes']['articles'][:2])
+        for path in ['publications.bib', before['portrait']] + [p['thumbnail'] for p in before['publications']]:
+            self.assertEqual(old(path), (ROOT/path).read_bytes(), path)
+
+    def test_author_optional_but_validated_when_present(self):
+        notes = copy.deepcopy(self.notes)
+        del notes['articles'][0]['author']
+        build.validate_reading_notes(notes)
+        page = build.render_reading_notes(notes)
+        self.assertNotIn('reading-author', page)
+        self.assertIn('Test &lt;title&gt;', page)
+        for value in (None, '', ' ', 1, {}, []):
+            notes['articles'][0]['author'] = value
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                build.validate_reading_notes(notes)
+
+    def test_qr_lossless_pixels_and_geometry(self):
+        import hashlib
+        from PIL import Image
+        path = self.profile['reading_notes']['qr_image']
+        self.assertEqual(path, 'assets/images/wechat-qr.png')
+        self.assertEqual(hashlib.sha256((ROOT/path).read_bytes()).hexdigest(),
+                         'd4942962acdf2914f66cebc59322c7addab6e81a19692be5998a017dd6a752b6')
+        raw = (ROOT/path).read_bytes()
+        offset = 8
+        chunks = []
+        while offset < len(raw):
+            size = int.from_bytes(raw[offset:offset+4], 'big')
+            chunks.append(raw[offset+4:offset+8])
+            offset += size + 12
+        self.assertEqual(offset, len(raw))
+        self.assertEqual(chunks[0], b'IHDR')
+        self.assertEqual(chunks[-1], b'IEND')
+        self.assertTrue(set(chunks) <= {b'IHDR', b'IDAT', b'IEND'})
+        with Image.open(ROOT/path) as im:
+            self.assertEqual(im.size, (430,430))
+            self.assertEqual(im.mode, 'RGB')
+            self.assertEqual(hashlib.sha256(im.tobytes()).hexdigest(),
+                             '3e20feffd5979df6b0c4af35f77167d5ba7be7b2b70b90ef972a2ec834f4f9a3')
+            self.assertFalse(im.getexif())
+            self.assertEqual(im.format, 'PNG')
+            self.assertFalse(im.info)
+            self.assertFalse(set(im.info) & {'exif','xmp','iptc','comment','photoshop','icc_profile'})
+        page = build.render_reading_notes(self.profile['reading_notes'])
+        self.assertIn('href="'+path+'"', page)
+        self.assertIn('alt="杂记遣怀微信公众号二维码" width="430" height="430"', page)
+        self.assertIn('Scan in WeChat', page)
+        self.assertIn('微信扫码', page)
+        css = (ROOT/'assets/style.css').read_text()
+        self.assertIn('width:180px;height:180px;max-width:100%;object-fit:contain', css)
+        for value in ('https://example.org/qr.jpg', '../qr.jpg', 'assets/images/portrait.jpg'):
+            notes = copy.deepcopy(self.notes); notes['qr_image'] = value
+            with self.assertRaises(ValueError):build.render_reading_notes(notes)
 
     def test_four_complete_actual_abstracts(self):
         self.assertEqual(len(self.profile["publications"]), 4)
@@ -264,15 +368,23 @@ class BuildTests(unittest.TestCase):
         articles = self.profile['reading_notes']['articles']
         expected = [
             ('https://mp.weixin.qq.com/s/xrk3NmYKp0TA-j-8uzsUAA', '猎户星座', '发成'),
-            ('https://mp.weixin.qq.com/s/wZiHg6oNw5ok62wXAi2_vA', '深宫修罗场——北魏子贵母死制度的黑色幽默', '何从')]
+            ('https://mp.weixin.qq.com/s/wZiHg6oNw5ok62wXAi2_vA', '深宫修罗场——北魏子贵母死制度的黑色幽默', '何从'),
+            ('https://mp.weixin.qq.com/s/xRUlN4Pcs_biWIcqLU_5BQ', '魏晋外貌协会大赏——侃《世说新语·容止》', '发成'),
+            ('https://mp.weixin.qq.com/s/K9kZ77K7tmjc5PLO8gU52w', '“闻鸡起舞”少年们的升华人生', '发成'),
+            ('https://mp.weixin.qq.com/s/cilRgAzcsfic_dd--5oJGw', '英雄迟暮《敕勒歌》', '发成'),
+            ('https://mp.weixin.qq.com/s/qr12cl9yo03XHMPerka75g', '我怀念的 约翰 · 丹佛', None)]
+        self.assertEqual(len(articles), 6)
+        self.assertEqual([a['url'] for a in articles], [e[0] for e in expected])
         for link, title, author in expected:
             article = next(a for a in articles if a['url'] == link)
-            self.assertEqual((article['title'], article['author']), (title, author))
+            self.assertEqual((article['title'], article.get('author')), (title, author))
             self.assertNotIn('date', article)  # No verified publication date yet.
         self.assertEqual(self.profile['reading_notes']['account_name'], '杂记遣怀')
         page = build.render_reading_notes(self.profile['reading_notes'])
-        self.assertIn('complete archive has not yet been established', page)
-        self.assertNotIn('<img', page)
+        self.assertIn('not its entire archive', page)
+        self.assertNotIn('author', articles[-1])
+        self.assertEqual(page.count('<img'), 1)
+        self.assertEqual(page.count('class="reading-author"'), 5)
         self.assertNotIn('<iframe', page)
 
     def test_bad_dates(self):
@@ -281,7 +393,7 @@ class BuildTests(unittest.TestCase):
             with self.subTest(value=value), self.assertRaises(ValueError):build.validate_reading_notes(n)
 
     def test_missing_and_overlong_fields(self):
-        for field in ('url','title','author','category','summary'):
+        for field in ('url','title','category','summary'):
             n = copy.deepcopy(self.notes);del n['articles'][0][field]
             with self.subTest(field=field), self.assertRaises(ValueError):build.validate_reading_notes(n)
         for lang, value in (('en',''),('zh',''),('en','a'*321),('zh','字'*161),('en',None)):

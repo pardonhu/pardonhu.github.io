@@ -24,7 +24,7 @@
   "email": "facheng_hu@sjtu.edu.cn",
   "github_username": "pardonhu",
   "google_scholar": "",
-  "orcid": "",
+  "orcid": "https://orcid.org/0000-0003-0448-8907",
   "cv_url": "",
   "portrait": "assets/images/portrait.jpg",
   "website_url": "https://pardonhu.github.io/",
@@ -116,7 +116,7 @@
       },
       "advisor": {
         "en": "Prof. Hongzi Zhu",
-        "zh": "朱洪紫教授"
+        "zh": "朱弘恣教授"
       },
       "period": {
         "en": "2024",
@@ -125,16 +125,35 @@
     },
     {
       "degree": {
-        "en": "B.S. degree",
-        "zh": "理学学士学位"
+        "en": "Bachelor of Engineering",
+        "zh": "工学学士"
       },
       "period": {
         "en": "2017",
         "zh": "2017 年"
+      },
+      "institution": {
+        "en": "Shanghai Jiao Tong University",
+        "zh": "上海交通大学"
       }
     }
   ],
-  "experience": [],
+  "experience": [
+    {
+      "title": {
+        "en": "GAC Motor",
+        "zh": "广汽乘用车"
+      },
+      "detail": {
+        "en": "Worked on automotive electronics and electrical systems",
+        "zh": "从事汽车电子电气相关工作"
+      },
+      "period": {
+        "en": "2017–2019",
+        "zh": "2017–2019 年"
+      }
+    }
+  ],
   "awards": [],
   "publications": [
     {
@@ -405,12 +424,64 @@
           "en": "A historical reading report on Northern Wei’s practice of killing the mothers of heirs: its origins, consolidation, and end, and the power struggles and human costs behind it.",
           "zh": "围绕北魏“子贵母死”制度的历史读书报告，梳理其起源、巩固与终结，思考权力斗争及其对个体的伤害。"
         }
+      },
+      {
+        "url": "https://mp.weixin.qq.com/s/xRUlN4Pcs_biWIcqLU_5BQ",
+        "title": "魏晋外貌协会大赏——侃《世说新语·容止》",
+        "category": {
+          "en": "Literary reading",
+          "zh": "文学阅读"
+        },
+        "summary": {
+          "en": "A reading of the Appearance and Deportment chapter of Shishuo Xinyu, exploring Wei-Jin ideals of beauty and the tragedies behind literati anecdotes.",
+          "zh": "围绕《世说新语·容止》的容貌与举止品评，闲谈魏晋士人的审美风尚及风流轶事背后的悲剧。"
+        },
+        "author": "发成"
+      },
+      {
+        "url": "https://mp.weixin.qq.com/s/K9kZ77K7tmjc5PLO8gU52w",
+        "title": "“闻鸡起舞”少年们的升华人生",
+        "category": {
+          "en": "Historical reading",
+          "zh": "历史阅读"
+        },
+        "summary": {
+          "en": "Revisiting the Jinshu biographies of Liu Kun and Zu Ti to explore the friendship, choices in a turbulent age, and personal transformations behind a familiar idiom.",
+          "zh": "重读《晋书》中的刘琨、祖逖传记，追索“闻鸡起舞”背后的友谊、乱世抉择与人生转变。"
+        },
+        "author": "发成"
+      },
+      {
+        "url": "https://mp.weixin.qq.com/s/cilRgAzcsfic_dd--5oJGw",
+        "title": "英雄迟暮《敕勒歌》",
+        "category": {
+          "en": "Historical reflections",
+          "zh": "历史随笔"
+        },
+        "summary": {
+          "en": "Beginning with the Chile Song and Gao Huan’s defeat at Yubi, these historical reflections consider aging heroes, unfulfilled ambitions, and changing times.",
+          "zh": "从《敕勒歌》与高欢玉璧兵败的故事切入，读英雄迟暮、壮志未酬与时代变迁。"
+        },
+        "author": "发成"
+      },
+      {
+        "url": "https://mp.weixin.qq.com/s/qr12cl9yo03XHMPerka75g",
+        "title": "我怀念的 约翰 · 丹佛",
+        "category": {
+          "en": "Music & essays",
+          "zh": "音乐与随笔"
+        },
+        "summary": {
+          "en": "A reflection on affection for John Denver and discovering his songs through the author’s father.",
+          "zh": "写对约翰·丹佛的喜爱，以及受父亲影响接触其歌曲的经历。"
+        }
       }
-    ]
+    ],
+    "qr_image": "assets/images/wechat-qr.png"
   },
   "portrait_alt": "Facheng Hu outdoors, raising one arm. / 胡发成的户外肖像，抬起一只手臂。",
   "bio": {
-    "en": "Facheng Hu (Graduate Student Member, IEEE) received the B.S. degree in 2017 and the master’s degree from Shanghai Jiao Tong University, Shanghai, China, in 2024, under the supervision of Prof. Hongzi Zhu. He is currently pursuing the Ph.D. degree at Global College, Shanghai Jiao Tong University, under the supervision of Prof. Yibo Pi. His research interests include AI-enabled networking and wireless sensing.",
-    "zh": "胡发成（IEEE 研究生会员）于 2017 年获得理学学士学位，并于 2024 年在中国上海的上海交通大学获得硕士学位，硕士导师为朱洪紫教授。目前在上海交通大学 Global College 攻读博士学位，导师为皮宜博教授。研究兴趣为人工智能赋能的网络和无线感知。"
+    "en": "Facheng Hu (Graduate Student Member, IEEE) received the Bachelor of Engineering degree in 2017 and the master’s degree in 2024 from Shanghai Jiao Tong University. His master’s advisor was Prof. Hongzi Zhu. From 2017–2019, he worked at GAC Motor on automotive electronics and electrical systems. He is currently pursuing the Ph.D. degree at Global College, Shanghai Jiao Tong University, under the supervision of Prof. Yibo Pi. His research interests include AI-enabled networking and wireless sensing.",
+    "zh": "胡发成（IEEE 研究生会员）于 2017 年在上海交通大学获得工学学士学位，并于 2024 年在上海交通大学获得硕士学位，硕士导师为朱弘恣教授。2017–2019 年在广汽乘用车从事汽车电子电气相关工作。目前在上海交通大学 Global College 攻读博士学位，导师为皮宜博教授。研究兴趣为人工智能赋能的网络和无线感知。"
   }
 }
