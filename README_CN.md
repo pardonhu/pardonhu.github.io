@@ -44,7 +44,7 @@
 
 ### FastSET 出版信息
 
-本版采用 IEEE 提交至 Crossref 的正式记录，确认四位作者 Facheng Hu、Yunzhe Li、Hongzi Zhu、Xudong Wang，DOI `10.1109/SECON68281.2026.11579146`，页码 150–158，会议于 2026 年 6 月 3–5 日在 Pisa 举行。页面及 BibTeX 已同步。历史论文集目录的起始页为 152，与正式记录不同，保留为历史证据，详见 `SOURCES.md`。未取得公开全文或 FastSET 原图，不猜测 PDF 入口。
+本版采用 IEEE 提交至 Crossref 的正式记录，确认四位作者 Facheng Hu、Yunzhe Li、Hongzi Zhu、Xudong Wang，DOI `10.1109/SECON68281.2026.11579146`，页码 150–158，会议于 2026 年 6 月 3–5 日在 Pisa 举行。页面及 BibTeX 已同步。历史论文集目录的起始页为 152，与正式记录不同，保留为历史证据，详见 `SOURCES.md`。FastSET 原图已获授权收录；PDF 使用所有者于 2026-09-30 提供的原始附件。
 
 ## 4. 修改内容
 
@@ -188,3 +188,5 @@ Prism 与 Saga 论文图保留完整画面与原始解码像素，仅移除附�
 ## 科研笔记入口
 
 `research_journey` 保存“发成的科研探索之旅”的公开仓库链接、双语标题与完整简介。入口位于论文之后、读书与随笔之前；侧栏与简介下方提供页内导航。仓库地址：https://github.com/pardonhu/facheng-research-journey 。中文简介按所有者原文保留，英文为完整忠实译文；不关联仓库内具体文档。
+
+DeepAoA+ 的 PDF 按钮使用所有者授权附件 `assets/papers/deepaoa-plus.pdf`，原始字节保持不变，出版方链接同时保留。FastSET 的 PDF 按钮同样使用原样附件 `assets/papers/fastset.pdf`，保留 DOI 和 IEEE 发表记录入口。本地 PDF 使用 `assets/papers/` 下的安全相对文件名，构建拒绝路径穿越与缺失文件。

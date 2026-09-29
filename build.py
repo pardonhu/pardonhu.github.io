@@ -45,6 +45,20 @@ def url(value: str) -> str:
         raise ValueError(f'Use a relative path inside the website: {value}')
     return esc(value)
 
+def paper_pdf_url(value: str) -> str:
+    parsed = urlparse(value)
+    if parsed.scheme:
+        if parsed.scheme not in ('https', 'http') or not parsed.netloc or parsed.username or parsed.password:
+            raise ValueError('PDF requires an HTTP(S) URL or a local paper path.')
+        url(value)
+    else:
+        if not re.fullmatch(r'assets/papers/[a-z0-9]+(?:-[a-z0-9]+)*\.pdf', value):
+            raise ValueError('Local PDF must use a safe assets/papers filename.')
+        path = ROOT / value
+        if not path.is_file() or path.is_symlink() or not path.resolve().is_relative_to(ROOT.resolve()):
+            raise ValueError('Local PDF is missing or outside the website.')
+    return value
+
 def validate_reading_notes(notes: object) -> None:
     if not isinstance(notes, dict) or not isinstance(notes.get('account_name'), str) or not notes['account_name'].strip():
         raise ValueError('reading_notes requires account_name.')
@@ -179,7 +193,7 @@ def render_publication(p: dict, name: str) -> str:
         buttons.append(anchor('https://arxiv.org/abs/'+p['arxiv'],'arXiv'+icon('arrow'),'pub-link'))
         buttons.append(anchor('https://arxiv.org/pdf/'+p['arxiv'],'PDF'+icon('arrow'),'pub-link'))
     elif p.get('paper_url'):
-        buttons.append(anchor(p['paper_url'],'PDF'+icon('arrow'),'pub-link'))
+        buttons.append(anchor(paper_pdf_url(p['paper_url']),'PDF'+icon('arrow'),'pub-link'))
     if not any(p.get(k) for k in ('doi', 'arxiv', 'paper_url')) and p.get('source'):
         label = p.get('source_label', {'en': 'Publication record', 'zh': '发表记录'})
         buttons.append(anchor(p['source'], localized(label)+icon('arrow'), 'pub-link'))

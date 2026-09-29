@@ -22,7 +22,7 @@ https://lion.sjtu.edu.cn/member/memberDetail?id=53
 - 目录所列作者顺序：Facheng Hu、Yunzhe Li、Hongzi Zhu、Xudong Wang。
 - 卷名：2026 22nd Annual IEEE International Conference on Sensing, Communication, and Networking (SECON 2026)。
 - 基线核验记录已逐项查看目录页面；本次保留该记录。目录列出起始页 152；本次 IEEE 提交至 Crossref 的正式页码为 150–158，二者存在差异，本站采用正式记录，保留目录为历史证据。
-- 正式 DOI：https://doi.org/10.1109/SECON68281.2026.11579146 。IEEE 发表记录：https://ieeexplore.ieee.org/document/11579146/ 。核验接口：https://api.crossref.org/works/10.1109/SECON68281.2026.11579146 （HTTP 200）；确认题目、四位作者、150–158 页及 2026 年 6 月 3–5 日 Pisa 会议。未取得公开全文。
+- 正式 DOI：https://doi.org/10.1109/SECON68281.2026.11579146 。IEEE 发表记录：https://ieeexplore.ieee.org/document/11579146/ 。核验接口：https://api.crossref.org/works/10.1109/SECON68281.2026.11579146 （HTTP 200）；确认题目、四位作者、150–158 页及 2026 年 6 月 3–5 日 Pisa 会议。该次核验未取得公开全文；2026-09-30 已收录所有者授权提供的 FastSET PDF，见文末附件记录。
 - 此前的一句话简介已移除；完整摘要状态见文末逐篇证据。
 
 ### Prism / IEEE INFOCOM 2025
@@ -48,7 +48,7 @@ https://lion.sjtu.edu.cn/member/memberDetail?id=53
 
 作者列表采用实验室正式条目中的六位作者，没有复制旧个人主页中不同的待发表作者列表。本版未推断其共同一作标记。
 
-此前的原创一句话概述已移除，改用经核验的完整英文摘要及完整中文译文；四篇摘要均已取得，逐篇证据见文末。论文的著作权属于相应权利人；本项目不打包转载原文 PDF。本站纳入所有者明确批准的四张论文配图，不使用装饰封面。
+此前的原创一句话概述已移除，改用经核验的完整英文摘要及完整中文译文；四篇摘要均已取得，逐篇证据见文末。论文的著作权属于相应权利人；DeepAoA+ 与 FastSET PDF 使用所有者明确授权的附件，其他论文不新增全文文件。本站纳入所有者明确批准的四张论文配图，不使用装饰封面。
 
 ## 设计参考
 
@@ -79,7 +79,7 @@ https://lion.sjtu.edu.cn/member/memberDetail?id=53
 
 ## pages928-images 授权原图
 
-所有者明确授权肖像及以下本人论文概览/引言图用于个人主页。未依据 arXiv 的通用说明推定 CC 许可；著作权仍归相应权利人。仅公开处理后的肖像与两张获批准的图，不打包全文。
+所有者明确授权肖像及以下本人论文概览/引言图用于个人主页。未依据 arXiv 的通用说明推定 CC 许可；著作权仍归相应权利人。仅公开处理后的肖像与两张获批准的图，DeepAoA+ 全文附件另见下方授权记录。
 
 - `assets/images/portrait.jpg`：所有者提供的照片，经方向归一化、自然裁切为 400×400，保留脸部、头发、抬起的手臂和上半身；RGB JPEG，移除 EXIF/GPS/XMP/IPTC/注释。未修饰、生成或替换背景。原文件只读且哈希核验不变；私人来源路径不公开。
 - `assets/images/prism-overview.png`：Prism 作者稿 Figure 2，System architecture of Prism。完整原图，722×547；IMU 数据先检测非独立同分布特性，再划分用于训练。来源：https://arxiv.org/html/2501.01598v1#S2.F2 ，图片：https://arxiv.org/html/2501.01598v1/prism.png 。替代此前概念 SVG。
@@ -159,3 +159,11 @@ Saga 的 HTML v1 题目使用上述短题目，摘要页的题目另带 `for Use
 2026-09-28 所有者提供并授权公众号二维码，公开资源为 `assets/images/wechat-qr.png`。原 JPEG 无 EXIF，但图像结束标记后有未知附加数据，故从解码 RGB 像素构建无元数据 PNG；逐像素验证完整 430×430 画面与全部白边完全一致，无裁切、有损重压缩或重新生成。页面以 180×180、object-fit: contain 展示，点击打开本地全尺寸图，原文件未改动。
 
 本科院系和专业英文分别采用忠实译法 “School of Mechanical Engineering and Power Engineering” 与 “Mechanical Engineering (Pilot Class)”；硕士“计算机专业”译为 “Computer Science”，博士“信息与通信工程”译为 “Information and Communication Engineering”。这些是本站编辑译文，不声称为校方官方英文项目名。
+
+## DeepAoA+ 本站 PDF
+
+2026-09-30，所有者提供并授权公开 DeepAoA+ PDF，存为 `assets/papers/deepaoa-plus.pdf`。原样复制 3,588,739 字节，不修改元数据、压缩、重排或重新生成；SHA-256：`c2fa56eccc8d529c30ed06d094254ac5bfd1f1f71a4c2b7a57b6f4ca878a01eb`。PDF 按钮指向本站文件，DOI 出版方入口保留；不附加开放许可证。FastSET 随后提供的附件同时纳入本站，见下方记录。
+
+## FastSET 本站 PDF
+
+2026-09-30，所有者随后提供并授权公开 FastSET 原始 PDF，存为 `assets/papers/fastset.pdf`。原样复制 13,976,470 字节；SHA-256：`8d62a7426e2bad98157b4c24d43e07e7112526c2785c1d3cc7b3836b173bd521`。不修改元数据、压缩、重排或重新生成，不附加开放许可证。PDF 按钮指向本站文件，DOI 及 IEEE 发表记录保留；两篇论文除 PDF 链接外的元信息、摘要、引用和图片不变。

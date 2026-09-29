@@ -27,6 +27,7 @@ class BuildTests(unittest.TestCase):
             dest = Path(tmp)
             shutil.copytree(ROOT / 'templates', dest / 'templates')
             shutil.copytree(ROOT / 'assets/images', dest / 'assets/images')
+            shutil.copytree(ROOT / 'assets/papers', dest / 'assets/papers')
             (dest / 'profile.json').write_text(json.dumps(profile))
             with patch.object(build, 'ROOT', dest):
                 build.build()
@@ -176,26 +177,30 @@ class BuildTests(unittest.TestCase):
 
     def test_baseline_preservation(self):
         import subprocess
-        baseline = 'ac5321636768415999ebde7f1376e503cd68e473'
+        baseline = 'c2cc4ee2a2c98ae1635c649b61c62db9390d8af5'
         def old(path):
             return subprocess.check_output(['git','show',baseline+':'+path], cwd=ROOT)
         before = json.loads(old('profile.json'))
-        self.assertEqual(before, {k:v for k,v in self.profile.items() if k != 'research_journey'})
+        next(p for p in before['publications'] if p['id']=='deepaoa')['paper_url'] = 'assets/papers/deepaoa-plus.pdf'
+        next(p for p in before['publications'] if p['id']=='fastset')['paper_url'] = 'assets/papers/fastset.pdf'
+        self.assertEqual(before, self.profile)
         self.assertTrue((ROOT/'assets/style.css').read_bytes().startswith(old('assets/style.css')))
         assets = subprocess.check_output(['git','ls-tree','-r','--name-only',baseline,'assets'], cwd=ROOT).decode().splitlines()
-        for path in ['publications.bib'] + [p for p in assets if p != 'assets/style.css']:
+        for path in ['publications.bib'] + assets:
             self.assertEqual(old(path), (ROOT/path).read_bytes(), path)
 
     def test_only_internal_scope_removed_from_current_page(self):
         import subprocess
         import re
-        baseline = subprocess.check_output(['git','show','ac5321636768415999ebde7f1376e503cd68e473:index.html'], cwd=ROOT).decode()
+        baseline = subprocess.check_output(['git','show','c2cc4ee2a2c98ae1635c649b61c62db9390d8af5:index.html'], cwd=ROOT).decode()
         page = self.render(self.profile)[0].decode()
         for section in ('about','news','background','publications','reading-notes','contact'):
             pattern = r'<section[^>]* id="'+section+r'"[^>]*>.*?</section>'
             old_section = re.search(pattern, baseline, re.S)[0]
             current = re.search(pattern, page, re.S)[0]
-            current = re.sub(r'\n        <p class="research-jump">.*?</p>', '', current)
+            if section == 'publications':
+                for path in ('assets/papers/deepaoa-plus.pdf','assets/papers/fastset.pdf'):
+                    current = current.replace(build.anchor(path,'PDF'+build.icon('arrow'),'pub-link'), '')
             self.assertEqual(current, old_section, section)
         for text in ('owner-confirmed', 'not its entire archive', '经核验或由所有者确认', '尚无已核验', 'awaiting verification', '完整摘要待核验'):
             self.assertNotIn(text, page)
@@ -206,6 +211,33 @@ class BuildTests(unittest.TestCase):
         missing['abstract_evidence'] = {}
         with self.assertRaises(ValueError):
             build.render_abstract(missing)
+
+    def test_fastset_original_pdf(self):
+        import hashlib
+        raw = (ROOT/'assets/papers/fastset.pdf').read_bytes()
+        self.assertEqual(len(raw), 13976470)
+        self.assertEqual(hashlib.sha256(raw).hexdigest(), '8d62a7426e2bad98157b4c24d43e07e7112526c2785c1d3cc7b3836b173bd521')
+        self.assertTrue(raw.startswith(b'%PDF-'))
+        pub = next(p for p in self.profile['publications'] if p['id']=='fastset')
+        card = build.render_publication(pub, self.profile['name'])
+        self.assertIn('href="assets/papers/fastset.pdf" target="_blank" rel="noopener noreferrer"', card)
+        self.assertIn('href="https://doi.org/10.1109/SECON68281.2026.11579146"', card)
+        self.assertIn('href="https://ieeexplore.ieee.org/document/11579146/"', card)
+
+    def test_deepaoa_pdf_and_safe_paths(self):
+        import hashlib
+        path = ROOT/'assets/papers/deepaoa-plus.pdf'
+        raw = path.read_bytes()
+        self.assertEqual(len(raw), 3588739)
+        self.assertEqual(hashlib.sha256(raw).hexdigest(), 'c2fa56eccc8d529c30ed06d094254ac5bfd1f1f71a4c2b7a57b6f4ca878a01eb')
+        self.assertTrue(raw.startswith(b'%PDF-'))
+        pub = next(p for p in self.profile['publications'] if p['id']=='deepaoa')
+        card = build.render_publication(pub, self.profile['name'])
+        self.assertIn('href="assets/papers/deepaoa-plus.pdf" target="_blank" rel="noopener noreferrer"', card)
+        self.assertIn('href="https://doi.org/10.1109/TVT.2024.3445722"', card)
+        for value in ('../paper.pdf','/tmp/paper.pdf','assets/papers/../secret.pdf','assets/papers/%2e%2e/secret.pdf','//evil.test/a.pdf','javascript:alert(1)','file:///tmp/a.pdf','assets/papers/deepaoa-plus.pdf?x=1','assets/papers/missing.pdf'):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                build.paper_pdf_url(value)
 
     def test_research_journey_exact_content_and_link(self):
         expected = {'url': 'https://github.com/pardonhu/facheng-research-journey', 'title': {'zh': '发成的科研探索之旅', 'en': 'Facheng’s Research Journey'}, 'description': {'zh': '记录我的科研探索：逐步形成自己的科研习惯与判断标准，学习如何评价一项工作、准备组会、寻找问题和设计实验，也保存尚未成熟的想法与值得反复阅读的论文。这不是一份完成的方法论，而是一份由我持续书写、修正和积累的研究笔记。', 'en': 'A record of my research explorations: gradually developing my own research habits and criteria for judgment, learning how to evaluate a piece of work, prepare for group meetings, identify research questions, and design experiments, while also keeping ideas that are still taking shape and papers worth revisiting. This is not a finished methodology, but a collection of research notes that I continue to write, revise, and build upon.'}}
