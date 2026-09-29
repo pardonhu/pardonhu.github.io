@@ -6,7 +6,7 @@
 
 GitHub 用户名 `pardonhu` 和邮箱 `facheng_hu@sjtu.edu.cn` 由主页所有者在本次更新中明确提供。站点地址为 `https://pardonhu.github.io/`；已部署基线为 `35037043115283c4ff84fe6e9fe5c93e08e94f4f`。
 
-个人资料由所有者于 2026-09-28 确认：2017 年在上海交通大学（Shanghai Jiao Tong University）获得工学学士（Bachelor of Engineering）；2024 年在上海交通大学获得硕士学位，导师为朱弘恣教授（Prof. Hongzi Zhu）；2017–2019 年在广汽乘用车（GAC Motor）从事汽车电子电气相关工作（automotive electronics and electrical systems）。保留 IEEE 研究生会员、上海交通大学 Global College 博士在读、导师皮宜博教授（Prof. Yibo Pi）及人工智能赋能的网络和无线感知研究兴趣。ORCID 为 https://orcid.org/0000-0003-0448-8907 ，显示于公开社交链接及 JSON-LD sameAs。所有者于 2026-09-29 补充确认本科 2013–2017、硕士 2021–2024、博士 2024–至今；履历保留广汽 2017–2019，并按时间排序。未提供的专业、院系、本科导师、工作职位和地点均不填写，2019–2021 不补造经历。ORCID 已有链接保留，并在首页简介附近以完整号码和文字链接突出展示。
+个人资料由所有者于 2026-09-28 确认：2017 年在上海交通大学（Shanghai Jiao Tong University）获得工学学士（Bachelor of Engineering）；2024 年在上海交通大学获得硕士学位，导师为朱弘恣教授（Prof. Hongzi Zhu）；2017–2019 年在广汽乘用车（GAC Motor）从事汽车电子电气相关工作（automotive electronics and electrical systems）。保留 IEEE 研究生会员、上海交通大学 Global College 博士在读、导师皮宜博教授（Prof. Yibo Pi）及人工智能赋能的网络和无线感知研究兴趣。ORCID 为 https://orcid.org/0000-0003-0448-8907 ，显示于公开社交链接及 JSON-LD sameAs。所有者于 2026-09-29 补充确认本科 2013–2017、硕士 2021–2024、博士 2024–至今；履历保留广汽 2017–2019，并按时间排序。所有者同日确认：本科为机械与动力工程学院、机械工程（试点班）；硕士为计算机专业；博士为信息与通信工程。未提供的硕士院系、专业代码、本科导师、工作职位和地点不填写，2019–2021 不补造经历。ORCID 已有链接保留，并在首页简介附近以完整号码和文字链接突出展示。
 
 公开成员资料也列出 Facheng Hu 及学校邮箱：
 https://lion.sjtu.edu.cn/member/memberDetail?id=53
@@ -157,3 +157,5 @@ Saga 的 HTML v1 题目使用上述短题目，摘要页的题目另带 `for Use
 ## 公众号入口二维码
 
 2026-09-28 所有者提供并授权公众号二维码，公开资源为 `assets/images/wechat-qr.png`。原 JPEG 无 EXIF，但图像结束标记后有未知附加数据，故从解码 RGB 像素构建无元数据 PNG；逐像素验证完整 430×430 画面与全部白边完全一致，无裁切、有损重压缩或重新生成。页面以 180×180、object-fit: contain 展示，点击打开本地全尺寸图，原文件未改动。
+
+本科院系和专业英文分别采用忠实译法 “School of Mechanical Engineering and Power Engineering” 与 “Mechanical Engineering (Pilot Class)”；硕士“计算机专业”译为 “Computer Science”，博士“信息与通信工程”译为 “Information and Communication Engineering”。这些是本站编辑译文，不声称为校方官方英文项目名。

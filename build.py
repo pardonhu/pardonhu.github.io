@@ -222,7 +222,7 @@ def render_background(profile: dict) -> str:
         for index, item in enumerate(items):
             if kind == 'education':
                 details = ''.join('<div class="education-'+cls+'">'+localized(item[key])+'</div>'
-                                  for key, cls in [('institution','name'),('school','school'),('degree','degree')]
+                                  for key, cls in [('institution','name'),('school','school'),('degree','degree'),('major','major')]
                                   if item.get(key))
                 if item.get('advisor'):
                     details += '<div class="education-degree">'+bi('Advisor: ', '导师：')+localized(item['advisor'])+'</div>'

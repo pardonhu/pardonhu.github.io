@@ -99,6 +99,10 @@
       "period": {
         "en": "2024–Present",
         "zh": "2024–至今"
+      },
+      "major": {
+        "en": "Information and Communication Engineering",
+        "zh": "信息与通信工程"
       }
     },
     {
@@ -121,6 +125,10 @@
       "period": {
         "en": "2021–2024",
         "zh": "2021–2024 年"
+      },
+      "major": {
+        "en": "Computer Science",
+        "zh": "计算机专业"
       }
     },
     {
@@ -135,6 +143,14 @@
       "institution": {
         "en": "Shanghai Jiao Tong University",
         "zh": "上海交通大学"
+      },
+      "major": {
+        "en": "Mechanical Engineering (Pilot Class)",
+        "zh": "机械工程（试点班）"
+      },
+      "school": {
+        "en": "School of Mechanical Engineering and Power Engineering",
+        "zh": "机械与动力工程学院"
       }
     }
   ],

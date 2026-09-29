@@ -8,7 +8,7 @@
 - 身份：上海交通大学 Global College 博士研究生；导师：皮宜博老师（Yibo Pi）。
 - 联系邮箱：`facheng_hu@sjtu.edu.cn`。
 - GitHub：`pardonhu`；个人站点地址：`https://pardonhu.github.io/`。
-- 个人资料由所有者于 2026-09-28 确认：2017 年在上海交通大学（Shanghai Jiao Tong University）获得工学学士（Bachelor of Engineering）；2024 年在上海交通大学获得硕士学位，导师为朱弘恣教授（Prof. Hongzi Zhu）；2017–2019 年在广汽乘用车（GAC Motor）从事汽车电子电气相关工作（automotive electronics and electrical systems）。保留 IEEE 研究生会员、上海交通大学 Global College 博士在读、导师皮宜博教授（Prof. Yibo Pi）及人工智能赋能的网络和无线感知研究兴趣。ORCID 为 https://orcid.org/0000-0003-0448-8907 ，显示于公开社交链接及 JSON-LD sameAs。所有者于 2026-09-29 补充确认本科 2013–2017、硕士 2021–2024、博士 2024–至今；履历保留广汽 2017–2019，并按时间排序。未提供的专业、院系、本科导师、工作职位和地点均不填写，2019–2021 不补造经历。ORCID 已有链接保留，并在首页简介附近以完整号码和文字链接突出展示。
+- 个人资料由所有者于 2026-09-28 确认：2017 年在上海交通大学（Shanghai Jiao Tong University）获得工学学士（Bachelor of Engineering）；2024 年在上海交通大学获得硕士学位，导师为朱弘恣教授（Prof. Hongzi Zhu）；2017–2019 年在广汽乘用车（GAC Motor）从事汽车电子电气相关工作（automotive electronics and electrical systems）。保留 IEEE 研究生会员、上海交通大学 Global College 博士在读、导师皮宜博教授（Prof. Yibo Pi）及人工智能赋能的网络和无线感知研究兴趣。ORCID 为 https://orcid.org/0000-0003-0448-8907 ，显示于公开社交链接及 JSON-LD sameAs。所有者于 2026-09-29 补充确认本科 2013–2017、硕士 2021–2024、博士 2024–至今；履历保留广汽 2017–2019，并按时间排序。所有者同日确认：本科为机械与动力工程学院、机械工程（试点班）；硕士为计算机专业；博士为信息与通信工程。未提供的硕士院系、专业代码、本科导师、工作职位和地点不填写，2019–2021 不补造经历。ORCID 已有链接保留，并在首页简介附近以完整号码和文字链接突出展示。
 - 论文：FastSET（SECON 2026）、Prism、Saga、DeepAoA+。FastSET 已置于首位，并加入 2026 年动态和年份筛选。已有论文链接与 BibTeX 保留。
 - 研究兴趣：人工智能赋能的网络和无线感知；IEEE 研究生会员身份及完整双语简介由所有者明确提供。
 - 没有填写未经提供的奖项、访问经历、简历或学术账号。
@@ -180,3 +180,7 @@ Prism 与 Saga 论文图保留完整画面与原始解码像素，仅移除附�
 摘要使用原生 `details` / `summary`，支持键盘展开和语言切换，全文存在 HTML 中，不截断。论文作者、共同贡献、出版年份和 BibTeX 不变；肖像与原图资源不变。
 
 运行 `python3 build.py` 和 `python3 -m unittest discover -s tests -v`。本次原生浏览器脚本仅存于忽略目录 `.local-audit/pages928-bio-abstracts-verify_browser.py`，可在本机预览服务或 https://pardonhu.github.io 上执行只读验证，Chromium sandbox 必须保持开启；本次任务不提交、推送或部署。
+
+本科院系和专业英文分别采用忠实译法 “School of Mechanical Engineering and Power Engineering” 与 “Mechanical Engineering (Pilot Class)”；硕士“计算机专业”译为 “Computer Science”，博士“信息与通信工程”译为 “Information and Communication Engineering”。这些是本站编辑译文，不声称为校方官方英文项目名。
+
+页面顶部采用独立静态星空装饰带：CSS 星点和内联 SVG 星座线条，不覆盖正文、图片或二维码，不捕获交互；无动画、外部素材或新增依赖，保留浅色学术版式和减少动态效果支持。

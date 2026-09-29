@@ -114,7 +114,9 @@ class BuildTests(unittest.TestCase):
         self.assertEqual(p['education'][2], {
             'institution': {'en':'Shanghai Jiao Tong University','zh':'上海交通大学'},
             'degree': {'en':'Bachelor of Engineering','zh':'工学学士'},
-            'period': {'en':'2013–2017','zh':'2013–2017 年'}})
+            'period': {'en':'2013–2017','zh':'2013–2017 年'},
+            'school': {'en': 'School of Mechanical Engineering and Power Engineering', 'zh': '机械与动力工程学院'},
+            'major': {'en': 'Mechanical Engineering (Pilot Class)', 'zh': '机械工程（试点班）'}})
         self.assertEqual(p['education'][1]['institution'], p['education'][2]['institution'])
         page = self.render(p)[0].decode()
         for lang in ('en', 'zh'):
@@ -174,17 +176,35 @@ class BuildTests(unittest.TestCase):
 
     def test_baseline_preservation(self):
         import subprocess
-        baseline = '66dff7f8b7ce880e878e192e9bf2ed4d0e38a10b'
+        baseline = '63452967d0f0530cfcabcb77c0ea088b3167b36c'
         def old(path):
             return subprocess.check_output(['git','show',baseline+':'+path], cwd=ROOT)
         before = json.loads(old('profile.json'))
-        periods = [{'en': '2024–Present', 'zh': '2024–至今'}, {'en': '2021–2024', 'zh': '2021–2024 年'}, {'en': '2013–2017', 'zh': '2013–2017 年'}]
-        for education, period in zip(before['education'], periods):
-            education['period'] = period
+        majors = [{'en': 'Information and Communication Engineering', 'zh': '信息与通信工程'}, {'en': 'Computer Science', 'zh': '计算机专业'}, {'en': 'Mechanical Engineering (Pilot Class)', 'zh': '机械工程（试点班）'}]
+        for education, major in zip(before['education'], majors):
+            education['major'] = major
+        before['education'][2]['school'] = {'en': 'School of Mechanical Engineering and Power Engineering', 'zh': '机械与动力工程学院'}
         self.assertEqual(before, self.profile)
         assets = subprocess.check_output(['git','ls-tree','-r','--name-only',baseline,'assets'], cwd=ROOT).decode().splitlines()
         for path in ['publications.bib'] + [p for p in assets if p != 'assets/style.css']:
             self.assertEqual(old(path), (ROOT/path).read_bytes(), path)
+
+    def test_majors_and_static_star_accent(self):
+        page = self.render(self.profile)[0].decode()
+        for entry in self.profile['education']:
+            for lang in ('en', 'zh'):
+                self.assertIn(build.esc(entry['major'][lang]), page)
+        self.assertEqual(self.profile['education'][1]['school'], {'en':'Shanghai, China','zh':'中国上海'})
+        for entry in self.profile['education']:
+            self.assertNotIn('major_code', entry)
+            self.assertNotIn('department', entry)
+        self.assertIn('<div class="starfield" aria-hidden="true">', page)
+        self.assertIn('focusable="false"', page)
+        self.assertLess(page.index('class="starfield"'), page.index('<header'))
+        css = (ROOT/'assets/style.css').read_text()
+        self.assertIn('pointer-events:none', css)
+        self.assertIn('@media(prefers-reduced-motion:reduce){.starfield', css)
+        self.assertNotIn('@keyframes', css)
 
     def test_background_order_and_labels(self):
         page = self.render(self.profile)[0].decode()
