@@ -6,7 +6,7 @@
 
 GitHub 用户名 `pardonhu` 和邮箱 `facheng_hu@sjtu.edu.cn` 由主页所有者在本次更新中明确提供。站点地址为 `https://pardonhu.github.io/`；已部署基线为 `35037043115283c4ff84fe6e9fe5c93e08e94f4f`。
 
-个人资料由所有者于 2026-09-28 确认：2017 年在上海交通大学（Shanghai Jiao Tong University）获得工学学士（Bachelor of Engineering）；2024 年在上海交通大学获得硕士学位，导师为朱弘恣教授（Prof. Hongzi Zhu）；2017–2019 年在广汽乘用车（GAC Motor）从事汽车电子电气相关工作（automotive electronics and electrical systems）。保留 IEEE 研究生会员、上海交通大学 Global College 博士在读、导师皮宜博教授（Prof. Yibo Pi）及人工智能赋能的网络和无线感知研究兴趣。ORCID 为 https://orcid.org/0000-0003-0448-8907 ，显示于公开社交链接及 JSON-LD sameAs。未提供的本科专业、院系、导师、起始年份以及工作职位、地点均不填写；博士入学年份也不推测。
+个人资料由所有者于 2026-09-28 确认：2017 年在上海交通大学（Shanghai Jiao Tong University）获得工学学士（Bachelor of Engineering）；2024 年在上海交通大学获得硕士学位，导师为朱弘恣教授（Prof. Hongzi Zhu）；2017–2019 年在广汽乘用车（GAC Motor）从事汽车电子电气相关工作（automotive electronics and electrical systems）。保留 IEEE 研究生会员、上海交通大学 Global College 博士在读、导师皮宜博教授（Prof. Yibo Pi）及人工智能赋能的网络和无线感知研究兴趣。ORCID 为 https://orcid.org/0000-0003-0448-8907 ，显示于公开社交链接及 JSON-LD sameAs。所有者于 2026-09-29 补充确认本科 2013–2017、硕士 2021–2024、博士 2024–至今；履历保留广汽 2017–2019，并按时间排序。未提供的专业、院系、本科导师、工作职位和地点均不填写，2019–2021 不补造经历。ORCID 已有链接保留，并在首页简介附近以完整号码和文字链接突出展示。
 
 公开成员资料也列出 Facheng Hu 及学校邮箱：
 https://lion.sjtu.edu.cn/member/memberDetail?id=53

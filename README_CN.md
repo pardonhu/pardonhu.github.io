@@ -8,7 +8,7 @@
 - 身份：上海交通大学 Global College 博士研究生；导师：皮宜博老师（Yibo Pi）。
 - 联系邮箱：`facheng_hu@sjtu.edu.cn`。
 - GitHub：`pardonhu`；个人站点地址：`https://pardonhu.github.io/`。
-- 个人资料由所有者于 2026-09-28 确认：2017 年在上海交通大学（Shanghai Jiao Tong University）获得工学学士（Bachelor of Engineering）；2024 年在上海交通大学获得硕士学位，导师为朱弘恣教授（Prof. Hongzi Zhu）；2017–2019 年在广汽乘用车（GAC Motor）从事汽车电子电气相关工作（automotive electronics and electrical systems）。保留 IEEE 研究生会员、上海交通大学 Global College 博士在读、导师皮宜博教授（Prof. Yibo Pi）及人工智能赋能的网络和无线感知研究兴趣。ORCID 为 https://orcid.org/0000-0003-0448-8907 ，显示于公开社交链接及 JSON-LD sameAs。未提供的本科专业、院系、导师、起始年份以及工作职位、地点均不填写；博士入学年份也不推测。
+- 个人资料由所有者于 2026-09-28 确认：2017 年在上海交通大学（Shanghai Jiao Tong University）获得工学学士（Bachelor of Engineering）；2024 年在上海交通大学获得硕士学位，导师为朱弘恣教授（Prof. Hongzi Zhu）；2017–2019 年在广汽乘用车（GAC Motor）从事汽车电子电气相关工作（automotive electronics and electrical systems）。保留 IEEE 研究生会员、上海交通大学 Global College 博士在读、导师皮宜博教授（Prof. Yibo Pi）及人工智能赋能的网络和无线感知研究兴趣。ORCID 为 https://orcid.org/0000-0003-0448-8907 ，显示于公开社交链接及 JSON-LD sameAs。所有者于 2026-09-29 补充确认本科 2013–2017、硕士 2021–2024、博士 2024–至今；履历保留广汽 2017–2019，并按时间排序。未提供的专业、院系、本科导师、工作职位和地点均不填写，2019–2021 不补造经历。ORCID 已有链接保留，并在首页简介附近以完整号码和文字链接突出展示。
 - 论文：FastSET（SECON 2026）、Prism、Saga、DeepAoA+。FastSET 已置于首位，并加入 2026 年动态和年份筛选。已有论文链接与 BibTeX 保留。
 - 研究兴趣：人工智能赋能的网络和无线感知；IEEE 研究生会员身份及完整双语简介由所有者明确提供。
 - 没有填写未经提供的奖项、访问经历、简历或学术账号。
@@ -175,7 +175,7 @@ Prism 与 Saga 论文图保留完整画面与原始解码像素，仅移除附�
 
 ## 9. pages928-bio-abstracts 交接
 
-本次更新完整双语简介、教育与搜索元数据，移除不受支持的博士入学年份。Prism 与 Saga 使用本地 arXiv v1 的完整实际摘要及完整中文译文。FastSET 与 DeepAoA+ 分别使用已核验 Semantic Scholar 完整摘要字段及 OpenAlex 无缺口、无重复位置的完整倒排索引摘要，并附完整中文译文。四篇实际摘要均已具备；第三方索引版本、API 端点和唯一的数值排版归一化见 `SOURCES.md`。
+本次更新完整双语简介、教育与搜索元数据，博士入学年份现采用所有者于 2026-09-29 确认的 2024 年。Prism 与 Saga 使用本地 arXiv v1 的完整实际摘要及完整中文译文。FastSET 与 DeepAoA+ 分别使用已核验 Semantic Scholar 完整摘要字段及 OpenAlex 无缺口、无重复位置的完整倒排索引摘要，并附完整中文译文。四篇实际摘要均已具备；第三方索引版本、API 端点和唯一的数值排版归一化见 `SOURCES.md`。
 
 摘要使用原生 `details` / `summary`，支持键盘展开和语言切换，全文存在 HTML 中，不截断。论文作者、共同贡献、出版年份和 BibTeX 不变；肖像与原图资源不变。
 

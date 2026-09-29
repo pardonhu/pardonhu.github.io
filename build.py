@@ -232,7 +232,7 @@ def render_background(profile: dict) -> str:
                     details += '<div class="education-degree">'+localized(item['detail'])+'</div>'
             period = item.get('period', '')
             # Order by the supplied year only; undated/current study comes last.
-            # This does not infer an enrollment date for the current PhD.
+            # Never infer dates that are absent from the supplied period.
             year = re.search(r'\b[12]\d{3}\b', localize(period, 'en'))
             order = int(year[0]) if year else sys.maxsize
             rendered = ('<div class="education-item background-item" data-'+kind+'-index="'+str(index)+'">'
@@ -280,6 +280,11 @@ def build() -> None:
         contact_links.append('<span class="contact-separator" aria-hidden="true"></span>'+anchor(p['advisor']['url'],icon('person')+bi("Advisor","导师主页"),'contact-link'))
     side_links.extend([anchor(p['institution_url'],bi('University','学校主页'),'','school'),anchor(p['advisor']['url'],bi('Advisor','导师主页'),'','person')])
     news=''.join(f'<li class="news-item"><span class="news-date">{esc(n["date"])}</span><div>{anchor(n["url"],localized(n["text"])) if n.get("url") else localized(n["text"])}</div></li>' for n in p.get('news',[]))
+    orcid_feature = ''
+    if p.get('orcid'):
+        orcid_feature = '<p class="orcid-feature">' + anchor(p['orcid'],
+            bi('ORCID profile', 'ORCID 研究者档案') + '<span class="orcid-id">'
+            + esc(p['orcid'].rstrip('/').rsplit('/', 1)[-1]) + '</span>', 'orcid-profile') + '</p>'
     background=render_background(p)
     pubs=sorted(p['publications'],key=lambda x:-int(x['year']))
     years=sorted({int(x['year']) for x in pubs},reverse=True)
@@ -313,7 +318,7 @@ def build() -> None:
         nav_about=bi('About','简介'),nav_pubs=bi('Publications','论文'),nav_background=bi('Background','个人履历'),nav_contact=bi('Contact','联系'),
         sidebar_heading=bi('On this page','页面导航'),connect=bi('Connect','学术联系'),side_links=''.join(side_links),
         role=localized(p['role']),institution=institution,school=school,advisor=advisor,advised_by=bi('Advised by','导师'),portrait=portrait,
-        bio=localized(p['bio']),extra_bio=extra,interests=interests,contact_links=''.join(contact_links),
+        orcid_feature=orcid_feature,bio=localized(p['bio']),extra_bio=extra,interests=interests,contact_links=''.join(contact_links),
         news_label=bi('News','动态'),news=news,background_label=bi('Background','个人履历'),background=background,
         publications_label=bi('Publications','论文'),contribution_note=bi('* Equal contribution.','* 表示共同贡献。'),filters=filters,
         publication_cards=''.join(render_publication(x,p['name']) for x in pubs),

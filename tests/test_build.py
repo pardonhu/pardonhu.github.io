@@ -106,15 +106,15 @@ class BuildTests(unittest.TestCase):
 
     def test_bio_and_education(self):
         p = self.profile
-        self.assertEqual(p['education'][0]['period'], {'en':'Present','zh':'在读'})
+        self.assertEqual(p['education'][0]['period'], {'en':'2024–Present','zh':'2024–至今'})
         self.assertEqual(p['education'][0]['school'], {'en':'Global College','zh':'Global College'})
         self.assertEqual(p['education'][0]['advisor'], {'en':'Prof. Yibo Pi','zh':'皮宜博教授'})
-        self.assertEqual(p['education'][1]['period'], {'en':'2024','zh':'2024 年'})
+        self.assertEqual(p['education'][1]['period'], {'en':'2021–2024','zh':'2021–2024 年'})
         self.assertEqual(p['education'][1]['advisor'], {'en':'Prof. Hongzi Zhu','zh':'朱弘恣教授'})
         self.assertEqual(p['education'][2], {
             'institution': {'en':'Shanghai Jiao Tong University','zh':'上海交通大学'},
             'degree': {'en':'Bachelor of Engineering','zh':'工学学士'},
-            'period': {'en':'2017','zh':'2017 年'}})
+            'period': {'en':'2013–2017','zh':'2013–2017 年'}})
         self.assertEqual(p['education'][1]['institution'], p['education'][2]['institution'])
         page = self.render(p)[0].decode()
         for lang in ('en', 'zh'):
@@ -152,21 +152,35 @@ class BuildTests(unittest.TestCase):
         page = self.render(self.profile)[0].decode()
         orcid = 'https://orcid.org/0000-0003-0448-8907'
         self.assertEqual(self.profile['orcid'], orcid)
-        self.assertEqual(page.count('href="'+orcid+'" target="_blank" rel="noopener noreferrer"'), 2)
+        self.assertEqual(page.count('href="'+orcid+'" target="_blank" rel="noopener noreferrer"'), 3)
         structured = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', page, re.S)[1])
         self.assertIn(orcid, structured['sameAs'])
         self.assertEqual(structured['description'], self.profile['bio']['en'])
         for prefix in ('name="description"', 'property="og:description"'):
             self.assertIn(prefix+' content="'+build.esc(self.profile['bio']['en'])+'"', page)
 
+    def test_prominent_orcid_and_confirmed_date_ranges(self):
+        page = self.render(self.profile)[0].decode()
+        feature = page.split('<p class="orcid-feature">', 1)[1].split('</p>', 1)[0]
+        for text in ('ORCID profile', 'ORCID 研究者档案', '0000-0003-0448-8907'):
+            self.assertIn(text, feature)
+        self.assertIn('href="https://orcid.org/0000-0003-0448-8907"', feature)
+        self.assertLess(page.index('class="orcid-feature"'), page.index('class="bio"'))
+        section = page.split('id="background"', 1)[1].split('</section>', 1)[0]
+        for period in ('2013–2017', '2017–2019', '2021–2024', '2024–Present', '2024–至今'):
+            self.assertIn(period, section)
+        self.assertNotIn('2019–2021', section)
+        self.assertEqual(section.count('class="education-item background-item"'), 4)
+
     def test_baseline_preservation(self):
         import subprocess
-        baseline = '7e9c51cb04ed2285953fc3103c8f06c8fc055928'
+        baseline = '66dff7f8b7ce880e878e192e9bf2ed4d0e38a10b'
         def old(path):
             return subprocess.check_output(['git','show',baseline+':'+path], cwd=ROOT)
         before = json.loads(old('profile.json'))
-        self.assertEqual(before['education'][1]['degree']['en'], 'master’s degree')
-        before['education'][1]['degree']['en'] = 'Master’s degree'
+        periods = [{'en': '2024–Present', 'zh': '2024–至今'}, {'en': '2021–2024', 'zh': '2021–2024 年'}, {'en': '2013–2017', 'zh': '2013–2017 年'}]
+        for education, period in zip(before['education'], periods):
+            education['period'] = period
         self.assertEqual(before, self.profile)
         assets = subprocess.check_output(['git','ls-tree','-r','--name-only',baseline,'assets'], cwd=ROOT).decode().splitlines()
         for path in ['publications.bib'] + [p for p in assets if p != 'assets/style.css']:
