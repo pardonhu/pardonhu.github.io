@@ -214,6 +214,13 @@ def optional_section(items: list, section_id: str, en: str, zh: str) -> str:
         rendered.append('<div class="optional-item"><strong>'+localized(item['title'])+'</strong><br><small>'+localized(item.get('detail',''))+' · '+localized(item.get('period',''))+'</small></div>')
     return f'<section class="optional-section card" id="{section_id}"><h2>{bi(en,zh)}</h2>'+''.join(rendered)+'</section>'
 
+def render_research_journey(entry: dict) -> str:
+    return ('<section class="research-journey section-card card" id="research-journey" aria-labelledby="research-journey-heading">'
+            + '<h2 id="research-journey-heading">'+localized(entry['title'])+'</h2>'
+            + '<p class="research-description">'+localized(entry['description'])+'</p>'
+            + anchor(entry['url'], bi('Read the research notes on GitHub', '在 GitHub 阅读科研笔记')+icon('arrow'), 'pub-link research-repository')
+            + '</section>')
+
 def render_background(profile: dict) -> str:
     entries = []
     for kind, items in (('education', profile['education']), ('experience', profile.get('experience', []))):
@@ -312,6 +319,7 @@ def build() -> None:
     rendered=Template((ROOT/'templates/page.html').read_text(encoding='utf-8')).substitute(
         lang='zh-CN' if p.get('default_language')=='zh' else 'en', name=esc(p['name']), initials=esc(p['initials']), name_zh=esc(p['name_zh']),
         meta_description=esc(description),canonical=canonical,structured=json.dumps(structured,ensure_ascii=False).replace('<','\\u003c'),
+        nav_research=bi('Research notes','科研笔记'),research_journey=render_research_journey(p['research_journey']),
         nav_reading=bi('Reading & Essays','读书与随笔'),reading_notes=render_reading_notes(p['reading_notes']),
         nav_about=bi('About','简介'),nav_pubs=bi('Publications','论文'),nav_background=bi('Background','个人履历'),nav_contact=bi('Contact','联系'),
         sidebar_heading=bi('On this page','页面导航'),connect=bi('Connect','学术联系'),side_links=''.join(side_links),

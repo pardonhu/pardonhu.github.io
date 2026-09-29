@@ -499,5 +499,16 @@
   "bio": {
     "en": "Facheng Hu (Graduate Student Member, IEEE) received the Bachelor of Engineering degree in 2017 and the master’s degree in 2024 from Shanghai Jiao Tong University. His master’s advisor was Prof. Hongzi Zhu. From 2017–2019, he worked at GAC Motor on automotive electronics and electrical systems. He is currently pursuing the Ph.D. degree at Global College, Shanghai Jiao Tong University, under the supervision of Prof. Yibo Pi. His research interests include AI-enabled networking and wireless sensing.",
     "zh": "胡发成（IEEE 研究生会员）于 2017 年在上海交通大学获得工学学士学位，并于 2024 年在上海交通大学获得硕士学位，硕士导师为朱弘恣教授。2017–2019 年在广汽乘用车从事汽车电子电气相关工作。目前在上海交通大学 Global College 攻读博士学位，导师为皮宜博教授。研究兴趣为人工智能赋能的网络和无线感知。"
+  },
+  "research_journey": {
+    "url": "https://github.com/pardonhu/facheng-research-journey",
+    "title": {
+      "zh": "发成的科研探索之旅",
+      "en": "Facheng’s Research Journey"
+    },
+    "description": {
+      "zh": "记录我的科研探索：逐步形成自己的科研习惯与判断标准，学习如何评价一项工作、准备组会、寻找问题和设计实验，也保存尚未成熟的想法与值得反复阅读的论文。这不是一份完成的方法论，而是一份由我持续书写、修正和积累的研究笔记。",
+      "en": "A record of my research explorations: gradually developing my own research habits and criteria for judgment, learning how to evaluate a piece of work, prepare for group meetings, identify research questions, and design experiments, while also keeping ideas that are still taking shape and papers worth revisiting. This is not a finished methodology, but a collection of research notes that I continue to write, revise, and build upon."
+    }
   }
 }

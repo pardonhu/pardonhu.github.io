@@ -176,23 +176,27 @@ class BuildTests(unittest.TestCase):
 
     def test_baseline_preservation(self):
         import subprocess
-        baseline = '0f3c8974db0e14b3df7a8cf760cb06def8ac9de8'
+        baseline = 'ac5321636768415999ebde7f1376e503cd68e473'
         def old(path):
             return subprocess.check_output(['git','show',baseline+':'+path], cwd=ROOT)
         before = json.loads(old('profile.json'))
-        self.assertEqual(before, self.profile)
+        self.assertEqual(before, {k:v for k,v in self.profile.items() if k != 'research_journey'})
+        self.assertTrue((ROOT/'assets/style.css').read_bytes().startswith(old('assets/style.css')))
         assets = subprocess.check_output(['git','ls-tree','-r','--name-only',baseline,'assets'], cwd=ROOT).decode().splitlines()
-        for path in ['publications.bib'] + assets:
+        for path in ['publications.bib'] + [p for p in assets if p != 'assets/style.css']:
             self.assertEqual(old(path), (ROOT/path).read_bytes(), path)
 
     def test_only_internal_scope_removed_from_current_page(self):
         import subprocess
         import re
-        baseline = subprocess.check_output(['git','show','0f3c8974db0e14b3df7a8cf760cb06def8ac9de8:index.html'], cwd=ROOT).decode()
-        expected, count = re.subn(r'<p class="reading-scope">.*?</p>', '', baseline)
-        self.assertEqual(count, 1)
+        baseline = subprocess.check_output(['git','show','ac5321636768415999ebde7f1376e503cd68e473:index.html'], cwd=ROOT).decode()
         page = self.render(self.profile)[0].decode()
-        self.assertEqual(page, expected)  # Every other title, abstract, citation, link and accessible label survives.
+        for section in ('about','news','background','publications','reading-notes','contact'):
+            pattern = r'<section[^>]* id="'+section+r'"[^>]*>.*?</section>'
+            old_section = re.search(pattern, baseline, re.S)[0]
+            current = re.search(pattern, page, re.S)[0]
+            current = re.sub(r'\n        <p class="research-jump">.*?</p>', '', current)
+            self.assertEqual(current, old_section, section)
         for text in ('owner-confirmed', 'not its entire archive', '经核验或由所有者确认', '尚无已核验', 'awaiting verification', '完整摘要待核验'):
             self.assertNotIn(text, page)
         missing = copy.deepcopy(self.profile['publications'][0])
@@ -202,6 +206,18 @@ class BuildTests(unittest.TestCase):
         missing['abstract_evidence'] = {}
         with self.assertRaises(ValueError):
             build.render_abstract(missing)
+
+    def test_research_journey_exact_content_and_link(self):
+        expected = {'url': 'https://github.com/pardonhu/facheng-research-journey', 'title': {'zh': '发成的科研探索之旅', 'en': 'Facheng’s Research Journey'}, 'description': {'zh': '记录我的科研探索：逐步形成自己的科研习惯与判断标准，学习如何评价一项工作、准备组会、寻找问题和设计实验，也保存尚未成熟的想法与值得反复阅读的论文。这不是一份完成的方法论，而是一份由我持续书写、修正和积累的研究笔记。', 'en': 'A record of my research explorations: gradually developing my own research habits and criteria for judgment, learning how to evaluate a piece of work, prepare for group meetings, identify research questions, and design experiments, while also keeping ideas that are still taking shape and papers worth revisiting. This is not a finished methodology, but a collection of research notes that I continue to write, revise, and build upon.'}}
+        self.assertEqual(self.profile['research_journey'], expected)
+        page = self.render(self.profile)[0].decode()
+        for field in ('title','description'):
+            for lang in ('en','zh'):
+                self.assertIn(build.esc(expected[field][lang]), page)
+        self.assertIn('href="'+expected['url']+'" target="_blank" rel="noopener noreferrer"', page)
+        self.assertEqual(page.count('href="#research-journey"'), 2)
+        self.assertLess(page.index('id="publications"'),page.index('id="research-journey"'))
+        self.assertLess(page.index('id="research-journey"'),page.index('id="reading-notes"'))
 
     def test_majors_and_static_star_accent(self):
         page = self.render(self.profile)[0].decode()

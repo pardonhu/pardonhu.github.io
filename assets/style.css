@@ -91,3 +91,6 @@ h1{font-size:36px;line-height:1.18;letter-spacing:-1.25px;margin:0 0 16px;font-w
 .starfield svg{display:block;position:absolute;right:12%;width:180px;height:42px;pointer-events:none}
 .education-major{font-size:12px;color:var(--muted);line-height:1.65}
 @media(prefers-reduced-motion:reduce){.starfield,.starfield svg{animation:none;transition:none}}
+
+/* Research notebook entry uses the existing light card layout. */
+.research-journey{margin:26px 0;overflow-wrap:anywhere}.research-description{font-size:14px;line-height:1.85;color:var(--muted);margin:16px 0 20px}.research-repository{font-size:13px;white-space:normal}.research-jump{margin:12px 0 0;font-size:13px}.research-jump a{display:inline-block;padding:5px 0}

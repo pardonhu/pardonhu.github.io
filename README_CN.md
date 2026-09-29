@@ -184,3 +184,7 @@ Prism 与 Saga 论文图保留完整画面与原始解码像素，仅移除附�
 本科院系和专业英文分别采用忠实译法 “School of Mechanical Engineering and Power Engineering” 与 “Mechanical Engineering (Pilot Class)”；硕士“计算机专业”译为 “Computer Science”，博士“信息与通信工程”译为 “Information and Communication Engineering”。这些是本站编辑译文，不声称为校方官方英文项目名。
 
 页面顶部采用独立静态星空装饰带：CSS 星点和内联 SVG 星座线条，不覆盖正文、图片或二维码，不捕获交互；无动画、外部素材或新增依赖，保留浅色学术版式和减少动态效果支持。
+
+## 科研笔记入口
+
+`research_journey` 保存“发成的科研探索之旅”的公开仓库链接、双语标题与完整简介。入口位于论文之后、读书与随笔之前；侧栏与简介下方提供页内导航。仓库地址：https://github.com/pardonhu/facheng-research-journey 。中文简介按所有者原文保留，英文为完整忠实译文；不关联仓库内具体文档。
