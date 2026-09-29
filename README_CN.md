@@ -104,7 +104,7 @@ python3 build.py
 - `doi` / `arxiv`：分别只填 DOI 或 arXiv 编号，脚本会生成链接。
 - `code_url` / `project_url` / `paper_url`：可选，留空不会产生失效按钮。
 - `thumbnail`：可选，放入有权使用的论文配图后设置相对路径；留空则显示纯文字卡片。原图同时填写 `thumbnail_width`、`thumbnail_height`、双语 `thumbnail_alt` / `thumbnail_caption`、`figure_number` 和带图号锚点的 `figure_source`。
-- `abstract`：完整实际英文摘要及忠实完整中文译文（`en` / `zh`），不得填入原创概述。`abstract_evidence` 必须记录 `status`、`source`、`version`、题目和作者；未取得原文时设 `abstract: null`、`status: "missing"` 并说明原因，页面明确显示待核验。来源及版本差异同时记录在 `SOURCES.md`。
+- `abstract`：完整实际英文摘要及忠实完整中文译文（`en` / `zh`），不得填入原创概述。`abstract_evidence` 必须记录 `status`、`source`、`version`、题目和作者；未取得原文时设 `abstract: null`、`status: "missing"` 并在维护记录说明原因，页面不显示内部核验提示。来源及版本差异同时记录在 `SOURCES.md`。
 
 ## 5. 文件说明
 
@@ -151,7 +151,7 @@ SOURCES.md              信息核对来源与设计说明
 - `summary`：依据已核验正文或所有者证据撰写的忠实双语短摘要，英文最多 320 字符、中文最多 160 字符。
 - `date`：可选，仅在发表日期已核验时填写有效 `YYYY-MM-DD`；不确定则删除该字段。
 
-栏目及导航为 Reading & Essays / 读书与随笔，保留 `#reading-notes`。英文按钮 Read in Chinese，中文按钮 阅读原文。只链接原文，不转载或翻译全文，不嵌入视频、不热链图片或跟踪资源。构建检查双语字段、日期、重复及安全 URL，并转义内容；来源身份须另行核验。空数组继续提供真实空状态。
+栏目及导航为 Reading & Essays / 读书与随笔，保留 `#reading-notes`。英文按钮 Read in Chinese，中文按钮 阅读原文。只链接原文，不转载或翻译全文，不嵌入视频、不热链图片或跟踪资源。构建检查双语字段、日期、重复及安全 URL，并转义内容；来源身份须另行核验。空数组不显示文章卡片或核验占位说明。来源核实边界只保留在维护资料中，不作为访客文案。
 
 ## 7. 构建、验证与发布交接
 

@@ -101,9 +101,7 @@ def render_reading_notes(notes: dict) -> str:
                        + esc(entry['title']) + '</h3>' + byline + '<p class="reading-summary">'
                        + localized(entry['summary']) + '</p>'
                        + anchor(entry['url'], bi('Read in Chinese', '阅读原文') + icon('arrow'), 'pub-link reading-original') + '</article>')
-    body = '<div class="reading-grid">' + ''.join(entries) + '</div>' if entries else '<p class="reading-empty">' + bi(
-        'No public article links have been verified yet. Original links will be curated here.',
-        '尚无已核验的公开文章链接；这里将整理文章原始链接。') + '</p>'
+    body = '<div class="reading-grid">' + ''.join(entries) + '</div>' if entries else ''
     qr = ''
     if notes.get('qr_image'):
         if notes['qr_image'] != 'assets/images/wechat-qr.png' or not (ROOT / notes['qr_image']).is_file():
@@ -112,7 +110,7 @@ def render_reading_notes(notes: dict) -> str:
             '<img src="' + url(notes['qr_image']) + '" alt="杂记遣怀微信公众号二维码" width="430" height="430">',
             'reading-qr-link') + '<figcaption>' + bi('Scan in WeChat to visit 杂记遣怀. Click for the full-size QR code.',
             '微信扫码访问“杂记遣怀”公众号；点击查看完整尺寸二维码。') + '</figcaption></figure>'
-    return '<section class="reading-notes section-card card" id="reading-notes" aria-labelledby="reading-heading"><h2 id="reading-heading">' + bi('Reading & Essays', '读书与随笔') + '</h2><p class="reading-account">' + account + '</p><p class="reading-scope">' + bi('A verified / owner-confirmed selection from this account, not its entire archive.', '经核验或由所有者确认的选文，并非公众号完整目录。') + '</p>' + qr + body + '</section>'
+    return '<section class="reading-notes section-card card" id="reading-notes" aria-labelledby="reading-heading"><h2 id="reading-heading">' + bi('Reading & Essays', '读书与随笔') + '</h2><p class="reading-account">' + account + '</p>' + qr + body + '</section>'
 
 ICONS = {
     'mail':'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/>',
@@ -148,7 +146,7 @@ def render_abstract(p: dict) -> str:
     if abstract is None:
         if evidence.get('status') != 'missing':
             raise ValueError('Missing abstract must be recorded explicitly: '+p['id'])
-        return '<p class="abstract-missing">'+bi('Full abstract awaiting verification.', '完整摘要待核验。')+'</p>'
+        return ''
     if evidence.get('status') != 'verified' or not evidence.get('source') or not evidence.get('version'):
         raise ValueError('Abstract requires source and version evidence: '+p['id'])
     if any(not isinstance(abstract.get(lang), str) or not abstract[lang].strip() for lang in ('en', 'zh')):

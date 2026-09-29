@@ -176,18 +176,32 @@ class BuildTests(unittest.TestCase):
 
     def test_baseline_preservation(self):
         import subprocess
-        baseline = '63452967d0f0530cfcabcb77c0ea088b3167b36c'
+        baseline = '0f3c8974db0e14b3df7a8cf760cb06def8ac9de8'
         def old(path):
             return subprocess.check_output(['git','show',baseline+':'+path], cwd=ROOT)
         before = json.loads(old('profile.json'))
-        majors = [{'en': 'Information and Communication Engineering', 'zh': '信息与通信工程'}, {'en': 'Computer Science', 'zh': '计算机专业'}, {'en': 'Mechanical Engineering (Pilot Class)', 'zh': '机械工程（试点班）'}]
-        for education, major in zip(before['education'], majors):
-            education['major'] = major
-        before['education'][2]['school'] = {'en': 'School of Mechanical Engineering and Power Engineering', 'zh': '机械与动力工程学院'}
         self.assertEqual(before, self.profile)
         assets = subprocess.check_output(['git','ls-tree','-r','--name-only',baseline,'assets'], cwd=ROOT).decode().splitlines()
-        for path in ['publications.bib'] + [p for p in assets if p != 'assets/style.css']:
+        for path in ['publications.bib'] + assets:
             self.assertEqual(old(path), (ROOT/path).read_bytes(), path)
+
+    def test_only_internal_scope_removed_from_current_page(self):
+        import subprocess
+        import re
+        baseline = subprocess.check_output(['git','show','0f3c8974db0e14b3df7a8cf760cb06def8ac9de8:index.html'], cwd=ROOT).decode()
+        expected, count = re.subn(r'<p class="reading-scope">.*?</p>', '', baseline)
+        self.assertEqual(count, 1)
+        page = self.render(self.profile)[0].decode()
+        self.assertEqual(page, expected)  # Every other title, abstract, citation, link and accessible label survives.
+        for text in ('owner-confirmed', 'not its entire archive', '经核验或由所有者确认', '尚无已核验', 'awaiting verification', '完整摘要待核验'):
+            self.assertNotIn(text, page)
+        missing = copy.deepcopy(self.profile['publications'][0])
+        missing['abstract'] = None
+        missing['abstract_evidence'] = {'status':'missing'}
+        self.assertEqual(build.render_abstract(missing), '')
+        missing['abstract_evidence'] = {}
+        with self.assertRaises(ValueError):
+            build.render_abstract(missing)
 
     def test_majors_and_static_star_accent(self):
         page = self.render(self.profile)[0].decode()
@@ -376,8 +390,8 @@ class BuildTests(unittest.TestCase):
         profile['reading_notes']['articles'] = []
         page = self.render(profile)[0].decode()
         self.assertNotIn('class="reading-note"', page)
-        self.assertIn('reading-empty', page)
-        self.assertIn('尚无已核验', page)
+        self.assertNotIn('reading-empty', page)
+        self.assertNotIn('尚无已核验', page)
 
     def test_populated_render_and_escaping(self):
         self.profile['reading_notes'] = self.notes
@@ -432,7 +446,7 @@ class BuildTests(unittest.TestCase):
             self.assertNotIn('date', article)  # No verified publication date yet.
         self.assertEqual(self.profile['reading_notes']['account_name'], '杂记遣怀')
         page = build.render_reading_notes(self.profile['reading_notes'])
-        self.assertIn('not its entire archive', page)
+        self.assertNotIn('reading-scope', page)
         self.assertNotIn('author', articles[-1])
         self.assertEqual(page.count('<img'), 1)
         self.assertEqual(page.count('class="reading-author"'), 5)
