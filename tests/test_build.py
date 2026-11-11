@@ -183,7 +183,9 @@ class BuildTests(unittest.TestCase):
         before = json.loads(old('profile.json'))
         next(p for p in before['publications'] if p['id']=='deepaoa')['paper_url'] = 'assets/papers/deepaoa-plus.pdf'
         next(p for p in before['publications'] if p['id']=='fastset')['paper_url'] = 'assets/papers/fastset.pdf'
-        self.assertEqual(before, self.profile)
+        current = copy.deepcopy(self.profile)
+        del current['research_journey']['reports']
+        self.assertEqual(before, current)
         self.assertTrue((ROOT/'assets/style.css').read_bytes().startswith(old('assets/style.css')))
         assets = subprocess.check_output(['git','ls-tree','-r','--name-only',baseline,'assets'], cwd=ROOT).decode().splitlines()
         for path in ['publications.bib'] + assets:
@@ -241,8 +243,13 @@ class BuildTests(unittest.TestCase):
 
     def test_research_journey_exact_content_and_link(self):
         expected = {'url': 'https://github.com/pardonhu/facheng-research-journey', 'title': {'zh': '发成的科研探索之旅', 'en': 'Facheng’s Research Journey'}, 'description': {'zh': '记录我的科研探索：逐步形成自己的科研习惯与判断标准，学习如何评价一项工作、准备组会、寻找问题和设计实验，也保存尚未成熟的想法与值得反复阅读的论文。这不是一份完成的方法论，而是一份由我持续书写、修正和积累的研究笔记。', 'en': 'A record of my research explorations: gradually developing my own research habits and criteria for judgment, learning how to evaluate a piece of work, prepare for group meetings, identify research questions, and design experiments, while also keeping ideas that are still taking shape and papers worth revisiting. This is not a finished methodology, but a collection of research notes that I continue to write, revise, and build upon.'}}
-        self.assertEqual(self.profile['research_journey'], expected)
+        journey = self.profile['research_journey']
+        self.assertEqual({key: journey[key] for key in expected}, expected)
         page = self.render(self.profile)[0].decode()
+        for report in journey['reports']:
+            path = 'research-notes/' + report['slug'] + '/'
+            self.assertIn('href="' + path + '"', page)
+            self.assertTrue((ROOT / path / 'index.html').is_file())
         for field in ('title','description'):
             for lang in ('en','zh'):
                 self.assertIn(build.esc(expected[field][lang]), page)

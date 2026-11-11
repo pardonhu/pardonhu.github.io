@@ -502,6 +502,23 @@
   },
   "research_journey": {
     "url": "https://github.com/pardonhu/facheng-research-journey",
+    "reports": [
+      {
+        "slug": "report-lessons",
+        "source": "docs/experimental-progress-report/制作经验.md",
+        "title": {"zh": "组会报告的制作经验", "en": "Writing an experimental progress report"}
+      },
+      {
+        "slug": "report-template",
+        "source": "docs/experimental-progress-report/实验进展组会模板.md",
+        "title": {"zh": "实验进展组会空白模板", "en": "Blank progress report template"}
+      },
+      {
+        "slug": "uwb-report",
+        "source": "docs/experimental-progress-report/范例/星型拓扑效率优化报告.md",
+        "title": {"zh": "UWB 电芯组网报告范例", "en": "UWB cell network report example"}
+      }
+    ],
     "title": {
       "zh": "发成的科研探索之旅",
       "en": "Facheng’s Research Journey"

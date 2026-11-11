@@ -229,9 +229,14 @@ def optional_section(items: list, section_id: str, en: str, zh: str) -> str:
     return f'<section class="optional-section card" id="{section_id}"><h2>{bi(en,zh)}</h2>'+''.join(rendered)+'</section>'
 
 def render_research_journey(entry: dict) -> str:
+    reports = ''.join(
+        '<li>' + anchor('research-notes/' + report['slug'] + '/', localized(report['title']), external=False) + '</li>'
+        for report in entry['reports']
+    )
     return ('<section class="research-journey section-card card" id="research-journey" aria-labelledby="research-journey-heading">'
             + '<h2 id="research-journey-heading">'+localized(entry['title'])+'</h2>'
             + '<p class="research-description">'+localized(entry['description'])+'</p>'
+            + '<ul class="research-description">' + reports + '</ul>'
             + anchor(entry['url'], bi('Read the research notes on GitHub', '在 GitHub 阅读科研笔记')+icon('arrow'), 'pub-link research-repository')
             + '</section>')
 
