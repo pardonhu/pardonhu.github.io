@@ -25,7 +25,12 @@ def render(notes: Path) -> None:
         source = notes / item['source']
         folder = ROOT / 'research-notes' / item['slug']
         folder.mkdir(parents=True, exist_ok=True)
-        body = markdown.markdown(source.read_text(encoding='utf-8-sig'), extensions=['tables', 'fenced_code'])
+        text = source.read_text(encoding='utf-8-sig')
+        if item.get('section'):
+            heading = '## ' + item['section']
+            section = text.split(heading + '\n', 1)[1].split('\n## ', 1)[0].strip()
+            text = '# ' + item['section'] + '\n\n' + section
+        body = markdown.markdown(text, extensions=['tables', 'fenced_code'])
         article = ET.fromstring('<article>' + body + '</article>')
         for link in article.iter('a'):
             parsed = urlsplit(link.attrib['href'])

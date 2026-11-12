@@ -504,6 +504,15 @@
     "url": "https://github.com/pardonhu/facheng-research-journey",
     "reports": [
       {
+        "slug": "ai-communication",
+        "source": "README.md",
+        "section": "AI 平时就该怎样说人话",
+        "title": {
+          "zh": "AI 平时就该怎样说人话",
+          "en": "How AI should explain ideas in everyday conversation"
+        }
+      },
+      {
         "slug": "report-lessons",
         "source": "docs/experimental-progress-report/制作经验.md",
         "title": {"zh": "组会报告的制作经验", "en": "Writing an experimental progress report"}
