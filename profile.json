@@ -218,7 +218,17 @@
         ],
         "source_sha256": "edbec484abba659d16a71d8f1f4b4f8f185f235a59616435df9f78ac66fbdcad",
         "translation": "Chinese translation of the full author-provided English abstract."
-      }
+      },
+      "thumbnail": "assets/images/fastset-journal-pareto.png",
+      "thumbnail_width": 1050,
+      "thumbnail_height": 551,
+      "thumbnail_alt": "Pareto comparison of adaptation time and BER for 40 FastSET splits, with the selected 8–64 split and the E2E reference. / 40 个 FastSET 切分的适应时间与 BER 帕累托比较，标出所选 8–64 切分及 E2E 参考点。",
+      "thumbnail_caption": {
+        "en": "Performance–time trade-off across receiver splits.",
+        "zh": "不同接收机切分的性能与时间权衡。"
+      },
+      "figure_source": "User supplied; authorized by the site owner",
+      "figure_number": 6
     },
     {
       "id": "fastset",

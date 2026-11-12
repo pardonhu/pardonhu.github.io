@@ -182,3 +182,8 @@ material, with the status “Submitted to IEEE Transactions on Mobile Computing
 - Title, author order, equal contribution and English abstract follow the current
   author manuscript. The Chinese abstract translates the English abstract.
 - The owner excluded the Summary of Differences from public website materials.
+
+The journal entry uses the manuscript Pareto figure as its thumbnail, as requested
+by the owner. `assets/images/fastset-journal-pareto.png` preserves the original
+1050×551 PNG; SHA256 `a580425b7cddd087963e32a97e51b050d2d70b2fa51605c983da43420eae6f9e`.
+The thumbnail links to the full-size image.

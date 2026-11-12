@@ -57,16 +57,13 @@ class BuildTests(unittest.TestCase):
             self.assertNotIn(term, page)
         self.assertNotIn('example.org', page)
 
-    def test_four_actual_images(self):
+    def test_publication_images(self):
         page = self.render(self.profile)[0].decode()
         self.assertIn('data-portrait src="'+self.profile['portrait']+'"', page)
         self.assertIn(self.profile['portrait_alt'], page)
-        self.assertEqual(page.count('<figure class="pub-figure">'), 4)
+        self.assertEqual(page.count('<figure class="pub-figure">'), 5)
         for pub in self.profile['publications']:
             card = build.render_publication(pub, self.profile['name'])
-            if pub['id'] == 'fastset-journal':
-                self.assertIn('text-only', card)
-                continue
             self.assertTrue(pub.get('thumbnail'))
             if pub.get('thumbnail'):
                 self.assertTrue((ROOT / pub['thumbnail']).is_file())
