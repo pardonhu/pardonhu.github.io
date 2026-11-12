@@ -9,10 +9,10 @@
 - 联系邮箱：`facheng_hu@sjtu.edu.cn`。
 - GitHub：`pardonhu`；个人站点地址：`https://pardonhu.github.io/`。
 - 个人资料由所有者于 2026-09-28 确认：2017 年在上海交通大学（Shanghai Jiao Tong University）获得工学学士（Bachelor of Engineering）；2024 年在上海交通大学获得硕士学位，导师为朱弘恣教授（Prof. Hongzi Zhu）；2017–2019 年在广汽乘用车（GAC Motor）从事汽车电子电气相关工作（automotive electronics and electrical systems）。保留 IEEE 研究生会员、上海交通大学 Global College 博士在读、导师皮宜博教授（Prof. Yibo Pi）及人工智能赋能的网络和无线感知研究兴趣。ORCID 为 https://orcid.org/0000-0003-0448-8907 ，显示于公开社交链接及 JSON-LD sameAs。所有者于 2026-09-29 补充确认本科 2013–2017、硕士 2021–2024、博士 2024–至今；履历保留广汽 2017–2019，并按时间排序。所有者同日确认：本科为机械与动力工程学院、机械工程（试点班）；硕士为计算机专业；博士为信息与通信工程。未提供的硕士院系、专业代码、本科导师、工作职位和地点不填写，2019–2021 不补造经历。ORCID 已有链接保留，并在首页简介附近以完整号码和文字链接突出展示。
-- 论文：FastSET（SECON 2026）、Prism、Saga、DeepAoA+。FastSET 已置于首位，并加入 2026 年动态和年份筛选。已有论文链接与 BibTeX 保留。
+- 论文：FastSET 期刊稿（Submitted to IEEE Transactions on Mobile Computing）、FastSET（SECON 2026）、Prism、Saga、DeepAoA+。FastSET 已置于首位，并加入 2026 年动态和年份筛选。已有论文链接与 BibTeX 保留。
 - 研究兴趣：人工智能赋能的网络和无线感知；IEEE 研究生会员身份及完整双语简介由所有者明确提供。
 - 没有填写未经提供的奖项、访问经历、简历或学术账号。
-- 头像为所有者授权的自然摄影裁切；Prism 与 Saga 使用获授权的作者稿图 2，保留双语语义图注及本地全尺寸图片链接，图号与来源保存在 `SOURCES.md`。FastSET 和 DeepAoA+ 使用所有者授权的真实论文配图；四篇均有完整双语摘要。
+- 头像为所有者授权的自然摄影裁切；Prism 与 Saga 使用获授权的作者稿图 2，保留双语语义图注及本地全尺寸图片链接，图号与来源保存在 `SOURCES.md`。FastSET 和 DeepAoA+ 使用所有者授权的真实论文配图；论文条目均有完整双语摘要。
 
 默认英文，右上角可切换中文。论文正式标题与作者姓名在两种语言下均保留英文。页面适配手机和电脑；可以按年份筛选论文、展开及复制引用。页面没有访客跟踪、统计脚本、外部字体、第三方 JavaScript 或登录功能。出版页面、学校和导师链接只在访客点击时打开。
 
@@ -190,3 +190,5 @@ Prism 与 Saga 论文图保留完整画面与原始解码像素，仅移除附�
 `research_journey` 保存“发成的科研探索之旅”的公开仓库链接、双语标题与完整简介。入口位于论文之后、读书与随笔之前；侧栏与简介下方提供页内导航。仓库地址：https://github.com/pardonhu/facheng-research-journey 。中文简介按所有者原文保留，英文为完整忠实译文；不关联仓库内具体文档。
 
 DeepAoA+ 的 PDF 按钮使用所有者授权附件 `assets/papers/deepaoa-plus.pdf`，原始字节保持不变，出版方链接同时保留。FastSET 的 PDF 按钮同样使用原样附件 `assets/papers/fastset.pdf`，保留 DOI 和 IEEE 发表记录入口。本地 PDF 使用 `assets/papers/` 下的安全相对文件名，构建拒绝路径穿越与缺失文件。
+
+2026-11-12：新增 FastSET 期刊稿独立条目，提供主稿、补充材料和开源代码链接。期刊主稿和补充材料以作者提供的原始 PDF 发布；SoD 不公开。

@@ -149,7 +149,12 @@ def bibtex(p: dict) -> str:
         return str(value).replace('&', r'\&')
     authors = ' and '.join(p['authors'])
     venue_key = 'journal' if p['type'] == 'article' else 'booktitle'
-    fields = [('title', '{'+p['title']+'}'), ('author', authors), (venue_key, p['venue']), ('year', str(p['year']))]
+    fields = [('title', '{'+p['title']+'}'), ('author', authors), ('year', str(p['year']))]
+    if p['type'] == 'unpublished':
+        fields.append(('note', localize(p['status'], 'en')))
+        if p.get('source'): fields.append(('url', p['source']))
+    else:
+        fields.insert(2, (venue_key, p['venue']))
     for key in ('volume','number','pages','doi'):
         if p.get(key): fields.append((key, p[key]))
     return '@'+p['type']+'{'+p['bibkey']+',\n'+',\n'.join(f'  {k} = {{{b(v)}}}' for k,v in fields)+'\n}'
@@ -197,6 +202,8 @@ def render_publication(p: dict, name: str) -> str:
     if not any(p.get(k) for k in ('doi', 'arxiv', 'paper_url')) and p.get('source'):
         label = p.get('source_label', {'en': 'Publication record', 'zh': '发表记录'})
         buttons.append(anchor(p['source'], localized(label)+icon('arrow'), 'pub-link'))
+    if p.get('supplement_url'):
+        buttons.append(anchor(paper_pdf_url(p['supplement_url']), bi('Supplement', '补充材料')+icon('arrow'), 'pub-link'))
     for key,en,zh in [('code_url','Code','代码'),('project_url','Project','项目')]:
         if p.get(key): buttons.append(anchor(p[key],bi(en,zh)+icon('arrow'),'pub-link'))
     venue = esc(p['venue'])
@@ -204,6 +211,7 @@ def render_publication(p: dict, name: str) -> str:
         venue += ', '+esc(p['volume'])+'('+esc(p.get('number',''))+')'
     if p.get('pages'): venue += ', pp. '+esc(p['pages'].replace('--','–'))
     venue += ', '+esc(p['year'])+'.'
+    if p.get('status'): venue = localized(p['status'])
     codeid = 'bib-'+p['id']
     return f'''<article class="publication-card card{' has-figure' if cover else ' text-only'}" data-year="{esc(p['year'])}" id="paper-{esc(p['id'])}">
       {cover}<div class="pub-content">

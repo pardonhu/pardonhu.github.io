@@ -167,3 +167,18 @@ Saga 的 HTML v1 题目使用上述短题目，摘要页的题目另带 `for Use
 ## FastSET 本站 PDF
 
 2026-09-30，所有者随后提供并授权公开 FastSET 原始 PDF，存为 `assets/papers/fastset.pdf`。原样复制 13,976,470 字节；SHA-256：`8d62a7426e2bad98157b4c24d43e07e7112526c2785c1d3cc7b3836b173bd521`。不修改元数据、压缩、重排或重新生成，不附加开放许可证。PDF 按钮指向本站文件，DOI 及 IEEE 发表记录保留；两篇论文除 PDF 链接外的元信息、摘要、引用和图片不变。
+
+
+## FastSET journal manuscript — 2026-11-12
+
+The site owner authorized publication of the journal manuscript and supplementary
+material, with the status “Submitted to IEEE Transactions on Mobile Computing
+(TMC).” The journal entry is separate from the SECON 2026 publication.
+
+- `assets/papers/fastset-journal.pdf`: unchanged author PDF dated 2026-11-10;
+  SHA256 `edbec484abba659d16a71d8f1f4b4f8f185f235a59616435df9f78ac66fbdcad`.
+- `assets/papers/fastset-supplement.pdf`: unchanged supplementary PDF dated
+  2026-11-10; SHA256 `52e112c4e8af2010b8e8d9f743b9a22eb80e3abd3c9540e064bbc1596f7b0831`.
+- Title, author order, equal contribution and English abstract follow the current
+  author manuscript. The Chinese abstract translates the English abstract.
+- The owner excluded the Summary of Differences from public website materials.

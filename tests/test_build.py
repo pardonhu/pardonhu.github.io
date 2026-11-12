@@ -64,6 +64,9 @@ class BuildTests(unittest.TestCase):
         self.assertEqual(page.count('<figure class="pub-figure">'), 4)
         for pub in self.profile['publications']:
             card = build.render_publication(pub, self.profile['name'])
+            if pub['id'] == 'fastset-journal':
+                self.assertIn('text-only', card)
+                continue
             self.assertTrue(pub.get('thumbnail'))
             if pub.get('thumbnail'):
                 self.assertTrue((ROOT / pub['thumbnail']).is_file())
@@ -185,10 +188,14 @@ class BuildTests(unittest.TestCase):
         next(p for p in before['publications'] if p['id']=='fastset')['paper_url'] = 'assets/papers/fastset.pdf'
         current = copy.deepcopy(self.profile)
         del current['research_journey']['reports']
+        current['updated'] = before['updated']
+        current['publications'] = [p for p in current['publications'] if p['id'] != 'fastset-journal']
         self.assertEqual(before, current)
         self.assertTrue((ROOT/'assets/style.css').read_bytes().startswith(old('assets/style.css')))
         assets = subprocess.check_output(['git','ls-tree','-r','--name-only',baseline,'assets'], cwd=ROOT).decode().splitlines()
-        for path in ['publications.bib'] + assets:
+        expected_bib = '\n\n'.join(build.bibtex(p) for p in current['publications'])+'\n'
+        self.assertEqual(old('publications.bib').decode(), expected_bib)
+        for path in assets:
             self.assertEqual(old(path), (ROOT/path).read_bytes(), path)
 
     def test_only_internal_scope_removed_from_current_page(self):
@@ -201,6 +208,8 @@ class BuildTests(unittest.TestCase):
             old_section = re.search(pattern, baseline, re.S)[0]
             current = re.search(pattern, page, re.S)[0]
             if section == 'publications':
+                journal = next(p for p in self.profile['publications'] if p['id'] == 'fastset-journal')
+                current = current.replace(build.render_publication(journal, self.profile['name']), '')
                 for path in ('assets/papers/deepaoa-plus.pdf','assets/papers/fastset.pdf'):
                     current = current.replace(build.anchor(path,'PDF'+build.icon('arrow'),'pub-link'), '')
             self.assertEqual(current, old_section, section)
@@ -342,10 +351,10 @@ class BuildTests(unittest.TestCase):
             notes = copy.deepcopy(self.notes); notes['qr_image'] = value
             with self.assertRaises(ValueError):build.render_reading_notes(notes)
 
-    def test_four_complete_actual_abstracts(self):
-        self.assertEqual(len(self.profile["publications"]), 4)
+    def test_complete_actual_abstracts(self):
+        self.assertEqual(len(self.profile["publications"]), 5)
         page = self.render(self.profile)[0].decode()
-        self.assertEqual(page.count('<details class="abstract">'), 4)
+        self.assertEqual(page.count('<details class="abstract">'), 5)
         self.assertNotIn('class="abstract-missing"', page)
         for pub in self.profile['publications']:
             card = build.render_publication(pub, self.profile['name'])
