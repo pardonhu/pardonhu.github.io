@@ -187,3 +187,11 @@ The journal entry uses the manuscript Pareto figure as its thumbnail, as request
 by the owner. `assets/images/fastset-journal-pareto.png` preserves the original
 1050×551 PNG; SHA256 `a580425b7cddd087963e32a97e51b050d2d70b2fa51605c983da43420eae6f9e`.
 The thumbnail links to the full-size image.
+
+### Submission-format update — 2026-11-13
+
+The journal PDF was updated after the advisor's formatting review: related short
+paragraphs are combined and end-of-paper author biographies are omitted. The
+technical wording, numerical results, first-page author information, supplementary
+PDF and Pareto thumbnail are retained. The current journal PDF SHA256 is
+`3ecbc3102cbd8c1879259942a8dee3a769647412638e34e56322156de38d73e6`.

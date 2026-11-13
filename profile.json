@@ -29,7 +29,7 @@
   "portrait": "assets/images/portrait.jpg",
   "website_url": "https://pardonhu.github.io/",
   "default_language": "en",
-  "updated": "2026-11-12",
+  "updated": "2026-11-13",
   "research_interests": [
     {
       "en": "AI-enabled networking",
@@ -207,7 +207,7 @@
       "abstract_evidence": {
         "status": "verified",
         "source": "https://pardonhu.github.io/assets/papers/fastset-journal.pdf",
-        "version": "Author-provided journal manuscript, PDF dated 2026-11-10; publication authorized 2026-11-12.",
+        "version": "Author-provided journal manuscript, PDF updated 2026-11-13 with paragraph-formatting changes and author biographies omitted for submission; publication authorized 2026-11-12.",
         "title": "FastSET: Fast Sequential Retraining for Online Adaptation of Neural Receivers via Physics-Guided Decomposition",
         "authors": [
           "Shuo Wang",
@@ -216,7 +216,7 @@
           "Yibo Pi",
           "Xudong Wang"
         ],
-        "source_sha256": "edbec484abba659d16a71d8f1f4b4f8f185f235a59616435df9f78ac66fbdcad",
+        "source_sha256": "3ecbc3102cbd8c1879259942a8dee3a769647412638e34e56322156de38d73e6",
         "translation": "Chinese translation of the full author-provided English abstract."
       },
       "thumbnail": "assets/images/fastset-journal-pareto.png",
