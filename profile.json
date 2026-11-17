@@ -563,8 +563,8 @@
     "reports": [
       {
         "slug": "ai-communication",
-        "source": "README.md",
-        "section": "AI 平时就该怎样说人话",
+        "source": "docs/AI 平时就该怎样说人话.md",
+        "end_before": "示例：平均编码长度为什么比信息熵多",
         "title": {
           "zh": "AI 平时就该怎样说人话",
           "en": "How AI should explain ideas in everyday conversation"

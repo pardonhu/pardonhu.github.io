@@ -26,6 +26,8 @@ def render(notes: Path) -> None:
         folder = ROOT / 'research-notes' / item['slug']
         folder.mkdir(parents=True, exist_ok=True)
         text = source.read_text(encoding='utf-8-sig')
+        if item.get('end_before'):
+            text = text.split('\n## ' + item['end_before'] + '\n', 1)[0]
         if item.get('section'):
             heading = '## ' + item['section']
             section = text.split(heading + '\n', 1)[1].split('\n## ', 1)[0].strip()
